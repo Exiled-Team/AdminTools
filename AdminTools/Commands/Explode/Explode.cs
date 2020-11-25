@@ -50,7 +50,7 @@ namespace AdminTools.Commands.Explode
                         if (Ply.Role == RoleType.Spectator || Ply.Role == RoleType.None)
                             continue;
 
-                        Ply.Kill();
+                        Ply.Hurt(-1, null, "ADMIN");
                         EventHandlers.SpawnGrenadeOnPlayer(Ply, GrenadeType.Frag, 0.1f);
                     }
                     response = "Everyone exploded, Hubert cannot believe you have done this";
@@ -75,7 +75,7 @@ namespace AdminTools.Commands.Explode
                         return false;
                     }
 
-                    Pl.Kill();
+                    Pl.Hurt(-1, null, "ADMIN");
                     EventHandlers.SpawnGrenadeOnPlayer(Pl, GrenadeType.Frag, 0.1f);
                     response = $"Player \"{Pl.Nickname}\" game ended (exploded)";
                     return true;

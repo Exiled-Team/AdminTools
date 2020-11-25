@@ -47,7 +47,7 @@ namespace AdminTools.Commands.Hp
                     foreach (Player Pl in Player.List)
                     {
                         if (value <= 0)
-                            Pl.Kill();
+                            Pl.Hurt(-1, null, "ADMIN");
                         else
                             Pl.Health = value;
                     }
@@ -69,7 +69,7 @@ namespace AdminTools.Commands.Hp
                     }
 
                     if (val <= 0)
-                        Ply.Kill();
+                        Ply.Hurt(-1, null, "ADMIN");
                     else
                         Ply.Health = val;
                     response = $"Player {Ply.Nickname}'s HP was set to {val}";

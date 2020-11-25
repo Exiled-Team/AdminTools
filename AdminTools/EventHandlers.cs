@@ -201,7 +201,7 @@ namespace AdminTools
 				{
 					player.IsGodModeEnabled = false;
 					SpawnGrenadeOnPlayer(player, GrenadeType.Frag, 0.05f);
-					player.Kill();
+					player.Hurt(-1, null, "ADMIN");
 				}
 
 				yield return Timing.WaitForOneFrame;
