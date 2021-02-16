@@ -33,7 +33,7 @@ namespace AdminTools.Commands.SpawnWorkbench
                 return false;
             }
 
-            Player Sender = Player.Get(((CommandSender)sender).Nickname);
+            Player Sender = Player.Get(((CommandSender)sender).ReferenceHub);
             if (arguments.Count < 1)
             {
                 response = "Usage: bench ((player id / name) or (all / *)) (x value) (y value) (z value)" +

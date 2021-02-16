@@ -38,7 +38,7 @@ namespace AdminTools.Commands.Tutorial
                 case 0:
                 case 1:
                     if (arguments.Count == 0)
-                        Ply = Player.Get(((CommandSender)sender).Nickname);
+                        Ply = Player.Get(((CommandSender)sender).ReferenceHub);
                     else
                     {
                         if (String.IsNullOrWhiteSpace(arguments.At(0)))

@@ -62,7 +62,7 @@ namespace AdminTools.Commands.Id
                 default:
                     Player Pl;
                     if (String.IsNullOrWhiteSpace(arguments.At(0)))
-                        Pl = Player.Get(((CommandSender)sender).Nickname);
+                        Pl = Player.Get(((CommandSender)sender).ReferenceHub);
                     else
                     {
                         Pl = Player.Get(arguments.At(0));

@@ -30,7 +30,7 @@ namespace AdminTools.Commands.Dummy
                 return false;
             }
 
-            Player Sender = Player.Get(((CommandSender)sender).Nickname);
+            Player Sender = Player.Get(((CommandSender)sender).ReferenceHub);
             if (arguments.Count < 1)
             {
                 response = "Usage:\ndummy ((player id / name) or (all / *)) (RoleType) (x value) (y value) (z value)" +
