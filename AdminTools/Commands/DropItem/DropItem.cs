@@ -14,7 +14,7 @@ namespace AdminTools.Commands.DropItem
 
         public override string Command { get; } = "dropitem";
 
-        public override string[] Aliases { get; } = new string[] { "drop", "dropi", "di" };
+        public override string[] Aliases { get; } = new string[] { "drop", "dropi" };
 
         public override string Description { get; } = "Drops a specified amount of a specified item on either all users or a user";
 
