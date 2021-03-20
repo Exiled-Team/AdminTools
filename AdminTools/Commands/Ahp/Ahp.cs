@@ -45,7 +45,7 @@ namespace AdminTools.Commands.Ahp
                     }
 
                     foreach (Player Ply in Player.List)
-                        Ply.AdrenalineHealth = value;
+                        Ply.ArtificialHealth = value;
 
                     response = $"Everyone's AHP was set to {value}";
                     return true;
@@ -63,7 +63,7 @@ namespace AdminTools.Commands.Ahp
                         return false;
                     }
 
-                    Pl.AdrenalineHealth = val;
+                    Pl.ArtificialHealth = val;
                     response = $"Player {Pl.Nickname}'s AHP was set to {val}";
                     return true;
             }
