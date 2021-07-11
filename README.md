@@ -57,6 +57,7 @@ grenade - at.grenade
 hbc - PlayerPermissions.Broadcasting (config_remoteadmin.txt)
 hp - PlayerPermissions.PlayersManagement (config_remoteadmin.txt)
 instantkill - at.ik
+infiniteammo - at.ia
 inventory - at.inv
 jail - at.jail
 kick - at.kick
