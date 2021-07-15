@@ -42,7 +42,7 @@ namespace AdminTools.Commands.AdminBroadcast
 
             foreach (Player Pl in Player.List)
             {
-                if (Pl.ReferenceHub.serverRoles.RemoteAdmin)
+                if (Pl.Sender.CheckPermission(PlayerPermissions.AdminChat))
                     Pl.Broadcast(t, EventHandlers.FormatArguments(arguments, 1) + $" ~{((CommandSender)sender).Nickname}", Broadcast.BroadcastFlags.AdminChat);
             }
 
