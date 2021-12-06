@@ -298,10 +298,13 @@ namespace AdminTools
 				if (Plugin.JailedPlayers.Any(j => j.Userid == ev.Player.UserId))
 					Timing.RunCoroutine(DoJail(ev.Player, true));
 
-				if (File.ReadAllText(_plugin.OverwatchFilePath).Contains(ev.Player.UserId))
+				if (_plugin.Config.AutoOverwatch)
 				{
-					Log.Debug($"Putting {ev.Player.UserId} into overwatch.");
-					Timing.CallDelayed(1, () => ev.Player.IsOverwatchEnabled = true);
+					if (File.ReadAllText(_plugin.OverwatchFilePath).Contains(ev.Player.UserId))
+					{
+						Log.Debug($"Putting {ev.Player.UserId} into overwatch.");
+						Timing.CallDelayed(1, () => ev.Player.IsOverwatchEnabled = true);
+					}
 				}
 
 				if (File.ReadAllText(_plugin.HiddenTagsFilePath).Contains(ev.Player.UserId))
@@ -346,23 +349,37 @@ namespace AdminTools
 				{
 					string userId = player.UserId;
 
-					if (player.IsOverwatchEnabled && !overwatchRead.Contains(userId))
-						overwatchRead.Add(userId);
-					else if (!player.IsOverwatchEnabled && overwatchRead.Contains(userId))
-						overwatchRead.Remove(userId);
-
-					if (player.BadgeHidden && !tagsRead.Contains(userId))
-						tagsRead.Add(userId);
-					else if (!player.BadgeHidden && tagsRead.Contains(userId))
-						tagsRead.Remove(userId);
+					if (_plugin.Config.AutoOverwatch)
+					{
+						if (player.IsOverwatchEnabled && !overwatchRead.Contains(userId))
+							overwatchRead.Add(userId);
+						else if (!player.IsOverwatchEnabled && overwatchRead.Contains(userId))
+							overwatchRead.Remove(userId);
+					}
+					if (_plugin.Config.AutoHidetag)
+					{
+						if (player.BadgeHidden && !tagsRead.Contains(userId))
+							tagsRead.Add(userId);
+						else if (!player.BadgeHidden && tagsRead.Contains(userId))
+							tagsRead.Remove(userId);
+					}
 				}
 
-				foreach (string s in overwatchRead)
-					Log.Debug($"{s} is in overwatch.");
-				foreach (string s in tagsRead)
-					Log.Debug($"{s} has their tag hidden.");
-				File.WriteAllLines(_plugin.OverwatchFilePath, overwatchRead);
-				File.WriteAllLines(_plugin.HiddenTagsFilePath, tagsRead);
+				if (_plugin.Config.AutoOverwatch)
+				{
+					foreach (string s in overwatchRead)
+						Log.Debug($"{s} is in overwatch.");
+					
+					File.WriteAllLines(_plugin.OverwatchFilePath, overwatchRead);
+				}
+
+				if (_plugin.Config.AutoHidetag)
+				{
+					foreach (string s in tagsRead)
+						Log.Debug($"{s} has their tag hidden.");
+
+					File.WriteAllLines(_plugin.HiddenTagsFilePath, tagsRead);
+				}
 
 				// Update all the jails that it is no longer the current round, so when they are unjailed they don't teleport into the void.
 				foreach (Jailed jail in Plugin.JailedPlayers)
@@ -385,7 +402,7 @@ namespace AdminTools
 
 		public void OnTriggerTesla(TriggeringTeslaEventArgs ev)
 		{
-			if (ev.Player.IsGodModeEnabled)
+			if (ev.Player.IsGodModeEnabled && _plugin.Config.IgnoreTuts)
 				ev.IsTriggerable = false;
 		}
 
