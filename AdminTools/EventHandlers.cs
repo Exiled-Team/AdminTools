@@ -386,7 +386,10 @@ namespace AdminTools
 		public void OnTriggerTesla(TriggeringTeslaEventArgs ev)
 		{
 			if (ev.Player.IsGodModeEnabled)
+            {
 				ev.IsTriggerable = false;
+				ev.IsInIdleRange = false;
+			}
 		}
 
 		public void OnSetClass(ChangingRoleEventArgs ev)
