@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
@@ -252,6 +253,7 @@ namespace AdminTools
 			{
 				Plugin.JailedPlayers.Add(new Jailed
 				{
+					Effects = player.ActiveEffects,
 					Health = player.Health,
 					Position = player.Position,
 					Items = items,
@@ -283,6 +285,8 @@ namespace AdminTools
 				player.Position = jail.Position;
 				foreach (KeyValuePair<AmmoType, ushort> kvp in jail.Ammo)
 					player.Ammo[kvp.Key.GetItemType()] = kvp.Value;
+				foreach (PlayerEffect effect in jail.Effects)
+					player.EnableEffect(effect);
 			}
 			else
 			{
