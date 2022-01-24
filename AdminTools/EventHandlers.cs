@@ -24,8 +24,10 @@ namespace AdminTools
 	using InventorySystem.Items.Firearms.Attachments;
 	using InventorySystem.Items.Pickups;
 	using InventorySystem.Items.ThrowableProjectiles;
-	using PlayerStatsSystem;
-	using Ragdoll = Exiled.API.Features.Ragdoll;
+    using InventorySystem.Items.Usables.Scp330;
+    using PlayerStatsSystem;
+    using Utils.Networking;
+    using Ragdoll = Exiled.API.Features.Ragdoll;
 
 	public class EventHandlers
 	{
@@ -85,7 +87,7 @@ namespace AdminTools
 		{
 			for (int i = 0; i < count; i++)
 			{
-				Ragdoll.Spawn(new RagdollInfo(Server.Host.ReferenceHub, new UniversalDamageHandler(0.0f, DeathTranslations.Unknown, string.Empty), role, player.Position, default, "SCP-343", 0));
+				Ragdoll.Spawn(new RagdollInfo(Server.Host.ReferenceHub, new UniversalDamageHandler(0.0f, DeathTranslations.Unknown, null), role, player.Position, default, "SCP-343", 0));
 				yield return Timing.WaitForSeconds(0.15f);
 			}
 		}
@@ -142,9 +144,56 @@ namespace AdminTools
 
 		public static void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
 		{
-			new Item(type).Spawn(pos, Quaternion.Euler(rot));
+			new Item(Item.Create(type).Base).Spawn(pos, Quaternion.Euler(rot));
 		}
-
+		public static void SpawnGrenade(Vector3 position, ItemType Grenade, float fusedur = -1, Player player = null)
+		{
+			try
+			{
+				var item = Item.Create(Grenade, player);
+				{
+					if (item.Base.TryGetComponent(out FlashGrenade flashGrenade))
+					{
+						if (fusedur != -1)
+							flashGrenade.SpawnActive(position, player);
+						else
+						{
+							flashGrenade.FuseTime = fusedur;
+							flashGrenade.SpawnActive(position, player);
+						}
+					}
+					else if (item.Base.TryGetComponent(out ExplosiveGrenade explosiveGrenade))
+					{
+						if (fusedur != -1)
+							explosiveGrenade.SpawnActive(position, player);
+						else
+						{
+							explosiveGrenade.FuseTime = fusedur;
+							explosiveGrenade.SpawnActive(position, player);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Error($"[SpawnGrenade] Error: {ex}");
+			}
+		}
+		public static void Explode(Vector3 position, ReferenceHub hub = null)
+		{
+			if (hub == null)
+			{
+				hub = Server.Host.ReferenceHub;
+			}
+			if (CandyPink.TryGetGrenade(out ExplosionGrenade settingsReference))
+			{
+				new CandyPink.CandyExplosionMessage
+				{
+					Origin = position
+				}.SendToAuthenticated(0);
+				ExplosionGrenade.Explode(new Footprinting.Footprint(hub), position, settingsReference);
+			}
+		}
 		public static void SetPlayerScale(GameObject target, float x, float y, float z)
 		{
 			try
@@ -210,7 +259,14 @@ namespace AdminTools
 				if (amnt >= maxAmnt)
 				{
 					player.IsGodModeEnabled = false;
-					new ExplosiveGrenade(ItemType.GrenadeHE) {FuseTime = 0.5f}.SpawnActive(player.Position, player);
+					if (CandyPink.TryGetGrenade(out ExplosionGrenade settingsReference))
+					{
+						new CandyPink.CandyExplosionMessage
+						{
+							Origin = player.Position
+						}.SendToAuthenticated(0);
+						ExplosionGrenade.Explode(new Footprinting.Footprint(player.ReferenceHub), player.Position, settingsReference);
+					}
 					player.Kill("Went on a trip in their favorite rocket ship.");
 				}
 

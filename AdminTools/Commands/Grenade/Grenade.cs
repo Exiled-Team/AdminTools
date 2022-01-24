@@ -55,7 +55,7 @@ namespace AdminTools.Commands.Grenade
                             if (pl.Role == RoleType.Spectator || pl.Role == RoleType.None)
                                 continue;
 
-                            new ExplosiveGrenade(ItemType.SCP018, pl).SpawnActive(pl.Position, pl);
+                            EventHandlers.SpawnGrenade(pl.Position, ItemType.SCP018,player: pl);
                         }
                     }
                     else
@@ -78,9 +78,9 @@ namespace AdminTools.Commands.Grenade
                                 continue;
 
                             if (gType == GrenadeType.Flashbang)
-                                new FlashGrenade(ItemType.GrenadeFlash, pl){FuseTime = time}.SpawnActive(pl.Position, pl);
+                                EventHandlers.SpawnGrenade(pl.Position, ItemType.GrenadeFlash, time,pl);
                             else
-                                new ExplosiveGrenade(gType.GetItemType(), pl){FuseTime = time}.SpawnActive(pl.Position, pl);
+                                EventHandlers.SpawnGrenade(pl.Position, gType.GetItemType(), time, pl);
                         }
                     }
                     response = $"You spawned a {gType.ToString().ToLower()} on everyone";
@@ -105,7 +105,7 @@ namespace AdminTools.Commands.Grenade
                     }
 
                     if (type == GrenadeType.Scp018)
-                        new ExplosiveGrenade(ItemType.SCP018, ply).SpawnActive(ply.Position, ply);
+                        EventHandlers.SpawnGrenade(ply.Position, ItemType.SCP018,player: ply);
                     else
                     {
                         if (arguments.Count != 3)
@@ -121,9 +121,9 @@ namespace AdminTools.Commands.Grenade
                         }
                         
                         if (type == GrenadeType.Flashbang)
-                            new FlashGrenade(ItemType.GrenadeFlash, ply){FuseTime = time}.SpawnActive(ply.Position, ply);
+                            EventHandlers.SpawnGrenade(ply.Position, ItemType.GrenadeFlash, time, ply);
                         else
-                            new ExplosiveGrenade(type.GetItemType(), ply){FuseTime = time}.SpawnActive(ply.Position, ply);
+                            EventHandlers.SpawnGrenade(ply.Position, type.GetItemType(), time, ply);
                     }
 
                     response = $"You spawned a {type.ToString().ToLower()} on {ply.Nickname}";

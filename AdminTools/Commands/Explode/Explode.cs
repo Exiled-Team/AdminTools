@@ -51,7 +51,7 @@ namespace AdminTools.Commands.Explode
                             continue;
 
                         ply.Kill("Exploded by admin.");
-                        new ExplosiveGrenade(ItemType.GrenadeHE, ply){ FuseTime = 0f }.SpawnActive(ply.Position, ply);
+                        EventHandlers.Explode(ply.Position, ply.ReferenceHub);
                     }
                     response = "Everyone exploded, Hubert cannot believe you have done this";
                     return true;
@@ -76,7 +76,7 @@ namespace AdminTools.Commands.Explode
                     }
 
                     pl.Kill("Exploded by admin.");
-                    new ExplosiveGrenade(ItemType.GrenadeHE, pl){ FuseTime = 0f }.SpawnActive(pl.Position, pl);
+                    EventHandlers.Explode(pl.Position, pl.ReferenceHub);
                     response = $"Player \"{pl.Nickname}\" game ended (exploded)";
                     return true;
             }
