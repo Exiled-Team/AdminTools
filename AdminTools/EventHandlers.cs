@@ -259,14 +259,7 @@ namespace AdminTools
 				if (amnt >= maxAmnt)
 				{
 					player.IsGodModeEnabled = false;
-					if (CandyPink.TryGetGrenade(out ExplosionGrenade settingsReference))
-					{
-						new CandyPink.CandyExplosionMessage
-						{
-							Origin = player.Position
-						}.SendToAuthenticated(0);
-						ExplosionGrenade.Explode(new Footprinting.Footprint(player.ReferenceHub), player.Position, settingsReference);
-					}
+					Explode(player.Position, player.ReferenceHub);
 					player.Kill("Went on a trip in their favorite rocket ship.");
 				}
 
