@@ -155,7 +155,7 @@ namespace AdminTools.Commands.DropSize
                 if (ply.Role == RoleType.Spectator || ply.Role == RoleType.None)
                     continue;
 
-                new Item(Item.Create(type).Base).Spawn(ply.Position).Scale = Vector3.one * size;
+                Item.Create(type).Spawn(ply.Position).Scale = Vector3.one * size;
             }
             message = $"Spawned in a {type} that is a size of {size} at every player's position (\"Yay! Items with sizes!\" - Galaxy119)";
         }
@@ -167,20 +167,20 @@ namespace AdminTools.Commands.DropSize
                 if (ply.Role == RoleType.Spectator || ply.Role == RoleType.None)
                     continue;
 
-                new Item(Item.Create(type).Base).Spawn(ply.Position).Scale = new Vector3(x, y, z);
+                Item.Create(type).Spawn(ply.Position).Scale = new Vector3(x, y, z);
             }
             message = $"Spawned in a {type} that is {x}x{y}x{z} at every player's position (\"Yay! Items with sizes!\" - Galaxy119)";
         }
 
         private void SpawnItem(Player ply, ItemType type, float size, out string message)
         {
-            new Item(Item.Create(type).Base).Spawn(ply.Position).Scale = Vector3.one * size;
+            Item.Create(type).Spawn(ply.Position).Scale = Vector3.one * size;
             message = $"Spawned in a {type} that is a size of {size} at {ply.Nickname}'s position (\"Yay! Items with sizes!\" - Galaxy119)";
         }
 
         private void SpawnItem(Player ply, ItemType type, float x, float y, float z, out string message)
         {
-            new Item(Item.Create(type).Base).Spawn(ply.Position).Scale = new Vector3(x, y, z);
+            Item.Create(type).Spawn(ply.Position).Scale = new Vector3(x, y, z);
             message = $"Spawned in a {type} that is {x}x{y}x{z} at {ply.Nickname}'s position (\"Yay! Items with sizes!\" - Galaxy119)";
         }
     }

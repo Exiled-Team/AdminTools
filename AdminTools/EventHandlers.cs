@@ -144,7 +144,7 @@ namespace AdminTools
 
 		public static void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
 		{
-			new Item(Item.Create(type).Base).Spawn(pos, Quaternion.Euler(rot));
+			Item.Create(type).Spawn(pos, Quaternion.Euler(rot));
 		}
 		public static void SpawnGrenade(Vector3 position, ItemType Grenade, float fusedur = -1, Player player = null)
 		{
