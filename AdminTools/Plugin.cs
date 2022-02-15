@@ -4,6 +4,7 @@ using System.IO;
 using Exiled.API.Features;
 using Handlers = Exiled.Events.Handlers;
 using UnityEngine;
+using MEC;
 
 namespace AdminTools
 {
@@ -29,7 +30,7 @@ namespace AdminTools
 		public string HiddenTagsFilePath;
 		public static bool RestartOnEnd = false;
 		public static HashSet<Player> RoundStartMutes = new HashSet<Player>();
-
+		public static List<CoroutineHandle> JailCoroutine = new List<CoroutineHandle>();
 		public override void OnEnabled()
 		{
 			try

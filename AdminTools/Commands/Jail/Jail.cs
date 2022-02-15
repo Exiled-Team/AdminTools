@@ -41,12 +41,16 @@ namespace AdminTools.Commands.Jail
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
             }
-
+            if (Plugin.JailCoroutine.Any(x=>x.Tag == $"Jail{ply.UserId}"))
+            {
+                response = $"Player {ply.Nickname} is already in the jail/unjailed proccess";
+                return false;
+            }
             if (Plugin.JailedPlayers.Any(j => j.Userid == ply.UserId))
             {
                 try
                 {
-                    Timing.RunCoroutine(EventHandlers.DoUnJail(ply));
+                    Timing.RunCoroutine(EventHandlers.DoUnJail(ply),$"Jail{ply.UserId}");
                     response = $"Player {ply.Nickname} has been unjailed now";
                 }
                 catch (Exception e)
@@ -58,7 +62,7 @@ namespace AdminTools.Commands.Jail
             }
             else
             {
-                Timing.RunCoroutine(EventHandlers.DoJail(ply));
+                Timing.RunCoroutine(EventHandlers.DoJail(ply),$"Jail{ply.UserId}");
                 response = $"Player {ply.Nickname} has been jailed now";
             }
             return true;

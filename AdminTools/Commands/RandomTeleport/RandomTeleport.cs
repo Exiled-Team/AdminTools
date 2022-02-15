@@ -41,7 +41,7 @@ namespace AdminTools.Commands.RandomTeleport
                 case "all":
                     foreach (Player ply in Player.List)
                     {
-                        Room randRoom = Map.Rooms[Plugin.NumGen.Next(0, Map.Rooms.Count())];
+                        Room randRoom = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
                         ply.Position = randRoom.Position + Vector3.up;
                     }
 
@@ -55,7 +55,7 @@ namespace AdminTools.Commands.RandomTeleport
                         return false;
                     }
 
-                    Room rand = Map.Rooms[Plugin.NumGen.Next(0, Map.Rooms.Count())];
+                    Room rand = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
                     pl.Position = rand.Position + Vector3.up;
 
                     response = $"Player {pl.Nickname} was teleported to {rand.Name}";

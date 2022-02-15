@@ -74,7 +74,7 @@ namespace AdminTools.Commands.Tutorial
         private IEnumerator<float> SetClassAsTutorial(Player ply) 
         {
             Vector3 oldPos = ply.Position;
-            ply.Role = RoleType.Tutorial;
+            ply.Role.Type = RoleType.Tutorial;
             yield return Timing.WaitForSeconds(0.5f);
             ply.Position = oldPos;
         }
@@ -88,7 +88,7 @@ namespace AdminTools.Commands.Tutorial
             }
             else
             {
-                ply.Role = RoleType.Spectator;
+                ply.Role.Type = RoleType.Spectator;
                 response = $"Player {ply.Nickname} is now set to spectator";
             }
         }

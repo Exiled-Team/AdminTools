@@ -6,7 +6,6 @@ using System;
 namespace AdminTools.Commands.Ball
 {
     using System.Collections.Generic;
-    using Exiled.API.Features.Items;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -37,7 +36,7 @@ namespace AdminTools.Commands.Ball
             }
 
             List<Player> players = new List<Player>();
-            switch (arguments.At(0)) 
+            switch (arguments.At(0))
             {
                 case "*":
                 case "all":
@@ -75,7 +74,7 @@ namespace AdminTools.Commands.Ball
                 Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
 
             foreach (Player p in players)
-                EventHandlers.SpawnGrenade(p.Position, ItemType.SCP018);
+                EventHandlers.SpawnGrenade(p.Position, ItemType.SCP018, -1, p);
             return true;
         }
     }

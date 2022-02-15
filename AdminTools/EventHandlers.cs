@@ -112,11 +112,13 @@ namespace AdminTools
 						NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
 				rotation.x += 180;
 				rotation.z += 180;
-				Offset offset = new Offset();
-				offset.position = position;
-				offset.rotation = rotation;
-				offset.scale = Vector3.one;
-				bench.gameObject.transform.localScale = size;
+                Offset offset = new Offset
+                {
+                    position = position,
+                    rotation = rotation,
+                    scale = Vector3.one
+                };
+                bench.gameObject.transform.localScale = size;
 				NetworkServer.Spawn(bench);
 				if (Plugin.BchHubs.TryGetValue(ply, out List<GameObject> objs))
 				{
@@ -152,9 +154,9 @@ namespace AdminTools
 			{
 				var item = Item.Create(Grenade, player);
 				{
-					if (item.Base.TryGetComponent(out FlashGrenade flashGrenade))
+					if (item is FlashGrenade flashGrenade)
 					{
-						if (fusedur != -1)
+						if (fusedur == -1)
 							flashGrenade.SpawnActive(position, player);
 						else
 						{
@@ -162,9 +164,9 @@ namespace AdminTools
 							flashGrenade.SpawnActive(position, player);
 						}
 					}
-					else if (item.Base.TryGetComponent(out ExplosiveGrenade explosiveGrenade))
+					else if (item is ExplosiveGrenade explosiveGrenade)
 					{
-						if (fusedur != -1)
+						if (fusedur == -1)
 							explosiveGrenade.SpawnActive(position, player);
 						else
 						{
@@ -191,7 +193,7 @@ namespace AdminTools
 				{
 					Origin = position
 				}.SendToAuthenticated(0);
-				ExplosionGrenade.Explode(new Footprinting.Footprint(hub), position, settingsReference);
+				ExplosionGrenade.Explode(new Footprint(hub), position, settingsReference);
 			}
 		}
 		public static void SetPlayerScale(GameObject target, float x, float y, float z)
@@ -201,10 +203,12 @@ namespace AdminTools
 				NetworkIdentity identity = target.GetComponent<NetworkIdentity>();
 				target.transform.localScale = new Vector3(1 * x, 1 * y, 1 * z);
 
-				ObjectDestroyMessage destroyMessage = new ObjectDestroyMessage();
-				destroyMessage.netId = identity.netId;
+                ObjectDestroyMessage destroyMessage = new ObjectDestroyMessage
+                {
+                    netId = identity.netId
+                };
 
-				foreach (GameObject player in PlayerManager.players)
+                foreach (GameObject player in PlayerManager.players)
 				{
 					NetworkConnection playerCon = player.GetComponent<NetworkIdentity>().connectionToClient;
 					if (player != target)
@@ -227,10 +231,12 @@ namespace AdminTools
 				NetworkIdentity identity = target.GetComponent<NetworkIdentity>();
 				target.transform.localScale = Vector3.one * scale;
 
-				ObjectDestroyMessage destroyMessage = new ObjectDestroyMessage();
-				destroyMessage.netId = identity.netId;
+                ObjectDestroyMessage destroyMessage = new ObjectDestroyMessage
+                {
+                    netId = identity.netId
+                };
 
-				foreach (GameObject player in PlayerManager.players)
+                foreach (GameObject player in PlayerManager.players)
 				{
 					if (player == target)
 						continue;
@@ -316,7 +322,7 @@ namespace AdminTools
 				player.IsOverwatchEnabled = false;
 			yield return Timing.WaitForSeconds(1f);
 			player.ClearInventory(false);
-			player.Role = RoleType.Tutorial;
+			player.Role.Type = RoleType.Tutorial;
 			player.Position = new Vector3(53f, 1020f, -44f);
 		}
 
@@ -335,7 +341,7 @@ namespace AdminTools
 			}
 			else
 			{
-				player.Role = RoleType.Spectator;
+				player.Role.Type = RoleType.Spectator;
 			}
 			Plugin.JailedPlayers.Remove(jail);
 		}
@@ -384,7 +390,7 @@ namespace AdminTools
 			Plugin.RoundStartMutes.Clear();
 		}
 
-		public void OnRoundEnd(RoundEndedEventArgs ev)
+		public void OnRoundEnd(RoundEndedEventArgs _)
 		{
 			try
 			{

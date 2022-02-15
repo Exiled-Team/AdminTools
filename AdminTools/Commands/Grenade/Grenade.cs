@@ -41,25 +41,13 @@ namespace AdminTools.Commands.Grenade
             {
                 case "*":
                 case "all":
-                    if (!Enum.TryParse(arguments.At(1), true, out GrenadeType gType))
                     {
-                        response = $"Invalid value for grenade name: {arguments.At(1)}";
-                        return false;
-                    }
-
-                    if (gType == GrenadeType.Scp018)
-                    {
-                        Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
-                        foreach (Player pl in Player.List)
+                        if (!Enum.TryParse(arguments.At(1), true, out GrenadeType gType))
                         {
-                            if (pl.Role == RoleType.Spectator || pl.Role == RoleType.None)
-                                continue;
-
-                            EventHandlers.SpawnGrenade(pl.Position, ItemType.SCP018,player: pl);
+                            response = $"Invalid value for grenade name: {arguments.At(1)}\nYou need to use FragGrenade/Flashbang/Scp018/Scp2176";
+                            return false;
                         }
-                    }
-                    else
-                    {
+
                         if (arguments.Count != 3)
                         {
                             response = "Usage: grenade ((player id / name) or (all / *)) (GrenadeType) (grenade time)";
@@ -77,37 +65,31 @@ namespace AdminTools.Commands.Grenade
                             if (pl.Role == RoleType.Spectator || pl.Role == RoleType.None)
                                 continue;
 
-                            if (gType == GrenadeType.Flashbang)
-                                EventHandlers.SpawnGrenade(pl.Position, ItemType.GrenadeFlash, time,pl);
-                            else
-                                EventHandlers.SpawnGrenade(pl.Position, gType.GetItemType(), time, pl);
+                            EventHandlers.SpawnGrenade(pl.Position, gType.GetItemType(), time, pl);
                         }
+                        response = $"You spawned a {gType.ToString().ToLower()} on everyone";
+                        return true;
                     }
-                    response = $"You spawned a {gType.ToString().ToLower()} on everyone";
-                    return true;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
-                    if (ply == null)
                     {
-                        response = $"Player not found: {arguments.At(0)}";
-                        return false;
-                    }
-                    else if (ply.Role == RoleType.Spectator || ply.Role == RoleType.None)
-                    {
-                        response = $"Player {ply.Nickname} is not a valid class to spawn a grenade on";
-                        return false;
-                    }
+                        Player ply = Player.Get(arguments.At(0));
+                        if (ply == null)
+                        {
+                            response = $"Player not found: {arguments.At(0)}";
+                            return false;
+                        }
+                        else if (ply.Role == RoleType.Spectator || ply.Role == RoleType.None)
+                        {
+                            response = $"Player {ply.Nickname} is not a valid class to spawn a grenade on";
+                            return false;
+                        }
 
-                    if (!Enum.TryParse(arguments.At(1), true, out GrenadeType type))
-                    {
-                        response = $"Invalid value for grenade name: {arguments.At(1)}";
-                        return false;
-                    }
+                        if (!Enum.TryParse(arguments.At(1), true, out GrenadeType type))
+                        {
+                            response = $"Invalid value for grenade name: {arguments.At(1)}\nYou need to use FragGrenade/Flashbang/Scp018/Scp2176";
+                            return false;
+                        }
 
-                    if (type == GrenadeType.Scp018)
-                        EventHandlers.SpawnGrenade(ply.Position, ItemType.SCP018,player: ply);
-                    else
-                    {
                         if (arguments.Count != 3)
                         {
                             response = "Usage: grenade ((player id / name) or (all / *)) (GrenadeType) (grenade time)";
@@ -119,15 +101,12 @@ namespace AdminTools.Commands.Grenade
                             response = $"Invalid value for grenade timer: {arguments.At(2)}";
                             return false;
                         }
-                        
-                        if (type == GrenadeType.Flashbang)
-                            EventHandlers.SpawnGrenade(ply.Position, ItemType.GrenadeFlash, time, ply);
-                        else
-                            EventHandlers.SpawnGrenade(ply.Position, type.GetItemType(), time, ply);
-                    }
 
-                    response = $"You spawned a {type.ToString().ToLower()} on {ply.Nickname}";
-                    return true;
+                        EventHandlers.SpawnGrenade(ply.Position, type.GetItemType(), time, ply);
+
+                        response = $"You spawned a {type.ToString().ToLower()} on {ply.Nickname}";
+                        return true;
+                    }
             }
         }
     }
