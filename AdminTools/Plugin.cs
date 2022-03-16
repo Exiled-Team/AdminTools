@@ -18,6 +18,7 @@ namespace AdminTools
 		public static System.Random NumGen = new System.Random();
 		public static List<Jailed> JailedPlayers = new List<Jailed>();
 		public static Dictionary<Player, InstantKillComponent> IkHubs = new Dictionary<Player, InstantKillComponent>();
+		public static Dictionary<Player, InfiniteAmmoComponent> IaHubs = new Dictionary<Player, InfiniteAmmoComponent>();
 		public static Dictionary<Player, BreakDoorComponent> BdHubs = new Dictionary<Player, BreakDoorComponent>();
 		public static Dictionary<Player, RegenerationComponent> RgnHubs = new Dictionary<Player, RegenerationComponent>();
 		public static HashSet<Player> PryGateHubs = new HashSet<Player>();
