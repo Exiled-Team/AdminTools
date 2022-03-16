@@ -26,7 +26,6 @@ namespace AdminTools
 	using InventorySystem.Items.ThrowableProjectiles;
 	using PlayerStatsSystem;
 	using Ragdoll = Exiled.API.Features.Ragdoll;
-	using CustomPlayerEffects;
 
 	public class EventHandlers
 	{
@@ -257,8 +256,7 @@ namespace AdminTools
 					Role = player.Role,
 					Userid = player.UserId,
 					CurrentRound = true,
-					Ammo = ammo,
-					Effects = player.ActiveEffects
+					Ammo = ammo
 				});
 			}
 
@@ -282,8 +280,6 @@ namespace AdminTools
 				player.Position = jail.Position;
 				foreach (KeyValuePair<AmmoType, ushort> kvp in jail.Ammo)
 					player.Ammo[kvp.Key.GetItemType()] = kvp.Value;
-				foreach (PlayerEffect effect in jail.Effects)
-					player.EnableEffect(effect);
 			}
 			else
 			{

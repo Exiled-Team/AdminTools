@@ -1,7 +1,6 @@
 using Exiled.API.Enums;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomPlayerEffects;
 
 namespace AdminTools
 {
@@ -17,6 +16,5 @@ namespace AdminTools
 		public float Health;
 		public Dictionary<AmmoType, ushort> Ammo;
 		public bool CurrentRound;
-		public IEnumerable<PlayerEffect> Effects;
 	}
 }
