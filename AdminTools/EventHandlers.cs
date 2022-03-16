@@ -402,7 +402,7 @@ namespace AdminTools
 
 		public void OnTriggerTesla(TriggeringTeslaEventArgs ev)
 		{
-			if (ev.Player.IsGodModeEnabled && _plugin.Config.TeslasIgnoreGods)
+			if (ev.Player.IsGodModeEnabled)
 			{
 				ev.IsInIdleRange = false;
 				ev.IsTriggerable = false;

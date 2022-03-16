@@ -10,8 +10,6 @@ namespace AdminTools
         public bool IsEnabled { get; set; } = true;
         [Description("Should the tutorial class be in God Mode? Default: true")]
         public bool GodTuts { get; set; } = true;
-        [Description("Should players in godmode be ignored by Tesla Gates? Default: true")]
-        public bool TeslasIgnoreGods { get; set; } = true;
         [Description("Enable/Disable Auto Overwatch. Default: true")]
         public bool AutoOverwatch { get; set; } = true;
         [Description("Enable/Disable Auto Hidetag. Default: true")]
