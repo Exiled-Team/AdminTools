@@ -29,6 +29,8 @@ namespace AdminTools
 		public string HiddenTagsFilePath;
 		public static bool RestartOnEnd = false;
 		public static HashSet<Player> RoundStartMutes = new HashSet<Player>();
+		public static List<string> HiddenTagsUserIds = new List<string>();
+		public static List<string> OverwatchUserIds = new List<string>();
 
 		public override void OnEnabled()
 		{

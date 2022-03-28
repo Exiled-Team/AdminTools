@@ -301,13 +301,13 @@ namespace AdminTools
 				if (Plugin.JailedPlayers.Any(j => j.UserId == ev.Player.UserId))
 					Timing.RunCoroutine(DoJail(ev.Player, true));
 
-				if (File.ReadAllText(_plugin.OverwatchFilePath).Contains(ev.Player.UserId))
+				if (Plugin.OverwatchUserIds.Contains(ev.Player.UserId))
 				{
 					Log.Debug($"Putting {ev.Player.UserId} into overwatch.");
 					Timing.CallDelayed(1, () => ev.Player.IsOverwatchEnabled = true);
 				}
 
-				if (File.ReadAllText(_plugin.HiddenTagsFilePath).Contains(ev.Player.UserId))
+				if (Plugin.HiddenTagsUserIds.Contains(ev.Player.UserId))
 				{
 					Log.Debug($"Hiding {ev.Player.UserId}'s tag.");
 					Timing.CallDelayed(1, () => ev.Player.BadgeHidden = true);
@@ -342,8 +342,8 @@ namespace AdminTools
 		{
 			try
 			{
-				List<string> overwatchRead = File.ReadAllLines(_plugin.OverwatchFilePath).ToList();
-				List<string> tagsRead = File.ReadAllLines(_plugin.HiddenTagsFilePath).ToList();
+				List<string> overwatchRead = Plugin.OverwatchUserIds;
+				List<string> tagsRead = Plugin.HiddenTagsUserIds;
 
 				foreach (Player player in Player.List)
 				{
@@ -405,6 +405,8 @@ namespace AdminTools
 
 		public void OnWaitingForPlayers()
 		{
+			Plugin.HiddenTagsUserIds = File.ReadAllLines(_plugin.HiddenTagsFilePath).ToList();
+			Plugin.OverwatchUserIds = File.ReadAllLines(_plugin.OverwatchFilePath).ToList();
 			Plugin.IkHubs.Clear();
 			Plugin.BdHubs.Clear();
 		}
