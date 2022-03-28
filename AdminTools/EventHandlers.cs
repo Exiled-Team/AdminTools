@@ -20,7 +20,8 @@ namespace AdminTools
 {
 	using Exiled.API.Extensions;
 	using Exiled.API.Features.Items;
-	using Footprinting;
+    using Exiled.CustomRoles.API;
+    using Footprinting;
 	using InventorySystem.Items.Firearms.Attachments;
 	using InventorySystem.Items.Pickups;
 	using InventorySystem.Items.ThrowableProjectiles;
@@ -247,6 +248,7 @@ namespace AdminTools
 				items.Add(item);
 			if (!skipadd)
 			{
+				var plyCustomRoles = player.GetCustomRoles();
 				Plugin.JailedPlayers.Add(new Jailed
 				{
 					Health = player.Health,
@@ -254,9 +256,10 @@ namespace AdminTools
 					Items = items,
 					Name = player.Nickname,
 					Role = player.Role,
-					Userid = player.UserId,
+					UserId = player.UserId,
 					CurrentRound = true,
-					Ammo = ammo
+					Ammo = ammo,
+					CustomRole = plyCustomRoles.Any() ? plyCustomRoles[0] : null
 				});
 			}
 
@@ -270,16 +273,19 @@ namespace AdminTools
 
 		public static IEnumerator<float> DoUnJail(Player player)
 		{
-			Jailed jail = Plugin.JailedPlayers.Find(j => j.Userid == player.UserId);
+			Jailed jail = Plugin.JailedPlayers.Find(j => j.UserId == player.UserId);
 			if (jail.CurrentRound)
 			{
-				player.SetRole(jail.Role, SpawnReason.ForceClass, true);
-				yield return Timing.WaitForSeconds(0.5f);
+				if (jail.CustomRole != null)
+					jail.CustomRole.AddRole(player);
+				else
+					player.SetRole(jail.Role, SpawnReason.ForceClass, true);
+				yield return Timing.WaitForSeconds(jail.CustomRole != null ? 2f : 0.5f);
 				player.ResetInventory(jail.Items);
 				player.Health = jail.Health;
 				player.Position = jail.Position;
 				foreach (KeyValuePair<AmmoType, ushort> kvp in jail.Ammo)
-					player.Ammo[kvp.Key.GetItemType()] = kvp.Value;
+					player.SetAmmo(kvp.Key, kvp.Value);
 			}
 			else
 			{
@@ -292,7 +298,7 @@ namespace AdminTools
 		{
 			try
 			{
-				if (Plugin.JailedPlayers.Any(j => j.Userid == ev.Player.UserId))
+				if (Plugin.JailedPlayers.Any(j => j.UserId == ev.Player.UserId))
 					Timing.RunCoroutine(DoJail(ev.Player, true));
 
 				if (File.ReadAllText(_plugin.OverwatchFilePath).Contains(ev.Player.UserId))
@@ -307,7 +313,7 @@ namespace AdminTools
 					Timing.CallDelayed(1, () => ev.Player.BadgeHidden = true);
 				}
 
-				if (Plugin.RoundStartMutes.Count != 0 && !ev.Player.ReferenceHub.serverRoles.RemoteAdmin && !Plugin.RoundStartMutes.Contains(ev.Player))
+				if (Plugin.RoundStartMutes.Count != 0 && !ev.Player.RemoteAdminAccess && !Plugin.RoundStartMutes.Contains(ev.Player))
                 {
 					Log.Debug($"Muting {ev.Player.UserId} (no RA).");
 					ev.Player.IsMuted = true;

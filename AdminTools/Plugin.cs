@@ -12,7 +12,7 @@ namespace AdminTools
 		public override string Author { get; } = "Originally by Galaxy119. Modifications by KoukoCocoa & Thomasjosif";
 		public override string Name { get; } = "Admin Tools";
 		public override string Prefix { get; } = "AT";
-		public override Version RequiredExiledVersion { get; } = new Version(3, 0, 0);
+		public override Version RequiredExiledVersion { get; } = new Version(5, 0, 0);
 
 		public EventHandlers EventHandlers;
 		public static System.Random NumGen = new System.Random();

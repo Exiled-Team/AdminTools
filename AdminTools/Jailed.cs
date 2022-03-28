@@ -5,10 +5,11 @@ using UnityEngine;
 namespace AdminTools
 {
 	using Exiled.API.Features.Items;
+    using Exiled.CustomRoles.API.Features;
 
-	public class Jailed
+    public class Jailed
 	{
-		public string Userid;
+		public string UserId;
 		public string Name;
 		public List<Item> Items;
 		public RoleType Role;
@@ -16,5 +17,6 @@ namespace AdminTools
 		public float Health;
 		public Dictionary<AmmoType, ushort> Ammo;
 		public bool CurrentRound;
+		public CustomRole CustomRole;
 	}
 }
