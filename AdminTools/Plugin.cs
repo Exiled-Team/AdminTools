@@ -34,8 +34,6 @@ namespace AdminTools
 		{
 			try
 			{
-				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				string pluginPath = Path.Combine(appData, "Plugins");
 				string path = Path.Combine(Paths.Plugins, "AdminTools");
 				string overwatchFileName = Path.Combine(path, "AdminTools-Overwatch.txt");
 				string hiddenTagFileName = Path.Combine(path, "AdminTools-HiddenTags.txt");

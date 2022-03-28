@@ -10,5 +10,7 @@ namespace AdminTools
         public bool IsEnabled { get; set; } = true;
         [Description("Should the tutorial class be in God Mode? Default: true")]
         public bool GodTuts { get; set; } = true;
+        [Description("Should jail on player remove when round ends?")]
+        public bool JailRemoveOnRoundEnd { get; set; } = false;
     }
 }
