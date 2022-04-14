@@ -14,7 +14,7 @@ namespace AdminTools.Commands.Restart
 
         public override string Command { get; } = "restart";
 
-        public override string[] Aliases { get; } = new string[] { "rt" };
+        public override string[] Aliases { get; } = new string[] { "restartautomatically", "art" };
 
         public override string Description { get; } = "Restart the server automatically at the end of the round";
 
