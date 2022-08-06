@@ -347,6 +347,9 @@ namespace AdminTools
 				File.WriteAllLines(_plugin.OverwatchFilePath, overwatchRead);
 				File.WriteAllLines(_plugin.HiddenTagsFilePath, tagsRead);
 
+				if (_plugin.Config.ClearJailsOnRestart)
+					Plugin.JailedPlayers.Clear();
+
 				// Update all the jails that it is no longer the current round, so when they are unjailed they don't teleport into the void.
 				foreach (Jailed jail in Plugin.JailedPlayers)
 				{
