@@ -24,7 +24,7 @@ An SCP:SL EXILED plugin that gives server owners fun commands and logging functi
 - Kill players for whatever reason you want
 - Quickly send a message to a user
 - Mute all users from using voice or intercom with ease
-- Get and mofidy positions of players with ease
+- Get and modify positions of players with ease
 - Give players the ability to pry gates open
 - Randomly teleport users to a random part of the facility
 - Give players the ability to regenerate health
