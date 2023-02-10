@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using RemoteAdmin;
 using System;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.Strip
 {
@@ -21,7 +22,7 @@ namespace AdminTools.Commands.Strip
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "strip", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!sender.CheckPermission("at.strip"))
             {
                 response = "You do not have permission to use this command";
                 return false;

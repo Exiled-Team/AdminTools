@@ -2,7 +2,7 @@
 using Exiled.API.Features;
 using RemoteAdmin;
 using System;
-
+using Exiled.Permissions.Extensions;
 namespace AdminTools.Commands.AdminBroadcast
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -21,7 +21,7 @@ namespace AdminTools.Commands.AdminBroadcast
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "broadcast", PlayerPermissions.Broadcasting, "AdminTools", false))
+            if (!sender.CheckPermission("at.bc"))
             {
                 response = "You do not have permission to use this command";
                 return false;

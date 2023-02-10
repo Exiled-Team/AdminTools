@@ -2,7 +2,7 @@
 using Exiled.API.Features;
 using RemoteAdmin;
 using System;
-
+using Exiled.Permissions.Extensions;
 namespace AdminTools.Commands.Ahp
 {
     using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace AdminTools.Commands.Ahp
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "ahp", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!sender.CheckPermission("at.hp"))
             {
                 response = "You do not have permission to use this command";
                 return false;

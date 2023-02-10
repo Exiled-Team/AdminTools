@@ -2,6 +2,7 @@
 using GameCore;
 using System;
 
+
 namespace AdminTools.Commands.Configuration
 {
     public class Reload : ICommand
@@ -20,7 +21,7 @@ namespace AdminTools.Commands.Configuration
                 return false;
             }
 
-            ServerStatic.PermissionsHandler.RefreshPermissions();
+            
             ConfigFile.ReloadGameConfigs();
             response = "Configuration files reloaded!";
             return true;

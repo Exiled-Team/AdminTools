@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.HintBroadcast
 {
@@ -27,7 +28,7 @@ namespace AdminTools.Commands.HintBroadcast
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "hints", PlayerPermissions.Broadcasting, "AdminTools", false))
+            if (!sender.CheckPermission("at.bc"))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -112,74 +113,10 @@ namespace AdminTools.Commands.HintBroadcast
                     StringBuilderPool.Shared.Return(builder);
                     response = message;
                     return true;
-                case "group":
-                    if (arguments.Count < 4)
-                    {
-                        response = "Usage: hbc group (group) (time) (message)";
-                        return false;
-                    }
-
-                    UserGroup broadcastGroup = ServerStatic.PermissionsHandler.GetGroup(arguments.At(1));
-                    if (broadcastGroup == null)
-                    {
-                        response = $"Invalid group: {arguments.At(1)}";
-                        return false;
-                    }
-
-                    if (!ushort.TryParse(arguments.At(2), out ushort tim) && tim <= 0)
-                    {
-                        response = $"Invalid value for duration: {arguments.At(2)}";
-                        return false;
-                    }
-
-                    foreach (Player player in Player.List)
-                    {
-                        if (player.Group.BadgeText.Equals(broadcastGroup.BadgeText))
-                            player.ShowHint(EventHandlers.FormatArguments(arguments, 3), tim);
-                    }
-
-                    response = $"Hint sent to all members of \"{arguments.At(1)}\"";
-                    return true;
-                case "groups":
-                    if (arguments.Count < 4)
-                    {
-                        response = "Usage: hbc groups (list of groups (i.e.: owner,admin,moderator)) (time) (message)";
-                        return false;
-                    }
-
-                    string[] groups = arguments.At(1).Split(',');
-                    List<string> groupList = new();
-                    foreach (string s in groups)
-                    {
-                        UserGroup broadGroup = ServerStatic.PermissionsHandler.GetGroup(s);
-                        if (broadGroup != null)
-                            groupList.Add(broadGroup.BadgeText);
-
-                    }
-
-                    if (!ushort.TryParse(arguments.At(2), out ushort e) && e <= 0)
-                    {
-                        response = $"Invalid value for duration: {arguments.At(2)}";
-                        return false;
-                    }
-
-                    foreach (Player p in Player.List)
-                        if (groupList.Contains(p.Group.BadgeText))
-                            p.ShowHint(EventHandlers.FormatArguments(arguments, 3), e);
 
 
-                    StringBuilder bdr = StringBuilderPool.Shared.Rent("Hint sent to groups with badge text: ");
-                    foreach (string p in groupList)
-                    {
-                        bdr.Append("\"");
-                        bdr.Append(p);
-                        bdr.Append("\"");
-                        bdr.Append(" ");
-                    }
-                    string ms = bdr.ToString();
-                    StringBuilderPool.Shared.Return(bdr);
-                    response = ms;
-                    return true;
+
+
                 case "role":
                     if (arguments.Count < 4)
                     {
@@ -309,7 +246,7 @@ namespace AdminTools.Commands.HintBroadcast
                     }
 
                     foreach (Player py in Player.List)
-                        if (py.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
+                        if (py.IPAddress != "127.0.0.1")
                             py.ShowHint(EventHandlers.FormatArguments(arguments, 2), tm);
                     break;
             }

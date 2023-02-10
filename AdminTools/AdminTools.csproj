@@ -35,63 +35,101 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Assembly-CSharp-Publicized.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Accessibility" />
+    <Reference Include="AmplifyBloom">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\AmplifyBloom.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\Downloads\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\References\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Caress">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Caress.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\CommandSystem.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.API, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.API.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CreditTags, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.CreditTags.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.CreditTags.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CustomItems, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.CustomItems.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.CustomItems.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CustomRoles, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.CustomRoles.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.CustomRoles.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Events, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.Events.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.Events.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Loader, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.Loader.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\SCP Secret Laboratory\PluginAPI\plugins\global\Exiled.Loader.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Permissions, Version=6.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.Permissions.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Updater, Version=3.1.1.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\Exiled.Updater.dll</HintPath>
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\Exiled.Updater.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Steamworks.Win64">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Facepunch.Steamworks.Win64.dll</HintPath>
     </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.dll</HintPath>
+    </Reference>
+    <Reference Include="Mirror.Components">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Posix">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.WebBrowser">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mono.WebBrowser.dll</HintPath>
     </Reference>
     <Reference Include="NorthwoodLib, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\NorthwoodLib.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\NorthwoodLib.dll</HintPath>
     </Reference>
     <Reference Include="PluginAPI, Version=12.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\EXILED.6.0.0-beta.20\lib\net48\PluginAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\PluginAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\dependencies\SemanticVersioning.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>..\..\Downloads\Exiled.tar\Exiled\EXILED\Plugins\dependencies\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

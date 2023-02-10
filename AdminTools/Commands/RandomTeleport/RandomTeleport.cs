@@ -4,6 +4,7 @@ using RemoteAdmin;
 using System;
 using System.Linq;
 using UnityEngine;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.RandomTeleport
 {
@@ -23,8 +24,8 @@ namespace AdminTools.Commands.RandomTeleport
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "randomtp", PlayerPermissions.PlayersManagement, "AdminTools", false))
-            {
+            if (!sender.CheckPermission("at.tp")) { 
+
                 response = "You do not have permission to use this command";
                 return false;
             }

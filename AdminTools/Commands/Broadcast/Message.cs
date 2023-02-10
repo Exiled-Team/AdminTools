@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.Message
 {
@@ -27,7 +28,7 @@ namespace AdminTools.Commands.Message
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "broadcast", PlayerPermissions.Broadcasting, "AdminTools", false))
+            if (sender.CheckPermission("at.bc"))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -112,74 +113,37 @@ namespace AdminTools.Commands.Message
                     StringBuilderPool.Shared.Return(builder);
                     response = message;
                     return true;
-                case "group":
-                    if (arguments.Count < 4)
-                    {
-                        response = "Usage: broadcast group (group) (time) (message)";
-                        return false;
-                    }
-
-                    UserGroup broadcastGroup = ServerStatic.PermissionsHandler.GetGroup(arguments.At(1));
-                    if (broadcastGroup == null)
-                    {
-                        response = $"Invalid group: {arguments.At(1)}";
-                        return false;
-                    }
-
-                    if (!ushort.TryParse(arguments.At(2), out ushort tim) && tim <= 0)
-                    {
-                        response = $"Invalid value for duration: {arguments.At(2)}";
-                        return false;
-                    }
-
-                    foreach (Player player in Player.List)
-                    {
-                        if (player.Group.BadgeText.Equals(broadcastGroup.BadgeText))
-                            player.Broadcast(tim, EventHandlers.FormatArguments(arguments, 3));
-                    }
-
-                    response = $"Message sent to all members of \"{arguments.At(1)}\"";
-                    return true;
-                case "groups":
-                    if (arguments.Count < 4)
-                    {
-                        response = "Usage: broadcast groups (list of groups (i.e.: owner,admin,moderator)) (time) (message)";
-                        return false;
-                    }
+              
 
                     string[] groups = arguments.At(1).Split(',');
                     List<string> groupList = new();
                     foreach (string s in groups)
                     {
-                        UserGroup broadGroup = ServerStatic.PermissionsHandler.GetGroup(s);
-                        if (broadGroup != null)
-                            groupList.Add(broadGroup.BadgeText);
 
+                        if (!ushort.TryParse(arguments.At(2), out ushort e) && e <= 0)
+                        {
+                            response = $"Invalid value for duration: {arguments.At(2)}";
+                            return false;
+                        }
+
+                        foreach (Player p in Player.List)
+                            if (groupList.Contains(p.Group.BadgeText))
+                                p.Broadcast(e, EventHandlers.FormatArguments(arguments, 3));
+
+
+                        StringBuilder bdr = StringBuilderPool.Shared.Rent("Message sent to groups with badge text: ");
+                        foreach (string p in groupList)
+                        {
+                            bdr.Append("\"");
+                            bdr.Append(p);
+                            bdr.Append("\"");
+                            bdr.Append(" ");
+                        }
+                        string ms = bdr.ToString();
+                        StringBuilderPool.Shared.Return(bdr);
+                        response = ms;
+                        return true;
                     }
-
-                    if (!ushort.TryParse(arguments.At(2), out ushort e) && e <= 0)
-                    {
-                        response = $"Invalid value for duration: {arguments.At(2)}";
-                        return false;
-                    }
-
-                    foreach (Player p in Player.List)
-                        if (groupList.Contains(p.Group.BadgeText))
-                            p.Broadcast(e, EventHandlers.FormatArguments(arguments, 3));
-
-
-                    StringBuilder bdr = StringBuilderPool.Shared.Rent("Message sent to groups with badge text: ");
-                    foreach (string p in groupList)
-                    {
-                        bdr.Append("\"");
-                        bdr.Append(p);
-                        bdr.Append("\"");
-                        bdr.Append(" ");
-                    }
-                    string ms = bdr.ToString();
-                    StringBuilderPool.Shared.Return(bdr);
-                    response = ms;
-                    return true;
                 case "role":
                     if (arguments.Count < 4)
                     {
@@ -229,7 +193,7 @@ namespace AdminTools.Commands.Message
                     }
 
                     foreach (Player p in Player.List)
-                        if (roleList.Contains(p.Role) && p.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
+                        if (roleList.Contains(p.Role) && p.IPAddress != "127.0.0.1")
                             p.Broadcast(ti, EventHandlers.FormatArguments(arguments, 3));
 
                     StringBuilder build = StringBuilderPool.Shared.Rent("Message sent to roles: ");
@@ -259,7 +223,7 @@ namespace AdminTools.Commands.Message
                     }
 
                     Player plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
-                    if (plyr.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
+                    if (plyr.IPAddress != "127.0.0.1")
                         plyr.Broadcast(me, EventHandlers.FormatArguments(arguments, 2));
                     response = $"Message sent to {plyr.Nickname}";
                     return true;

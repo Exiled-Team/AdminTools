@@ -42,11 +42,6 @@ namespace AdminTools.Commands.Kick
                 return false;
             }
 
-            if(ply.ReferenceHub.serverRoles.Group != null && ply.ReferenceHub.serverRoles.Group.RequiredKickPower > ((CommandSender)sender).KickPower)
-            {
-                response = $"You do not have permission to kick the specified player";
-                return false;
-            }
 
             ply.Kick(EventHandlers.FormatArguments(arguments, 1));
             response = $"Player {ply.Nickname} has been kicked for \"{EventHandlers.FormatArguments(arguments, 1)}\"";
