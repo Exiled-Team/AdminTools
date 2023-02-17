@@ -186,7 +186,7 @@ namespace AdminTools
 			yield return Timing.WaitForSeconds(1f);
 			player.ClearInventory(false);
 			player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
-			
+			player.Position = new Vector3(40f, 1015f, -33f);
 		}
 
 		public static IEnumerator<float> DoUnJail(Player player)
