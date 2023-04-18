@@ -48,7 +48,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    foreach (Player ply in Plugin.RgnHubs.Keys)
+                    foreach (Player ply in Plugin.RegeneratingHubs.Keys)
                         if (ply.ReferenceHub.TryGetComponent(out RegenerationComponent rgCom))
                             UnityEngine.Object.Destroy(rgCom);
 
@@ -61,14 +61,14 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.RgnHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
-                    if (Plugin.RgnHubs.Count == 0)
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.RegeneratingHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
+                    if (Plugin.RegeneratingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
                         return true;
                     }
 
-                    foreach (Player ply in Plugin.RgnHubs.Keys)
+                    foreach (Player ply in Plugin.RegeneratingHubs.Keys)
                     {
                         playerLister.Append(ply.Nickname);
                         playerLister.Append(", ");

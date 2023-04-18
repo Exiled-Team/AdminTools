@@ -89,15 +89,15 @@ namespace AdminTools
 				offset.scale = Vector3.one;
 				bench.gameObject.transform.localScale = size;
 				NetworkServer.Spawn(bench);
-				if (Plugin.BchHubs.TryGetValue(ply, out List<GameObject> objs))
+				if (Plugin.SpawnedBenchHubs.TryGetValue(ply, out List<GameObject> objs))
 				{
 					objs.Add(bench);
 				}
 				else
 				{
-					Plugin.BchHubs.Add(ply, new List<GameObject>());
-					Plugin.BchHubs[ply].Add(bench);
-					benchIndex = Plugin.BchHubs[ply].Count();
+					Plugin.SpawnedBenchHubs.Add(ply, new List<GameObject>());
+					Plugin.SpawnedBenchHubs[ply].Add(bench);
+					benchIndex = Plugin.SpawnedBenchHubs[ply].Count();
 				}
 
 				if (benchIndex != 1)
@@ -322,7 +322,7 @@ namespace AdminTools
 
 		public void OnWaitingForPlayers()
 		{
-			Plugin.IkHubs.Clear();
+			Plugin.InstantKillingHubs.Clear();
 			BreakDoorsList.Clear();
 		}
 

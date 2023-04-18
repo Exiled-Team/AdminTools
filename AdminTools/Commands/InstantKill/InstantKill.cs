@@ -47,7 +47,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    foreach (Player ply in Plugin.IkHubs.Keys)
+                    foreach (Player ply in Plugin.InstantKillingHubs.Keys)
                         if (ply.ReferenceHub.TryGetComponent(out InstantKillComponent ikCom))
                             UnityEngine.Object.Destroy(ikCom);
 
@@ -60,14 +60,14 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.IkHubs.Count != 0 ? "Players with instant killing on:\n" : "No players currently online have instant killing on");
-                    if (Plugin.IkHubs.Count == 0)
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.InstantKillingHubs.Count != 0 ? "Players with instant killing on:\n" : "No players currently online have instant killing on");
+                    if (Plugin.InstantKillingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
                         return true;
                     }
 
-                    foreach (Player ply in Plugin.IkHubs.Keys)
+                    foreach (Player ply in Plugin.InstantKillingHubs.Keys)
                     {
                         playerLister.Append(ply.Nickname);
                         playerLister.Append(", ");
@@ -93,7 +93,7 @@ namespace AdminTools.Commands.InstantKill
 
                     if (pl.ReferenceHub.TryGetComponent(out InstantKillComponent ikComponent))
                     {
-                        Plugin.IkHubs.Remove(pl);
+                        Plugin.InstantKillingHubs.Remove(pl);
                         UnityEngine.Object.Destroy(ikComponent);
                         response = $"Instant killing is off for {pl.Nickname} now";
                     }

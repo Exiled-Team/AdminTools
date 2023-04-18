@@ -14,13 +14,13 @@ namespace AdminTools
         {
             _player = Player.Get(gameObject);
             _handle = Timing.RunCoroutine(HealHealth(_player));
-            Plugin.RgnHubs.Add(_player, this);
+            Plugin.RegeneratingHubs.Add(_player, this);
         }
 
         public void OnDestroy()
         {
             Timing.KillCoroutines(_handle);
-            Plugin.RgnHubs.Remove(_player);
+            Plugin.RegeneratingHubs.Remove(_player);
         }
 
         public IEnumerator<float> HealHealth(Player ply)

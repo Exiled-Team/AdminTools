@@ -15,7 +15,7 @@ namespace AdminTools
             Player = Player.Get(gameObject);
             Handlers.Player.Hurting += RunWhenPlayerIsHurt;
             Handlers.Player.Left += OnLeave;
-            Plugin.IkHubs.Add(Player, this);
+            Plugin.InstantKillingHubs.Add(Player, this);
         }
 
         private void OnLeave(LeftEventArgs ev)
@@ -28,7 +28,7 @@ namespace AdminTools
         {
             Handlers.Player.Hurting -= RunWhenPlayerIsHurt;
             Handlers.Player.Left -= OnLeave;
-            Plugin.IkHubs.Remove(Player);
+            Plugin.InstantKillingHubs.Remove(Player);
         }
 
         public void RunWhenPlayerIsHurt(HurtingEventArgs ev)
