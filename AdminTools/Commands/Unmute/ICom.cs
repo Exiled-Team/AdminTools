@@ -7,11 +7,11 @@ namespace AdminTools.Commands.Unmute
 {
     public class Com : ICommand
     {
-        public string Command { get; } = "icom";
+        public string Command => "icom";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Removes intercom mutes everyone in the server";
+        public string Description => "Removes intercom mutes everyone in the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -28,7 +28,9 @@ namespace AdminTools.Commands.Unmute
             }
 
             foreach (var ply in Player.List)
+            {
                 ply.IsIntercomMuted = false;
+            }
 
             response = "Everyone from the server who is not a staff can speak in the intercom now";
             return true;

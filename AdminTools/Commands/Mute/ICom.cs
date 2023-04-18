@@ -7,11 +7,11 @@ namespace AdminTools.Commands.Mute
 {
     public class Com : ICommand
     {
-        public string Command { get; } = "icom";
+        public string Command => "icom";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Intercom mutes everyone in the server";
+        public string Description => "Intercom mutes everyone in the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -28,8 +28,10 @@ namespace AdminTools.Commands.Mute
             }
 
             foreach (var player in Player.List)
+            {
                 if (!player.ReferenceHub.serverRoles.RemoteAdmin)
                     player.IsIntercomMuted = true;
+            }
 
             response = "Everyone from the server who is not a staff has been intercom muted";
             return true;

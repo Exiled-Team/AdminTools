@@ -3,6 +3,7 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
 using System;
+using Exiled.API.Interfaces;
 
 namespace AdminTools.Commands.SpawnRagdoll
 {
@@ -12,19 +13,15 @@ namespace AdminTools.Commands.SpawnRagdoll
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class SpawnRagdoll : ParentCommand
+    public class SpawnRagdoll : ICommand
     {
-        public SpawnRagdoll() => LoadGeneratedCommands();
+        public string Command => "spawnragdoll";
 
-        public override string Command { get; } = "spawnragdoll";
+        public string[] Aliases { get; } = { "ragdoll", "rd", "rag", "doll" };
 
-        public override string[] Aliases { get; } = new string[] { "ragdoll", "rd", "rag", "doll" };
+        public string Description => "Spawns a specified number of ragdolls on a user";
 
-        public override string Description { get; } = "Spawns a specified number of ragdolls on a user";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.dolls"))
             {
@@ -44,7 +41,7 @@ namespace AdminTools.Commands.SpawnRagdoll
                 return false;
             }
 
-            if (!int.TryParse(arguments.At(2), out var amount))
+            if (!int.TryParse(arguments.At(2), out int amount))
             {
                 response = $"Invalid amount of ragdolls to spawn: {arguments.At(2)}";
                 return false;
@@ -54,7 +51,7 @@ namespace AdminTools.Commands.SpawnRagdoll
             {
                 case "*":
                 case "all":
-                    foreach (var player in Player.List)
+                    foreach (Player player in Player.List)
                     {
                         if (player.Role != RoleTypeId.Spectator) 
                             Timing.RunCoroutine(SpawnDolls(player, type, amount));
@@ -62,7 +59,7 @@ namespace AdminTools.Commands.SpawnRagdoll
 
                     break;
                 default:
-                    var ply = Player.Get(arguments.At(0));
+                    Player ply = Player.Get(arguments.At(0));
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -78,9 +75,9 @@ namespace AdminTools.Commands.SpawnRagdoll
             return true;
         }
 
-        private IEnumerator<float> SpawnDolls(Player player, RoleTypeId type, int amount)
+        private static IEnumerator<float> SpawnDolls(IPosition player, RoleTypeId type, int amount)
         {
-            for (var i = 0; i < amount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Ragdoll.CreateAndSpawn(type, "SCP-343", "End of the Universe", player.Position, default);
                 yield return Timing.WaitForSeconds(0.5f);

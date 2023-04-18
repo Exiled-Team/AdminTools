@@ -7,11 +7,11 @@ namespace AdminTools.Commands.Tags
 {
     public class Show : ICommand
     {
-        public string Command { get; } = "show";
+        public string Command => "show";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Shows staff tags on the server";
+        public string Description => "Shows staff tags on the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -27,9 +27,11 @@ namespace AdminTools.Commands.Tags
                 return false;
             }
 
-            foreach (var player in Player.List)
+            foreach (Player player in Player.List) 
+            {
                 if (player.ReferenceHub.serverRoles.RemoteAdmin && !player.ReferenceHub.serverRoles.RaEverywhere)
                     player.BadgeHidden = false;
+            }
 
             response = "All staff tags are now visible";
             return true;

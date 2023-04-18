@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdminTools.Extensions;
 using CommandSystem;
 using Exiled.API.Features;
 using NorthwoodLib.Pools;
@@ -11,21 +12,18 @@ namespace AdminTools.Commands.Broadcast
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Message : ParentCommand
+    public class Message : ICommand
     {
-        public Message() => LoadGeneratedCommands();
+        public string Command => "atbroadcast";
 
-        public override string Command { get; } = "atbroadcast";
+        public string[] Aliases { get; } = { "atbc" };
 
-        public override string[] Aliases { get; } = new string[] { "atbc" };
+        public string Description => "Broadcasts a message to either a user, a group, a role, all staff, or everyone";
 
-        public override string Description { get; } = "Broadcasts a message to either a user, a group, a role, all staff, or everyone";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "broadcast", PlayerPermissions.Broadcasting, "AdminTools", false))
+            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "broadcast", 
+                    PlayerPermissions.Broadcasting, "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -45,6 +43,9 @@ namespace AdminTools.Commands.Broadcast
                     "\nbroadcast clearall";
                 return false;
             }
+
+            var formatArguments3 = arguments.FormatArguments(3);
+            ushort duration;
             
             switch (arguments.At(0))
             {
@@ -62,13 +63,13 @@ namespace AdminTools.Commands.Broadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out var time) && time <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out duration) && duration <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    ply.Broadcast(time, EventHandlers.FormatArguments(arguments, 3));
+                    ply.Broadcast(duration, formatArguments3);
                     response = $"Message sent to {ply.Nickname}";
                     return true;
                 case "users":
@@ -80,6 +81,7 @@ namespace AdminTools.Commands.Broadcast
 
                     var users = arguments.At(1).Split(',');
                     List<Player> plyList = new();
+                    
                     foreach (var s in users)
                     {
                         if (int.TryParse(s, out var id) && Player.Get(id) != null)
@@ -95,9 +97,8 @@ namespace AdminTools.Commands.Broadcast
                     }
 
                     foreach (var p in plyList)
-                        p.Broadcast(tme, EventHandlers.FormatArguments(arguments, 3));
-
-
+                        p.Broadcast(tme, formatArguments3);
+                    
                     var builder = StringBuilderPool.Shared.Rent("Message sent to players: ");
                     foreach (var p in plyList)
                     {
@@ -106,8 +107,10 @@ namespace AdminTools.Commands.Broadcast
                         builder.Append("\"");
                         builder.Append(" ");
                     }
+                    
                     var message = builder.ToString();
                     StringBuilderPool.Shared.Return(builder);
+                    
                     response = message;
                     return true;
                 case "group":
@@ -133,7 +136,7 @@ namespace AdminTools.Commands.Broadcast
                     foreach (var player in Player.List)
                     {
                         if (player.Group.BadgeText.Equals(broadcastGroup.BadgeText))
-                            player.Broadcast(tim, EventHandlers.FormatArguments(arguments, 3));
+                            player.Broadcast(tim, formatArguments3);
                     }
 
                     response = $"Message sent to all members of \"{arguments.At(1)}\"";
@@ -147,6 +150,7 @@ namespace AdminTools.Commands.Broadcast
 
                     var groups = arguments.At(1).Split(',');
                     List<string> groupList = new();
+                    
                     foreach (var s in groups)
                     {
                         var broadGroup = ServerStatic.PermissionsHandler.GetGroup(s);
@@ -163,7 +167,7 @@ namespace AdminTools.Commands.Broadcast
 
                     foreach (var p in Player.List)
                         if (groupList.Contains(p.Group.BadgeText))
-                            p.Broadcast(e, EventHandlers.FormatArguments(arguments, 3));
+                            p.Broadcast(e, formatArguments3);
 
 
                     var bdr = StringBuilderPool.Shared.Rent("Message sent to groups with badge text: ");
@@ -174,8 +178,10 @@ namespace AdminTools.Commands.Broadcast
                         bdr.Append("\"");
                         bdr.Append(" ");
                     }
+                    
                     var ms = bdr.ToString();
                     StringBuilderPool.Shared.Return(bdr);
+                    
                     response = ms;
                     return true;
                 case "role":
@@ -191,7 +197,7 @@ namespace AdminTools.Commands.Broadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out var te) && te <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out duration))
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
@@ -200,7 +206,7 @@ namespace AdminTools.Commands.Broadcast
                     foreach (var player in Player.List)
                     {
                         if (player.Role == role)
-                            player.Broadcast(te, EventHandlers.FormatArguments(arguments, 3));
+                            player.Broadcast(duration, formatArguments3);
                     }
 
                     response = $"Message sent to all members of \"{arguments.At(1)}\"";
@@ -214,21 +220,22 @@ namespace AdminTools.Commands.Broadcast
 
                     var roles = arguments.At(1).Split(',');
                     List<RoleTypeId> roleList = new();
+                    
                     foreach (var s in roles)
                     {
                         if (Enum.TryParse(s, true, out RoleTypeId r))
                             roleList.Add(r);
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out var ti) && ti <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out duration))
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
                     foreach (var p in Player.List)
-                        if (roleList.Contains(p.Role) && p.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
-                            p.Broadcast(ti, EventHandlers.FormatArguments(arguments, 3));
+                        if (roleList.Contains(p.Role) && p.IPAddress != "127.0.0.1")
+                            p.Broadcast(duration, formatArguments3);
 
                     var build = StringBuilderPool.Shared.Rent("Message sent to roles: ");
                     foreach (var ro in roleList)
@@ -238,9 +245,11 @@ namespace AdminTools.Commands.Broadcast
                         build.Append("\"");
                         build.Append(" ");
                     }
+                    
                     var msg = build.ToString();
                     StringBuilderPool.Shared.Return(build);
                     response = msg;
+                    
                     return true;
                 case "random":
                 case "someone":
@@ -250,15 +259,17 @@ namespace AdminTools.Commands.Broadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(1), out var me) && me <= 0)
+                    if (!ushort.TryParse(arguments.At(1), out duration))
                     {
                         response = $"Invalid value for duration: {arguments.At(1)}";
                         return false;
                     }
 
                     var plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
-                    if (plyr.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
-                        plyr.Broadcast(me, EventHandlers.FormatArguments(arguments, 2));
+                    
+                    if (plyr.IPAddress != "127.0.0.1")
+                        plyr.Broadcast(duration, formatArguments3);
+                    
                     response = $"Message sent to {plyr.Nickname}";
                     return true;
                 case "staff":
@@ -269,7 +280,7 @@ namespace AdminTools.Commands.Broadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(1), out var t))
+                    if (!ushort.TryParse(arguments.At(1), out duration))
                     {
                         response = $"Invalid value for broadcast time: {arguments.At(1)}";
                         return false;
@@ -278,7 +289,7 @@ namespace AdminTools.Commands.Broadcast
                     foreach (var pl in Player.List)
                     {
                         if (pl.ReferenceHub.serverRoles.RemoteAdmin)
-                            pl.Broadcast(t, EventHandlers.FormatArguments(arguments, 2) + $" - {((CommandSender)sender).Nickname}", global::Broadcast.BroadcastFlags.AdminChat);
+                            pl.Broadcast(duration, arguments.FormatArguments(2) + $" - {((CommandSender)sender).Nickname}", global::Broadcast.BroadcastFlags.AdminChat);
                     }
 
                     response = $"Message sent to all currently online staff";
@@ -300,12 +311,13 @@ namespace AdminTools.Commands.Broadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(0), out var tm))
+                    if (!ushort.TryParse(arguments.At(0), out duration))
                     {
                         response = $"Invalid value for broadcast time: {arguments.At(0)}";
                         return false;
                     }
-                    Map.Broadcast(tm, EventHandlers.FormatArguments(arguments, 1));
+                    
+                    Map.Broadcast(duration, arguments.FormatArguments(1));
                     break;
             }
             response = "";

@@ -10,13 +10,13 @@ namespace AdminTools.Commands.Mute
     {
         public Mute() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "pmute";
+        public override string Command => "pmute";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Mutes everyone from speaking or by intercom in the server";
+        public override string Description => "Mutes everyone from speaking or by intercom in the server";
 
-        public override void LoadGeneratedCommands()
+        public sealed override void LoadGeneratedCommands()
         {
             RegisterCommand(new All());
             RegisterCommand(new Com());

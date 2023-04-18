@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using AdminTools.API;
+using AdminTools.Commands.BreakDoors;
 using AdminTools.Extensions;
 using Exiled.API.Features;
 using MEC;
@@ -134,7 +135,7 @@ namespace AdminTools
 
         internal void OnPlayerInteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (ev.Player.HasSessionVariable("AT-BreakDoors"))
+            if (ev.Player.HasSessionVariable(BreakDoors.BreakDoorsSessionVariableName))
                 ev.Door.BreakDoor();
 
             if (ev.Player.HasSessionVariable("AT-PryGates"))

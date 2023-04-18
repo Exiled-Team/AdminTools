@@ -10,11 +10,11 @@ namespace AdminTools.Commands.Inventory
     {
         public Inventory() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "inventory";
+        public override string Command => "inventory";
 
-        public override string[] Aliases { get; } = new string[] { "inv" };
+        public override string[] Aliases { get; } = { "inv" };
 
-        public override string Description { get; } = "Manages player inventories";
+        public override string Description => "Manages player inventories";
 
         public override void LoadGeneratedCommands()
         {

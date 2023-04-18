@@ -3,24 +3,24 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
+using System.Linq;
+using AdminTools.Extensions;
 
 namespace AdminTools.Commands.PryGates
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class PryGates : ParentCommand
+    public class PryGates : ICommand
     {
-        public PryGates() => LoadGeneratedCommands();
+        public const string PryGatesSessionVariableName = "AT-PryGates";
+        
+        public string Command => "prygate";
 
-        public override string Command { get; } = "prygate";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Gives the ability to pry gates to players, clear the ability from players, and shows who has the ability";
 
-        public override string Description { get; } = "Gives the ability to pry gates to players, clear the ability from players, and shows who has the ability";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.prygate"))
             {
@@ -46,7 +46,12 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    Plugin.PryGateHubs.Clear();
+                    foreach (var player in Player.List)
+                    {
+                        if (player.HasSessionVariable(PryGatesSessionVariableName))
+                            player.RemoveSessionVariable(PryGatesSessionVariableName);
+                    }
+                    
                     response = "The ability to pry gates is cleared from all players now";
                     return true;
                 case "list":
@@ -56,10 +61,12 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    var playerLister = StringBuilderPool.Shared.Rent(Plugin.PryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
-                    if (Plugin.PryGateHubs.Count > 0)
+                    var pryGateHubs = Player.Get(p => p.HasSessionVariable(PryGatesSessionVariableName)).ToList();
+
+                    var playerLister = StringBuilderPool.Shared.Rent(pryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
+                    if (pryGateHubs.Count > 0)
                     {
-                        foreach (Player ply in Plugin.PryGateHubs)
+                        foreach (var ply in pryGateHubs)
                             playerLister.Append(ply.Nickname + ", ");
 
                         var length = playerLister.ToString().Length;
@@ -87,9 +94,9 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    if (Plugin.PryGateHubs.Contains(plyr))
+                    if (plyr.HasSessionVariable(PryGatesSessionVariableName))
                     {
-                        Plugin.PryGateHubs.Remove(plyr);
+                        plyr.RemoveSessionVariable(PryGatesSessionVariableName);
                         response = $"Player \"{plyr.Nickname}\" cannot pry gates open now";
                     }
                     else
@@ -105,8 +112,8 @@ namespace AdminTools.Commands.PryGates
 
                     foreach (var ply in Player.List)
                     {
-                        if (!Plugin.PryGateHubs.Contains(ply))
-                            Plugin.PryGateHubs.Add(ply);
+                        if (!ply.HasSessionVariable(PryGatesSessionVariableName))
+                            ply.AddBooleanSessionVariable(PryGatesSessionVariableName);
                     }
 
                     response = "The ability to pry gates open is on for all players now";
@@ -125,18 +132,18 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    if (!Plugin.PryGateHubs.Contains(pl))
+                    
+                    if (!pl.HasSessionVariable(PryGatesSessionVariableName)) 
                     {
-                        Plugin.PryGateHubs.Add(pl);
+                        pl.AddBooleanSessionVariable(PryGatesSessionVariableName);
                         response = $"Player \"{pl.Nickname}\" can now pry gates open";
                         return true;
                     }
-                    else
-                    {
-                        Plugin.PryGateHubs.Remove(pl);
-                        response = $"Player \"{pl.Nickname}\" cannot pry gates open now";
-                        return true;
-                    }
+
+                    pl.RemoveSessionVariable(PryGatesSessionVariableName);
+                    
+                    response = $"Player \"{pl.Nickname}\" cannot pry gates open now";
+                    return true;
             }
         }
     }

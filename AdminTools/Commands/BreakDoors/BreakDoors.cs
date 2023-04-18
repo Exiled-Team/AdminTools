@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using AdminTools.Extensions;
 
 namespace AdminTools.Commands.BreakDoors
 {
@@ -9,19 +10,17 @@ namespace AdminTools.Commands.BreakDoors
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class BreakDoors : ParentCommand
+    public class BreakDoors : ICommand
     {
-        public BreakDoors() => LoadGeneratedCommands();
+        public const string BreakDoorsSessionVariableName = "AT-BreakDoors";
+        
+        public string Command => "breakdoors";
 
-        public override string Command { get; } = "breakdoors";
+        public string[] Aliases { get; } = { "bd" };
 
-        public override string[] Aliases { get; } = new string[] { "bd" };
+        public string Description => "Manage breaking door/gate properties for players";
 
-        public override string Description { get; } = "Manage breaking door/gate properties for players";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.bd"))
             {
@@ -30,6 +29,7 @@ namespace AdminTools.Commands.BreakDoors
             }
 
             List<Player> players = new();
+            
             switch (arguments.At(0))
             {
                 case "*":
@@ -40,6 +40,7 @@ namespace AdminTools.Commands.BreakDoors
                     break;
                 default:
                     var ply = Player.Get(arguments.At(0));
+                    
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -52,10 +53,15 @@ namespace AdminTools.Commands.BreakDoors
             }
 
             foreach (var player in players)
-                if (EventHandlers.BreakDoorsList.Contains(player))
-                    EventHandlers.BreakDoorsList.Remove(player);
-                else
-                    EventHandlers.BreakDoorsList.Add(player);
+            {
+                if (player.HasSessionVariable(BreakDoorsSessionVariableName))
+                {
+                    player.SessionVariables.Remove(BreakDoorsSessionVariableName);
+                    continue;
+                }
+                
+                player.AddBooleanSessionVariable(BreakDoorsSessionVariableName);
+            }
 
             response =
                 $"{players.Count} players have been updated. (Players with BD were removed, those without it were added)";

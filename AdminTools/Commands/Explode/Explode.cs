@@ -10,19 +10,15 @@ namespace AdminTools.Commands.Explode
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Explode : ParentCommand
+    public class Explode : ICommand
     {
-        public Explode() => LoadGeneratedCommands();
+        public string Command => "expl";
 
-        public override string Command { get; } = "expl";
+        public string[] Aliases { get; } = { "boom" };
 
-        public override string[] Aliases { get; } = new string[] { "boom" };
+        public string Description => "Explodes a specified user or everyone instantly";
 
-        public override string Description { get; } = "Explodes a specified user or everyone instantly";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.explode"))
             {
@@ -56,6 +52,7 @@ namespace AdminTools.Commands.Explode
                         grenade.FuseTime = 0.5f;
                         grenade.SpawnActive(ply.Position, ply);
                     }
+                    
                     response = "Everyone exploded, Hubert cannot believe you have done this";
                     return true;
                 default:
@@ -82,6 +79,7 @@ namespace AdminTools.Commands.Explode
                     var gr = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
                     gr.FuseTime = 0.5f;
                     gr.SpawnActive(pl.Position, pl);
+                    
                     response = $"Player \"{pl.Nickname}\" game ended (exploded)";
                     return true;
             }

@@ -7,11 +7,11 @@ namespace AdminTools.Commands.Mute
 {
     public class All : ICommand
     {
-        public string Command { get; } = "all";
+        public string Command => "all";
 
-        public string[] Aliases { get; } = new string[] { "*" };
+        public string[] Aliases { get; } = { "*" };
 
-        public string Description { get; } = "Mutes everyone from speaking at all in the server";
+        public string Description => "Mutes everyone from speaking at all in the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -28,8 +28,10 @@ namespace AdminTools.Commands.Mute
             }
 
             foreach (var player in Player.List)
+            {
                 if (!player.ReferenceHub.serverRoles.RemoteAdmin)
                     player.IsMuted = true;
+            }
 
             response = "Everyone from the server who is not a staff has been muted completely";
             return true;

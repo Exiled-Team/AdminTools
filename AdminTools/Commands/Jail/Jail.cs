@@ -3,24 +3,21 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
 using System;
+using System.Linq;
 
 namespace AdminTools.Commands.Jail
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Jail : ParentCommand
+    public class Jail : ICommand
     {
-        public Jail() => LoadGeneratedCommands();
+        public string Command => "jail";
 
-        public override string Command { get; } = "jail";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Jails or unjails a user";
 
-        public override string Description { get; } = "Jails or unjails a user";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.jail"))
             {
@@ -41,11 +38,11 @@ namespace AdminTools.Commands.Jail
                 return false;
             }
 
-            if (Plugin.JailedPlayers.Any(j => j.UserId == ply.UserId))
+            if (API.Jail.JailedPlayers.Any(j => j.UserId == ply.UserId))
             {
                 try
                 {
-                    Timing.RunCoroutine(EventHandlers.DoUnJail(ply));
+                    Timing.RunCoroutine(API.Jail.UnjailPlayer(ply));
                     response = $"Player {ply.Nickname} has been unjailed now";
                 }
                 catch (Exception e)
@@ -57,7 +54,7 @@ namespace AdminTools.Commands.Jail
             }
             else
             {
-                Timing.RunCoroutine(EventHandlers.DoJail(ply));
+                Timing.RunCoroutine(API.Jail.JailPlayer(ply));
                 response = $"Player {ply.Nickname} has been jailed now";
             }
             return true;

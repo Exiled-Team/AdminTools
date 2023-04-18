@@ -11,11 +11,11 @@ namespace AdminTools.Commands.Hp
     {
         public Hp() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "athp";
+        public override string Command => "athp";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Sets a user or users HP to a specified value";
+        public override string Description => "Sets a user or users HP to a specified value";
 
         public override void LoadGeneratedCommands() { }
 

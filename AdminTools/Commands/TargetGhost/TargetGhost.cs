@@ -10,21 +10,17 @@ namespace AdminTools.Commands.TargetGhost
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class TargetGhost : ParentCommand
+    public class TargetGhost : ICommand
     {
         public const string HelpStr = "Usage: targetghost (player id / name) (player id / name) ...";
+        
+        public string Command => "targetghost";
 
-        public TargetGhost() => LoadGeneratedCommands();
+        public string[] Aliases { get; } = { "tg" };
 
-        public override string Command { get; } = "targetghost";
+        public string Description => "Sets a user to be invisible to another user";
 
-        public override string[] Aliases { get; } = new string[] { "tg" };
-
-        public override string Description { get; } = "Sets a user to be invisible to another user";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.targetghost"))
             {
@@ -38,15 +34,15 @@ namespace AdminTools.Commands.TargetGhost
                 return false;
             }
 
-            if (!GetPlayer(arguments.At(0), out var sourcePlayer))
+            if (!GetPlayer(arguments.At(0), out Player sourcePlayer))
             {
                 response = $"Invalid source player: {arguments.At(0)}";
                 return false;
             }
 
-            foreach (var arg in arguments.Skip(1))
+            foreach (string arg in arguments.Skip(1))
             {
-                if (!GetPlayer(arg, out var victim))
+                if (!GetPlayer(arg, out Player victim))
                     continue;
 
                 if (sourcePlayer.Role.Is(out FpcRole role))
@@ -59,7 +55,7 @@ namespace AdminTools.Commands.TargetGhost
             return true;
         }
 
-        private bool GetPlayer(string str, out Player player)
+        private static bool GetPlayer(string str, out Player player)
         {
             player = Player.Get(str);
             return player != null;

@@ -12,19 +12,15 @@ namespace AdminTools.Commands.Grenade
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Grenade : ParentCommand
+    public class Grenade : ICommand
     {
-        public Grenade() => LoadGeneratedCommands();
+        public string Command => "grenade";
 
-        public override string Command { get; } = "grenade";
+        public string[] Aliases { get; } = { "gn" };
 
-        public override string[] Aliases { get; } = new string[] { "gn" };
-
-        public override string Description { get; } = "Spawns a frag/flash/scp018 grenade on a user or users";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public string Description => "Spawns a frag/flash/scp018 grenade on a user or users";
+        
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.grenade"))
             {
@@ -80,7 +76,7 @@ namespace AdminTools.Commands.Grenade
             return true;
         }
 
-        private void SpawnGrenade(Player player, ProjectileType type, float fuseTime)
+        private static void SpawnGrenade(Player player, ProjectileType type, float fuseTime)
         {
             switch (type)
             {

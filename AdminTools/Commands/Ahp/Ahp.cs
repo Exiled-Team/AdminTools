@@ -2,28 +2,24 @@
 using Exiled.API.Features;
 using RemoteAdmin;
 using System;
+using System.Collections.Generic;
 
 namespace AdminTools.Commands.Ahp
 {
-    using System.Collections.Generic;
-
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Ahp : ParentCommand
+    public class Ahp : ICommand
     {
-        public Ahp() => LoadGeneratedCommands();
+        public string Command => "ahp";
 
-        public override string Command { get; } = "ahp";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Sets a user or users Artificial HP to a specified value";
 
-        public override string Description { get; } = "Sets a user or users Artificial HP to a specified value";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "ahp", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "ahp", 
+                    PlayerPermissions.PlayersManagement, "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -47,6 +43,7 @@ namespace AdminTools.Commands.Ahp
                 case "all":
                     foreach (var ply in Player.List)
                         players.Add(ply);
+                    
                     break;
                 default:
                     var player = Player.Get(arguments.At(0));

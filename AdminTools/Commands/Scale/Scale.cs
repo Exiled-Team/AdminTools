@@ -2,24 +2,21 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using AdminTools.Extensions;
 
 namespace AdminTools.Commands.Scale
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Scale : ParentCommand
+    public class Scale : ICommand
     {
-        public Scale() => LoadGeneratedCommands();
+        public string Command => "scale";
 
-        public override string Command { get; } = "scale";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Scales all users or a user by a specified value";
 
-        public override string Description { get; } = "Scales all users or a user by a specified value";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.size"))
             {
@@ -43,7 +40,7 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
                     foreach (var plyr in Player.List)
-                        EventHandlers.SetPlayerScale(plyr, 1);
+                        plyr.SetPlayerScale(1);
 
                     response = $"Everyone's scale has been reset";
                     return true;
@@ -62,7 +59,7 @@ namespace AdminTools.Commands.Scale
                     }
 
                     foreach (var ply in Player.List)
-                        EventHandlers.SetPlayerScale(ply, value);
+                        ply.SetPlayerScale(value);
 
                     response = $"Everyone's scale has been set to {value}";
                     return true;
@@ -86,7 +83,7 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
 
-                    EventHandlers.SetPlayerScale(pl, val);
+                    pl.SetPlayerScale(val);
                     response = $"Player {pl.Nickname}'s scale has been set to {val}";
                     return true;
             }

@@ -1,26 +1,22 @@
 ﻿using CommandSystem;
 using Exiled.Permissions.Extensions;
 using System;
+using AdminTools.Extensions;
+using Exiled.API.Features;
 
 namespace AdminTools.Commands.Kick
 {
-    using Exiled.API.Features;
-
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Kick : ParentCommand
+    public class Kick : ICommand
     {
-        public Kick() => LoadGeneratedCommands();
+        public string Command => "kick";
 
-        public override string Command { get; } = "kick";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Kicks a player from the game with a custom reason";
 
-        public override string Description { get; } = "Kicks a player from the game with a custom reason";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.kick"))
             {
@@ -47,8 +43,10 @@ namespace AdminTools.Commands.Kick
                 return false;
             }
 
-            ply.Kick(EventHandlers.FormatArguments(arguments, 1));
-            response = $"Player {ply.Nickname} has been kicked for \"{EventHandlers.FormatArguments(arguments, 1)}\"";
+            var kickReason = arguments.FormatArguments(1);
+            ply.Kick(kickReason);
+            
+            response = $"Player {ply.Nickname} has been kicked for \"{kickReason}\"";
             return true;
         }
     }

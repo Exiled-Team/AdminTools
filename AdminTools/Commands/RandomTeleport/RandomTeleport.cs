@@ -13,11 +13,11 @@ namespace AdminTools.Commands.RandomTeleport
     {
         public RandomTeleport() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "randomtp";
+        public override string Command => "randomtp";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Randomly teleports a user or all users to a random room in the facility";
+        public override string Description => "Randomly teleports a user or all users to a random room in the facility";
 
         public override void LoadGeneratedCommands() { }
 

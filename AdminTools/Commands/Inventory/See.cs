@@ -8,11 +8,11 @@ namespace AdminTools.Commands.Inventory
 {
     public class See : ICommand
     {
-        public string Command { get; } = "see";
+        public string Command => "see";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Sees the inventory items a user has";
+        public string Description => "Sees the inventory items a user has";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

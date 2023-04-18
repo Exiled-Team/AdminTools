@@ -11,19 +11,16 @@ namespace AdminTools.Commands.DropSize
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class DropSize : ParentCommand
+    public class DropSize : ICommand
     {
-        public DropSize() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "dropsize";
+        public string Command => "dropsize";
 
-        public override string[] Aliases { get; } = new string[] { "drops" };
+        public string[] Aliases { get; } = { "drops" };
 
-        public override string Description { get; } = "Drops a selected amount of a selected item on a user or all users";
+        public string Description => "Drops a selected amount of a selected item on a user or all users";
 
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.items"))
             {

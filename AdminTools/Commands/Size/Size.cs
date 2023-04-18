@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using AdminTools.Extensions;
 
 namespace AdminTools.Commands.Size
 {
@@ -13,11 +14,11 @@ namespace AdminTools.Commands.Size
     {
         public Size() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "size";
+        public override string Command => "size";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Sets the size of all users or a user";
+        public override string Description => "Sets the size of all users or a user";
 
         public override void LoadGeneratedCommands() { }
 
@@ -44,7 +45,7 @@ namespace AdminTools.Commands.Size
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
 
-                        EventHandlers.SetPlayerScale(ply, 1, 1, 1);
+                        ply.SetPlayerScale(1, 1, 1);
                     }
 
                     response = $"Everyone's size has been reset";
@@ -80,7 +81,7 @@ namespace AdminTools.Commands.Size
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
 
-                        EventHandlers.SetPlayerScale(ply, xval, yval, zval);
+                        ply.SetPlayerScale(xval, yval, zval);
                     }
 
                     response = $"Everyone's scale has been set to {xval} {yval} {zval}";
@@ -117,7 +118,7 @@ namespace AdminTools.Commands.Size
                         return false;
                     }
 
-                    EventHandlers.SetPlayerScale(pl, x, y, z);
+                    pl.SetPlayerScale(x, y, z);
                     response = $"Player {pl.Nickname}'s scale has been set to {x} {y} {z}";
                     return true;
             }

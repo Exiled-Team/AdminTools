@@ -2,26 +2,22 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using PlayerRoles;
 
 namespace AdminTools.Commands.Kill
 {
-    using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Kill : ParentCommand
+    public class Kill : ICommand
     {
-        public Kill() => LoadGeneratedCommands();
+        public string Command => "atkill";
 
-        public override string Command { get; } = "atkill";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Kills everyone or a user instantly";
 
-        public override string Description { get; } = "Kills everyone or a user instantly";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.kill"))
             {
@@ -51,12 +47,14 @@ namespace AdminTools.Commands.Kill
                     return true;
                 default:
                     var pl = Player.Get(arguments.At(0));
+                    
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
-                    else if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
+                    
+                    if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
                     {
                         response = $"Player {pl.Nickname} is not a valid class to kill";
                         return false;
@@ -64,6 +62,7 @@ namespace AdminTools.Commands.Kill
 
                     pl.Kill("Killed by admin.");
                     response = $"Player {pl.Nickname} has been game ended (killed) now";
+                    
                     return true;
             }
         }

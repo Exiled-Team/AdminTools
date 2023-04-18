@@ -6,13 +6,13 @@ namespace AdminTools.Commands.Cleanup
 {
     using Exiled.API.Features;
 
-    class Ragdolls : ICommand
+    public class Ragdolls : ICommand
     {
-        public string Command { get; } = "ragdolls";
+        public string Command => "ragdolls";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Cleans up ragdolls on the server";
+        public string Description => "Cleans up ragdolls on the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

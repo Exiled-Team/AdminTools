@@ -13,11 +13,11 @@ namespace AdminTools.Commands.Id
     {
         public ID() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "atid";
+        public override string Command => "atid";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Gets the player ID of a selected user";
+        public override string Description => "Gets the player ID of a selected user";
 
         public override void LoadGeneratedCommands() { }
 

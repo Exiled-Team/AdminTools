@@ -6,13 +6,13 @@ namespace AdminTools.Commands.Cleanup
 {
     using Exiled.API.Features.Pickups;
 
-    class Items : ICommand
+    public class Items : ICommand
     {
-        public string Command { get; } = "items";
+        public string Command => "items";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases => null;
 
-        public string Description { get; } = "Cleans up items dropped on the ground from the server";
+        public string Description => "Cleans up items dropped on the ground from the server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

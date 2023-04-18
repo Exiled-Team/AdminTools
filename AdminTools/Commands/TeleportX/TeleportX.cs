@@ -9,19 +9,15 @@ namespace AdminTools.Commands.TeleportX
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class TeleportX : ParentCommand
+    public class TeleportX : ICommand
     {
-        public TeleportX() => LoadGeneratedCommands();
+        public string Command => "teleportx";
 
-        public override string Command { get; } = "teleportx";
+        public string[] Aliases { get; } = { "tpx" };
 
-        public override string[] Aliases { get; } = new string[] { "tpx" };
+        public string Description => "Teleports all users or a user to another user";
 
-        public override string Description { get; } = "Teleports all users or a user to another user";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.tp"))
             {
@@ -39,7 +35,7 @@ namespace AdminTools.Commands.TeleportX
             {
                 case "*":
                 case "all":
-                    var ply = Player.Get(arguments.At(1));
+                    Player ply = Player.Get(arguments.At(1));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -47,7 +43,7 @@ namespace AdminTools.Commands.TeleportX
                     }
 
 
-                    foreach (var plyr in Player.List)
+                    foreach (Player plyr in Player.List)
                     {
                         if (plyr.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -58,14 +54,14 @@ namespace AdminTools.Commands.TeleportX
                     response = $"Everyone has been teleported to Player {ply.Nickname}";
                     return true;
                 default:
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    var plr = Player.Get(arguments.At(1));
+                    Player plr = Player.Get(arguments.At(1));
                     if (plr == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";

@@ -2,26 +2,21 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using CustomPlayerEffects;
 
 namespace AdminTools.Commands.Ghost
 {
-    using CustomPlayerEffects;
-
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Ghost : ParentCommand
+    public class Ghost : ICommand
     {
-        public Ghost() => LoadGeneratedCommands();
+        public string Command => "ghost";
 
-        public override string Command { get; } = "ghost";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Sets everyone or a user to be invisible";
 
-        public override string Description { get; } = "Sets everyone or a user to be invisible";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.ghost"))
             {
@@ -69,6 +64,7 @@ namespace AdminTools.Commands.Ghost
                         ply.DisableEffect<Invisible>();
                         response = $"Player {ply.Nickname} is no longer invisible";
                     }
+                    
                     return true;
             }
         }

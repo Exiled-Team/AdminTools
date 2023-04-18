@@ -10,13 +10,13 @@ namespace AdminTools.Commands.Cleanup
     {
         public Cleanup() => LoadGeneratedCommands();
 
-        public override string Command { get; } = "cleanup";
+        public override string Command => "cleanup";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public override string[] Aliases => null;
 
-        public override string Description { get; } = "Cleans up items and ragdolls from the server";
+        public override string Description => "Cleans up items and ragdolls from the server";
 
-        public override void LoadGeneratedCommands() 
+        public sealed override void LoadGeneratedCommands() 
         {
             RegisterCommand(new Items());
             RegisterCommand(new Ragdolls());

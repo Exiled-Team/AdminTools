@@ -9,24 +9,21 @@ using RemoteAdmin;
 namespace AdminTools.Commands.Tutorial
 {
     using PlayerRoles;
+    using UnityEngine;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Tutorial : ParentCommand
+    public class Tutorial : ICommand
     {
-        Player _ply;
+        private static Player _ply;
+        
+        public string Command => "tutorial";
 
-        public Tutorial() => LoadGeneratedCommands();
+        public string[] Aliases { get; } = { "tut" };
 
-        public override string Command { get; } = "tutorial";
+        public string Description => "Sets a player as a tutorial conveniently";
 
-        public override string[] Aliases { get; } = new string[] { "tut" };
-
-        public override string Description { get; } = "Sets a player as a tutorial conveniently";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.tut"))
             {
@@ -40,7 +37,7 @@ namespace AdminTools.Commands.Tutorial
                 case 1:
                     if (arguments.Count == 0)
                     {
-                        if (!(sender is PlayerCommandSender plysend))
+                        if (sender is not PlayerCommandSender plysend)
                         {
                             response = "You must be in-game to run this command if you specify yourself!";
                             return false;
@@ -50,7 +47,7 @@ namespace AdminTools.Commands.Tutorial
                     }
                     else
                     {
-                        if (String.IsNullOrWhiteSpace(arguments.At(0)))
+                        if (string.IsNullOrWhiteSpace(arguments.At(0)))
                         {
                             response = "Please do not try to put a space as tutorial";
                             return false;
@@ -72,15 +69,17 @@ namespace AdminTools.Commands.Tutorial
             }
         }
 
-        private IEnumerator<float> SetClassAsTutorial(Player ply) 
+        private static IEnumerator<float> SetClassAsTutorial(Player ply) 
         {
-            var oldPos = ply.Position;
+            Vector3 oldPos = ply.Position;
             ply.Role.Set(RoleTypeId.Tutorial);
+            
             yield return Timing.WaitForSeconds(0.5f);
+            
             ply.Position = oldPos;
         }
 
-        private void DoTutorialFunction(Player ply, out string response)
+        private static void DoTutorialFunction(Player ply, out string response)
         {
             if (ply.Role != RoleTypeId.Tutorial)
             {

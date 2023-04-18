@@ -9,19 +9,15 @@ namespace AdminTools.Commands.DropItem
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class DropItem : ParentCommand
+    public class DropItem : ICommand
     {
-        public DropItem() => LoadGeneratedCommands();
+        public string Command => "dropitem";
 
-        public override string Command { get; } = "dropitem";
+        public string[] Aliases { get; } = { "drop", "dropi" };
 
-        public override string[] Aliases { get; } = new string[] { "drop", "dropi" };
+        public string Description => "Drops a specified amount of a specified item on either all users or a user";
 
-        public override string Description { get; } = "Drops a specified amount of a specified item on either all users or a user";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.items"))
             {
@@ -58,8 +54,10 @@ namespace AdminTools.Commands.DropItem
                     }
 
                     foreach (var ply in Player.List)
+                    {
                         for (var i = 0; i < amount; i++)
                             Pickup.CreateAndSpawn(item, ply.Position, default, ply);
+                    }
 
                     response = $"{amount} of {item.ToString()} was spawned on everyone (\"Hehexd\" - Galaxy119)";
                     return true;
@@ -91,6 +89,7 @@ namespace AdminTools.Commands.DropItem
 
                     for (var i = 0; i < am; i++)
                         Pickup.CreateAndSpawn(it, pl.Position, default, pl);
+                    
                     response = $"{am} of {it.ToString()} was spawned on {pl.Nickname} (\"Hehexd\" - Galaxy119)";
                     return true;
             }

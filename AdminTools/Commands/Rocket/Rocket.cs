@@ -10,19 +10,15 @@ namespace AdminTools.Commands.Rocket
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Rocket : ParentCommand
+    public class Rocket : ICommand
     {
-        public Rocket() => LoadGeneratedCommands();
+        public string Command => "rocket";
 
-        public override string Command { get; } = "rocket";
+        public string[] Aliases => null;
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Sends players high in the sky and explodes them";
 
-        public override string Description { get; } = "Sends players high in the sky and explodes them";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.rocket"))
             {
@@ -47,7 +43,7 @@ namespace AdminTools.Commands.Rocket
                     }
 
                     foreach (var ply in Player.List)
-                        Timing.RunCoroutine(EventHandlers.DoRocket(ply, speed));
+                        Timing.RunCoroutine(API.Rocket.DoRocket(ply, speed));
 
                     response = "Everyone has been rocketed into the sky (We're going on a trip, in our favorite rocketship)";
                     return true;
@@ -70,7 +66,8 @@ namespace AdminTools.Commands.Rocket
                         return false;
                     }
 
-                    Timing.RunCoroutine(EventHandlers.DoRocket(pl, spd));
+                    Timing.RunCoroutine(API.Rocket.DoRocket(pl, spd));
+                    
                     response = $"Player {pl.Nickname} has been rocketed into the sky (We're going on a trip, in our favorite rocketship)";
                     return true;
             }

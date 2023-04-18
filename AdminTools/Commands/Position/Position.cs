@@ -3,6 +3,7 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
+using System.Globalization;
 using System.Linq;
 using AdminTools.API.Enums;
 using UnityEngine;
@@ -11,19 +12,15 @@ namespace AdminTools.Commands.Position
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Position : ParentCommand
+    public class Position : ICommand
     {
-        public Position() => LoadGeneratedCommands();
+        public string Command => "positon";
 
-        public override string Command { get; } = "positon";
+        public string[] Aliases { get; } = { "pos" };
 
-        public override string[] Aliases { get; } = new string[] { "pos" };
+        public string Description => "Modifies or retrieves the position of a user or all users";
 
-        public override string Description { get; } = "Modifies or retrieves the position of a user or all users";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.tp"))
             {
@@ -81,6 +78,7 @@ namespace AdminTools.Commands.Position
                             }
                             response = $"All player's positions have been set to {xval} {yval} {zval}";
                             return true;
+                        
                         case PositionModifier.Get:
                             if (arguments.Count != 2)
                             {
@@ -105,7 +103,7 @@ namespace AdminTools.Commands.Position
                                 positionBuilder.Append(" ");
                                 positionBuilder.Append(ply.Position.y);
                                 positionBuilder.Append(" ");
-                                positionBuilder.AppendLine(ply.Position.z.ToString());
+                                positionBuilder.AppendLine(ply.Position.z.ToString(CultureInfo.InvariantCulture));
                             }
                             var message = positionBuilder.ToString();
                             StringBuilderPool.Shared.Return(positionBuilder);
@@ -127,6 +125,7 @@ namespace AdminTools.Commands.Position
                                 response = $"Invalid value for position: {arguments.At(3)}";
                                 return false;
                             }
+                            
                             switch (axis)
                             {
                                 case VectorAxis.X:
@@ -193,6 +192,7 @@ namespace AdminTools.Commands.Position
                             }
 
                             pl.Position = new Vector3(xval, yval, zval);
+                            
                             response = $"Player {pl.Nickname}'s positions have been set to {xval} {yval} {zval}";
                             return true;
                         case PositionModifier.Get:

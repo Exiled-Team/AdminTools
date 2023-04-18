@@ -6,11 +6,11 @@ namespace AdminTools.Commands.Configuration
 {
     public class Reload : ICommand
     {
-        public string Command { get; } = "reload";
+        public string Command => "reload";
 
-        public string[] Aliases { get; } = new string[] { "rld" };
+        public string[] Aliases { get; } = { "rld" };
 
-        public string Description { get; } = "Reloads all permissions and configs";
+        public string Description => "Reloads all permissions and configs";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -22,6 +22,7 @@ namespace AdminTools.Commands.Configuration
 
             ServerStatic.PermissionsHandler.RefreshPermissions();
             ConfigFile.ReloadGameConfigs();
+            
             response = "Configuration files reloaded!";
             return true;
         }
