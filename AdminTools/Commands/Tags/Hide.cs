@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Tags
+﻿namespace AdminTools.Commands.Tags
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class Hide : ICommand
     {
         public string Command => "hide";

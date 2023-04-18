@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using GameCore;
-using System;
-
-namespace AdminTools.Commands.Configuration
+﻿namespace AdminTools.Commands.Configuration
 {
+    using System;
+    using CommandSystem;
+    using GameCore;
+
     public class Reload : ICommand
     {
         public string Command => "reload";
@@ -22,7 +22,7 @@ namespace AdminTools.Commands.Configuration
 
             ServerStatic.PermissionsHandler.RefreshPermissions();
             ConfigFile.ReloadGameConfigs();
-            
+
             response = "Configuration files reloaded!";
             return true;
         }

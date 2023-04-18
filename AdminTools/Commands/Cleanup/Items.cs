@@ -1,10 +1,9 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Cleanup
+﻿namespace AdminTools.Commands.Cleanup
 {
+    using System;
+    using CommandSystem;
     using Exiled.API.Features.Pickups;
+    using Exiled.Permissions.Extensions;
 
     public class Items : ICommand
     {
@@ -28,8 +27,10 @@ namespace AdminTools.Commands.Cleanup
                 return false;
             }
 
-            foreach (var item in Pickup.List)
+            foreach (Pickup item in Pickup.List)
+            {
                 item.Destroy();
+            }
 
             response = "Items have been cleaned up now";
             return true;

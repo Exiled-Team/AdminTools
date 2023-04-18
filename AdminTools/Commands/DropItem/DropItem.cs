@@ -1,11 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.DropItem
+﻿namespace AdminTools.Commands.DropItem
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
     using Exiled.API.Features.Pickups;
+    using Exiled.Permissions.Extensions;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -27,7 +26,8 @@ namespace AdminTools.Commands.DropItem
 
             if (arguments.Count != 3)
             {
-                response = "Usage: dropitem ((player id/ name) or (all / *)) (ItemType) (amount (200 max for one user, 15 max for all users))";
+                response =
+                    "Usage: dropitem ((player id/ name) or (all / *)) (ItemType) (amount (200 max for one user, 15 max for all users))";
                 return false;
             }
 
@@ -47,15 +47,16 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    if (!uint.TryParse(arguments.At(2), out var amount) || amount > 15)
+                    if (!uint.TryParse(arguments.At(2), out uint amount) || amount > 15)
                     {
-                        response = $"Invalid amount of item to drop: {arguments.At(2)} {(amount > 15 ? "(\"Try a lower number that won't crash my servers, ty.\" - Galaxy119)" : "")}";
+                        response =
+                            $"Invalid amount of item to drop: {arguments.At(2)} {(amount > 15 ? "(\"Try a lower number that won't crash my servers, ty.\" - Galaxy119)" : "")}";
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
-                        for (var i = 0; i < amount; i++)
+                        for (int i = 0; i < amount; i++)
                             Pickup.CreateAndSpawn(item, ply.Position, default, ply);
                     }
 
@@ -68,7 +69,7 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -81,15 +82,15 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    if (!uint.TryParse(arguments.At(2), out var am) || am > 200)
+                    if (!uint.TryParse(arguments.At(2), out uint am) || am > 200)
                     {
                         response = $"Invalid amount of item to drop: {arguments.At(2)}";
                         return false;
                     }
 
-                    for (var i = 0; i < am; i++)
+                    for (int i = 0; i < am; i++)
                         Pickup.CreateAndSpawn(it, pl.Position, default, pl);
-                    
+
                     response = $"{am} of {it.ToString()} was spawned on {pl.Nickname} (\"Hehexd\" - Galaxy119)";
                     return true;
             }

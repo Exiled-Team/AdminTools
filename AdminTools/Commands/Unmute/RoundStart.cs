@@ -1,9 +1,10 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Unmute
+﻿namespace AdminTools.Commands.Unmute
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class RoundStart : ICommand
     {
         public string Command => "roundstart";
@@ -26,11 +27,11 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (var player in Plugin.RoundStartMutes)
+            foreach (Player player in Plugin.RoundStartMutes)
             {
                 player.IsMuted = false;
             }
-            
+
             Plugin.RoundStartMutes.Clear();
 
             response = "All non-staff players that were muted until round start have been unmuted.";

@@ -1,24 +1,27 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
-using System;
-using System.Linq;
-using AdminTools.Extensions;
-
-namespace AdminTools.Commands.PryGates
+﻿namespace AdminTools.Commands.PryGates
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
+    using NorthwoodLib.Pools;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class PryGates : ICommand
     {
         public const string PryGatesSessionVariableName = "AT-PryGates";
-        
+
         public string Command => "prygate";
 
         public string[] Aliases => null;
 
-        public string Description => "Gives the ability to pry gates to players, clear the ability from players, and shows who has the ability";
+        public string Description =>
+            "Gives the ability to pry gates to players, clear the ability from players, and shows who has the ability";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -46,12 +49,12 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    foreach (var player in Player.List)
+                    foreach (Player player in Player.List)
                     {
                         if (player.HasSessionVariable(PryGatesSessionVariableName))
                             player.RemoveSessionVariable(PryGatesSessionVariableName);
                     }
-                    
+
                     response = "The ability to pry gates is cleared from all players now";
                     return true;
                 case "list":
@@ -61,25 +64,28 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    var pryGateHubs = Player.Get(p => p.HasSessionVariable(PryGatesSessionVariableName)).ToList();
+                    List<Player> pryGateHubs =
+                        Player.Get(p => p.HasSessionVariable(PryGatesSessionVariableName)).ToList();
 
-                    var playerLister = StringBuilderPool.Shared.Rent(pryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(pryGateHubs.Count != 0
+                        ? "Players with the ability to pry gates:\n"
+                        : "No players currently online have the ability to pry gates");
                     if (pryGateHubs.Count > 0)
                     {
-                        foreach (var ply in pryGateHubs)
+                        foreach (Player ply in pryGateHubs)
+                        {
                             playerLister.Append(ply.Nickname + ", ");
+                        }
 
-                        var length = playerLister.ToString().Length;
+                        int length = playerLister.ToString().Length;
                         response = playerLister.ToString().Substring(0, length - 2);
                         StringBuilderPool.Shared.Return(playerLister);
                         return true;
                     }
-                    else
-                    {
-                        response = playerLister.ToString();
-                        StringBuilderPool.Shared.Return(playerLister);
-                        return true;
-                    }
+
+                    response = playerLister.ToString();
+                    StringBuilderPool.Shared.Return(playerLister);
+                    return true;
                 case "remove":
                     if (arguments.Count != 2)
                     {
@@ -87,7 +93,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    var plyr = Player.Get(arguments.At(1));
+                    Player plyr = Player.Get(arguments.At(1));
                     if (plyr == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -100,7 +106,10 @@ namespace AdminTools.Commands.PryGates
                         response = $"Player \"{plyr.Nickname}\" cannot pry gates open now";
                     }
                     else
+                    {
                         response = $"Player {plyr.Nickname} does not have the ability to pry gates open";
+                    }
+
                     return true;
                 case "*":
                 case "all":
@@ -110,7 +119,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (!ply.HasSessionVariable(PryGatesSessionVariableName))
                             ply.AddBooleanSessionVariable(PryGatesSessionVariableName);
@@ -125,15 +134,15 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player \"{arguments.At(0)}\" not found";
                         return false;
                     }
 
-                    
-                    if (!pl.HasSessionVariable(PryGatesSessionVariableName)) 
+
+                    if (!pl.HasSessionVariable(PryGatesSessionVariableName))
                     {
                         pl.AddBooleanSessionVariable(PryGatesSessionVariableName);
                         response = $"Player \"{pl.Nickname}\" can now pry gates open";
@@ -141,7 +150,7 @@ namespace AdminTools.Commands.PryGates
                     }
 
                     pl.RemoveSessionVariable(PryGatesSessionVariableName);
-                    
+
                     response = $"Player \"{pl.Nickname}\" cannot pry gates open now";
                     return true;
             }

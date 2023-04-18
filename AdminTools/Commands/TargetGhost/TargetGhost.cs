@@ -1,19 +1,18 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using System.Linq;
-
-namespace AdminTools.Commands.TargetGhost
+﻿namespace AdminTools.Commands.TargetGhost
 {
+    using System;
+    using System.Linq;
+    using CommandSystem;
+    using Exiled.API.Features;
     using Exiled.API.Features.Roles;
+    using Exiled.Permissions.Extensions;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class TargetGhost : ICommand
     {
         public const string HelpStr = "Usage: targetghost (player id / name) (player id / name) ...";
-        
+
         public string Command => "targetghost";
 
         public string[] Aliases { get; } = { "tg" };
@@ -46,11 +45,10 @@ namespace AdminTools.Commands.TargetGhost
                     continue;
 
                 if (sourcePlayer.Role.Is(out FpcRole role))
-                {
                     if (!role.IsInvisibleFor.Add(victim))
                         role.IsInvisibleFor.Remove(victim);
-                }
             }
+
             response = $"Done modifying who can see {sourcePlayer.Nickname}";
             return true;
         }

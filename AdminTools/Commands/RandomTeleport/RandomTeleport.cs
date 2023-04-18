@@ -1,17 +1,20 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using RemoteAdmin;
-using System;
-using System.Linq;
-using UnityEngine;
-
-namespace AdminTools.Commands.RandomTeleport
+﻿namespace AdminTools.Commands.RandomTeleport
 {
+    using System;
+    using System.Linq;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using RemoteAdmin;
+    using UnityEngine;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class RandomTeleport : ParentCommand
     {
-        public RandomTeleport() => LoadGeneratedCommands();
+        public RandomTeleport()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "randomtp";
 
@@ -21,9 +24,11 @@ namespace AdminTools.Commands.RandomTeleport
 
         public override void LoadGeneratedCommands() { }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "randomtp", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!CommandProcessor.CheckPermissions((CommandSender)sender, "randomtp",
+                    PlayerPermissions.PlayersManagement, "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -39,23 +44,23 @@ namespace AdminTools.Commands.RandomTeleport
             {
                 case "*":
                 case "all":
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
-                        var randRoom = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
+                        Room randRoom = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
                         ply.Position = randRoom.Position + Vector3.up;
                     }
 
-                    response = $"Everyone was teleported to a random room in the facility";
+                    response = "Everyone was teleported to a random room in the facility";
                     return true;
                 default:
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    var rand = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
+                    Room rand = Room.List.ElementAt(Plugin.NumGen.Next(0, Room.List.Count()));
                     pl.Position = rand.Position + Vector3.up;
 
                     response = $"Player {pl.Nickname} was teleported to {rand.Name}";

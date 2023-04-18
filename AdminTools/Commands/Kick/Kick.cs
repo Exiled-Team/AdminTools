@@ -1,11 +1,11 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-using AdminTools.Extensions;
-using Exiled.API.Features;
-
-namespace AdminTools.Commands.Kick
+﻿namespace AdminTools.Commands.Kick
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Kick : ICommand
@@ -30,22 +30,23 @@ namespace AdminTools.Commands.Kick
                 return false;
             }
 
-            var ply = Player.Get(arguments.At(0));
+            Player ply = Player.Get(arguments.At(0));
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
             }
 
-            if(ply.ReferenceHub.serverRoles.Group != null && ply.ReferenceHub.serverRoles.Group.RequiredKickPower > ((CommandSender)sender).KickPower)
+            if (ply.ReferenceHub.serverRoles.Group != null && ply.ReferenceHub.serverRoles.Group.RequiredKickPower >
+                ((CommandSender)sender).KickPower)
             {
-                response = $"You do not have permission to kick the specified player";
+                response = "You do not have permission to kick the specified player";
                 return false;
             }
 
-            var kickReason = arguments.FormatArguments(1);
+            string kickReason = arguments.FormatArguments(1);
             ply.Kick(kickReason);
-            
+
             response = $"Player {ply.Nickname} has been kicked for \"{kickReason}\"";
             return true;
         }

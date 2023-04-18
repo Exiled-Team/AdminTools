@@ -1,10 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.TeleportX
+﻿namespace AdminTools.Commands.TeleportX
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
     using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -27,7 +26,8 @@ namespace AdminTools.Commands.TeleportX
 
             if (arguments.Count != 2)
             {
-                response = "Usage: teleportx (People teleported: (player id / name) or (all / *)) (Teleported to: (player id / name) or (all / *))";
+                response =
+                    "Usage: teleportx (People teleported: (player id / name) or (all / *)) (Teleported to: (player id / name) or (all / *))";
                 return false;
             }
 

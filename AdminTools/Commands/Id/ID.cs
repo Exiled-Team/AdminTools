@@ -1,17 +1,21 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using NorthwoodLib.Pools;
-using RemoteAdmin;
-using System;
-using System.Linq;
-
-namespace AdminTools.Commands.Id
+﻿namespace AdminTools.Commands.Id
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using NorthwoodLib.Pools;
+    using RemoteAdmin;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class ID : ParentCommand
     {
-        public ID() => LoadGeneratedCommands();
+        public ID()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "atid";
 
@@ -21,7 +25,8 @@ namespace AdminTools.Commands.Id
 
         public override void LoadGeneratedCommands() { }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (arguments.Count != 1)
             {
@@ -33,11 +38,11 @@ namespace AdminTools.Commands.Id
             {
                 case "*":
                 case "all":
-                    var builder = StringBuilderPool.Shared.Rent();
+                    StringBuilder builder = StringBuilderPool.Shared.Rent();
                     if (Player.List.Count() == 0)
                     {
                         builder.AppendLine("There are no players currently online in the server");
-                        var msg = builder.ToString();
+                        string msg = builder.ToString();
                         StringBuilderPool.Shared.Return(builder);
                         response = msg;
                         return true;
@@ -45,7 +50,7 @@ namespace AdminTools.Commands.Id
                     else
                     {
                         builder.AppendLine("List of ID's on the server:");
-                        foreach (var ply in Player.List)
+                        foreach (Player ply in Player.List)
                         {
                             builder.Append(ply.Nickname);
                             builder.Append(" - ");
@@ -53,14 +58,15 @@ namespace AdminTools.Commands.Id
                             builder.Append(" - ");
                             builder.AppendLine(ply.Id.ToString());
                         }
-                        var msg = builder.ToString();
+
+                        string msg = builder.ToString();
                         StringBuilderPool.Shared.Return(builder);
                         response = msg;
                         return true;
                     }
                 default:
                     Player pl;
-                    if (String.IsNullOrWhiteSpace(arguments.At(0)))
+                    if (string.IsNullOrWhiteSpace(arguments.At(0)))
                     {
                         if (!(sender is PlayerCommandSender plysend))
                         {

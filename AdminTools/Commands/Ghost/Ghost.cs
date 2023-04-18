@@ -1,11 +1,11 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using CustomPlayerEffects;
-
-namespace AdminTools.Commands.Ghost
+﻿namespace AdminTools.Commands.Ghost
 {
+    using System;
+    using CommandSystem;
+    using CustomPlayerEffects;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Ghost : ICommand
@@ -34,20 +34,24 @@ namespace AdminTools.Commands.Ghost
             switch (arguments.At(0))
             {
                 case "clear":
-                    foreach (var pl in Player.List)
+                    foreach (Player pl in Player.List)
+                    {
                         pl.DisableEffect<Invisible>();
+                    }
 
                     response = "Everyone is no longer invisible";
                     return true;
                 case "*":
                 case "all":
-                    foreach (var pl in Player.List)
+                    foreach (Player pl in Player.List)
+                    {
                         pl.EnableEffect<Invisible>();
+                    }
 
                     response = "Everyone is now invisible";
                     return true;
                 default:
-                    var ply = Player.Get(arguments.At(0));
+                    Player ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -64,7 +68,7 @@ namespace AdminTools.Commands.Ghost
                         ply.DisableEffect<Invisible>();
                         response = $"Player {ply.Nickname} is no longer invisible";
                     }
-                    
+
                     return true;
             }
         }

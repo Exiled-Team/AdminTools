@@ -1,10 +1,9 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Cleanup
+﻿namespace AdminTools.Commands.Cleanup
 {
+    using System;
+    using CommandSystem;
     using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
 
     public class Ragdolls : ICommand
     {
@@ -28,8 +27,10 @@ namespace AdminTools.Commands.Cleanup
                 return false;
             }
 
-            foreach (var doll in Ragdoll.List)
+            foreach (Ragdoll doll in Ragdoll.List)
+            {
                 doll.Destroy();
+            }
 
             response = "Ragdolls have been cleaned up now";
             return true;

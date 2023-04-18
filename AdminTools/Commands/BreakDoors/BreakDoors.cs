@@ -1,19 +1,18 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using AdminTools.Extensions;
-
-namespace AdminTools.Commands.BreakDoors
+﻿namespace AdminTools.Commands.BreakDoors
 {
+    using System;
     using System.Collections.Generic;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class BreakDoors : ICommand
     {
         public const string BreakDoorsSessionVariableName = "AT-BreakDoors";
-        
+
         public string Command => "breakdoors";
 
         public string[] Aliases { get; } = { "bd" };
@@ -29,18 +28,20 @@ namespace AdminTools.Commands.BreakDoors
             }
 
             List<Player> players = new();
-            
+
             switch (arguments.At(0))
             {
                 case "*":
                 case "all":
-                    foreach (var player in Player.List) 
+                    foreach (Player player in Player.List)
+                    {
                         players.Add(player);
+                    }
 
                     break;
                 default:
-                    var ply = Player.Get(arguments.At(0));
-                    
+                    Player ply = Player.Get(arguments.At(0));
+
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -52,14 +53,14 @@ namespace AdminTools.Commands.BreakDoors
                     break;
             }
 
-            foreach (var player in players)
+            foreach (Player player in players)
             {
                 if (player.HasSessionVariable(BreakDoorsSessionVariableName))
                 {
                     player.SessionVariables.Remove(BreakDoorsSessionVariableName);
                     continue;
                 }
-                
+
                 player.AddBooleanSessionVariable(BreakDoorsSessionVariableName);
             }
 

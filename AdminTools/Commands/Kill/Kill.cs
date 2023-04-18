@@ -1,11 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using PlayerRoles;
-
-namespace AdminTools.Commands.Kill
+﻿namespace AdminTools.Commands.Kill
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -35,7 +34,7 @@ namespace AdminTools.Commands.Kill
             {
                 case "*":
                 case "all":
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -46,14 +45,14 @@ namespace AdminTools.Commands.Kill
                     response = "Everyone has been game ended (killed) now";
                     return true;
                 default:
-                    var pl = Player.Get(arguments.At(0));
-                    
+                    Player pl = Player.Get(arguments.At(0));
+
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
-                    
+
                     if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
                     {
                         response = $"Player {pl.Nickname} is not a valid class to kill";
@@ -62,7 +61,7 @@ namespace AdminTools.Commands.Kill
 
                     pl.Kill("Killed by admin.");
                     response = $"Player {pl.Nickname} has been game ended (killed) now";
-                    
+
                     return true;
             }
         }

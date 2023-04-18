@@ -1,14 +1,17 @@
-﻿using System;
-using CommandSystem;
-using Exiled.Permissions.Extensions;
-
-namespace AdminTools.Commands.Tags
+﻿namespace AdminTools.Commands.Tags
 {
+    using System;
+    using CommandSystem;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Tags : ParentCommand
     {
-        public Tags() => LoadGeneratedCommands();
+        public Tags()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "tags";
 
@@ -16,13 +19,14 @@ namespace AdminTools.Commands.Tags
 
         public override string Description => "Hides staff tags in the server";
 
-        public sealed override void LoadGeneratedCommands() 
+        public sealed override void LoadGeneratedCommands()
         {
             RegisterCommand(new Hide());
             RegisterCommand(new Show());
         }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.tags"))
             {

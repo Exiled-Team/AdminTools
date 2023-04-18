@@ -1,9 +1,9 @@
-﻿using System;
-using Exiled.API.Features;
-using UnityEngine;
-
-namespace AdminTools.Extensions
+﻿namespace AdminTools.Extensions
 {
+    using System;
+    using Exiled.API.Features;
+    using UnityEngine;
+
     public static class PlayerExtensions
     {
         public static void SetPlayerScale(this Player target, float x, float y, float z)

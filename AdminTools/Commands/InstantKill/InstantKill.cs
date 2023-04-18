@@ -1,19 +1,21 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
-using System;
-using System.Linq;
-using AdminTools.Extensions;
-
-namespace AdminTools.Commands.InstantKill
+﻿namespace AdminTools.Commands.InstantKill
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
+    using NorthwoodLib.Pools;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class InstantKill : ICommand
     {
         public const string InstantKillSessionVariableName = "AT-InstantKill";
-        
+
         public string Command => "instakill";
 
         public string[] Aliases { get; } = { "ik" };
@@ -46,7 +48,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (!ply.HasSessionVariable(InstantKillSessionVariableName)) continue;
 
@@ -62,26 +64,28 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    var instantKillingHubs = Player.Get(p => p.HasSessionVariable(InstantKillSessionVariableName)).ToList();
-                    
-                    var playerLister = StringBuilderPool.Shared.Rent(instantKillingHubs.Count == 0?
-                        "No players currently online have instant killing on" : "Players with instant killing on:\n");
-                    
+                    List<Player> instantKillingHubs =
+                        Player.Get(p => p.HasSessionVariable(InstantKillSessionVariableName)).ToList();
+
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(instantKillingHubs.Count == 0
+                        ? "No players currently online have instant killing on"
+                        : "Players with instant killing on:\n");
+
                     if (instantKillingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
                         return true;
                     }
 
-                    foreach (var ply in instantKillingHubs)
+                    foreach (Player ply in instantKillingHubs)
                     {
                         playerLister.Append(ply.Nickname);
                         playerLister.Append(", ");
                     }
 
-                    var msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
+                    string msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
                     StringBuilderPool.Shared.Return(playerLister);
-                    
+
                     response = msg;
                     return true;
                 case "remove":
@@ -91,7 +95,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    var pl = Player.Get(arguments.At(1));
+                    Player pl = Player.Get(arguments.At(1));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -103,8 +107,11 @@ namespace AdminTools.Commands.InstantKill
                         pl.RemoveSessionVariable(InstantKillSessionVariableName);
                         response = $"Instant killing is off for {pl.Nickname} now";
                     }
-                    else response = $"Player {pl.Nickname} does not have the ability to instantly kill others";
-                    
+                    else
+                    {
+                        response = $"Player {pl.Nickname} does not have the ability to instantly kill others";
+                    }
+
                     return true;
                 case "*":
                 case "all":
@@ -114,7 +121,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (!ply.HasSessionVariable(InstantKillSessionVariableName))
                             ply.AddBooleanSessionVariable(InstantKillSessionVariableName);
@@ -129,7 +136,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    var plyr = Player.Get(arguments.At(0));
+                    Player plyr = Player.Get(arguments.At(0));
                     if (plyr == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -146,7 +153,7 @@ namespace AdminTools.Commands.InstantKill
                         plyr.RemoveSessionVariable(InstantKillSessionVariableName);
                         response = $"Instant killing is off for {plyr.Nickname}";
                     }
-                    
+
                     return true;
             }
         }

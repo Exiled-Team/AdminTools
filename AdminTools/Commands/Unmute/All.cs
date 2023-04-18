@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using Exiled.API.Features;
-using System;
-
-namespace AdminTools.Commands.Unmute
+﻿namespace AdminTools.Commands.Unmute
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class All : ICommand
     {
         public string Command => "all";
@@ -27,7 +27,7 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (var ply in Player.List)
+            foreach (Player ply in Player.List)
             {
                 if (!ply.ReferenceHub.serverRoles.RemoteAdmin)
                 {

@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Mute
+﻿namespace AdminTools.Commands.Mute
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class All : ICommand
     {
         public string Command => "all";
@@ -27,7 +27,7 @@ namespace AdminTools.Commands.Mute
                 return false;
             }
 
-            foreach (var player in Player.List)
+            foreach (Player player in Player.List)
             {
                 if (!player.ReferenceHub.serverRoles.RemoteAdmin)
                     player.IsMuted = true;

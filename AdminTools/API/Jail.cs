@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdminTools.API.Entities;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using MEC;
-using PlayerRoles;
-using UnityEngine;
-
-namespace AdminTools.API
+﻿namespace AdminTools.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Entities;
+    using Exiled.API.Enums;
+    using Exiled.API.Extensions;
+    using Exiled.API.Features;
+    using Exiled.API.Features.Items;
+    using MEC;
+    using PlayerRoles;
+    using UnityEngine;
+
     public static class Jail
     {
         internal static readonly HashSet<Jailed> JailedPlayers = new();
-    
+
         public static IEnumerator<float> JailPlayer(Player player, bool skipadd = false)
         {
-            var ammo = player.Ammo
+            Dictionary<AmmoType, ushort> ammo = player.Ammo
                 .ToDictionary(ammoInfo => ammoInfo.Key.GetAmmoType(),
                     kvp => kvp.Value);
 
-            var items = player.Items.ToList();
+            List<Item> items = player.Items.ToList();
 
             if (!skipadd)
-            {
                 JailedPlayers.Add(new Jailed
                 {
                     Health = player.Health,
@@ -35,13 +35,12 @@ namespace AdminTools.API
                     CurrentRound = true,
                     Ammo = ammo
                 });
-            }
 
             if (player.IsOverwatchEnabled)
                 player.IsOverwatchEnabled = false;
-        
+
             yield return Timing.WaitForSeconds(1f);
-        
+
             player.ClearInventory(false);
             player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
             player.Position = new Vector3(53f, 1020f, -44f);
@@ -49,7 +48,7 @@ namespace AdminTools.API
 
         public static IEnumerator<float> UnjailPlayer(Player player)
         {
-            var jailed = JailedPlayers.FirstOrDefault(j => j.UserId == player.UserId);
+            Jailed jailed = JailedPlayers.FirstOrDefault(j => j.UserId == player.UserId);
 
             if (jailed == null)
             {
@@ -61,15 +60,17 @@ namespace AdminTools.API
             {
                 player.Role.Set(jailed.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
                 yield return Timing.WaitForSeconds(0.5f);
-            
+
                 try
                 {
                     player.ResetInventory(jailed.Items);
                     player.Health = jailed.Health;
                     player.Position = jailed.Position;
-                
-                    foreach (var kvp in jailed.Ammo)
+
+                    foreach (KeyValuePair<AmmoType, ushort> kvp in jailed.Ammo)
+                    {
                         player.Ammo[kvp.Key.GetItemType()] = kvp.Value;
+                    }
                 }
                 catch (Exception e)
                 {

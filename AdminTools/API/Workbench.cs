@@ -1,39 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Exiled.API.Features;
-using InventorySystem.Items.Firearms.Attachments;
-using Mirror;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
-namespace AdminTools.API
+﻿namespace AdminTools.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exiled.API.Features;
+    using InventorySystem.Items.Firearms.Attachments;
+    using Mirror;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     public static class Workbench
     {
-        public static void SpawnWorkbench(Player player, Vector3 position, Vector3 rotation, Vector3 size, out int benchIndex)
+        public static void SpawnWorkbench(Player player, Vector3 position, Vector3 rotation, Vector3 size,
+            out int benchIndex)
         {
             try
             {
-                Log.Debug($"Spawning workbench");
-            
+                Log.Debug("Spawning workbench");
+
                 benchIndex = 0;
-                var bench = Object.Instantiate(NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
-            
+                GameObject bench =
+                    Object.Instantiate(
+                        NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
+
                 rotation.x += 180;
                 rotation.z += 180;
-            
+
                 Offset offset = new()
                 {
                     position = position,
                     rotation = rotation,
                     scale = Vector3.one
                 };
-            
+
                 bench.gameObject.transform.localScale = size;
                 NetworkServer.Spawn(bench);
-            
-                if (Plugin.SpawnedBenchHubs.TryGetValue(player, out var objs))
+
+                if (Plugin.SpawnedBenchHubs.TryGetValue(player, out List<GameObject> objs))
                 {
                     objs.Add(bench);
                 }
@@ -41,16 +44,16 @@ namespace AdminTools.API
                 {
                     Plugin.SpawnedBenchHubs.Add(player, new List<GameObject>());
                     Plugin.SpawnedBenchHubs[player].Add(bench);
-                
+
                     benchIndex = Plugin.SpawnedBenchHubs[player].Count();
                 }
 
                 if (benchIndex != 1)
                     benchIndex = objs.Count();
-            
+
                 bench.transform.localPosition = offset.position;
                 bench.transform.localRotation = Quaternion.Euler(offset.rotation);
-            
+
                 bench.AddComponent<WorkstationController>();
             }
             catch (Exception e)

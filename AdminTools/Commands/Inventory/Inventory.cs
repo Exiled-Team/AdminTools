@@ -1,14 +1,17 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Inventory
+﻿namespace AdminTools.Commands.Inventory
 {
+    using System;
+    using CommandSystem;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Inventory : ParentCommand
     {
-        public Inventory() => LoadGeneratedCommands();
+        public Inventory()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "inventory";
 
@@ -22,7 +25,8 @@ namespace AdminTools.Commands.Inventory
             RegisterCommand(new See());
         }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.inv"))
             {

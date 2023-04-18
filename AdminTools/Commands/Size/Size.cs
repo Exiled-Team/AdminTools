@@ -1,18 +1,20 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using AdminTools.Extensions;
-
-namespace AdminTools.Commands.Size
+﻿namespace AdminTools.Commands.Size
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
     using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    class Size : ParentCommand
+    internal class Size : ParentCommand
     {
-        public Size() => LoadGeneratedCommands();
+        public Size()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "size";
 
@@ -22,7 +24,8 @@ namespace AdminTools.Commands.Size
 
         public override void LoadGeneratedCommands() { }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.size"))
             {
@@ -40,7 +43,7 @@ namespace AdminTools.Commands.Size
             switch (arguments.At(0))
             {
                 case "reset":
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -48,7 +51,7 @@ namespace AdminTools.Commands.Size
                         ply.SetPlayerScale(1, 1, 1);
                     }
 
-                    response = $"Everyone's size has been reset";
+                    response = "Everyone's size has been reset";
                     return true;
                 case "*":
                 case "all":
@@ -58,25 +61,25 @@ namespace AdminTools.Commands.Size
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out var xval))
+                    if (!float.TryParse(arguments.At(1), out float xval))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out var yval))
+                    if (!float.TryParse(arguments.At(2), out float yval))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out var zval))
+                    if (!float.TryParse(arguments.At(3), out float zval))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -93,26 +96,26 @@ namespace AdminTools.Commands.Size
                         return false;
                     }
 
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out var x))
+                    if (!float.TryParse(arguments.At(1), out float x))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out var y))
+                    if (!float.TryParse(arguments.At(2), out float y))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out var z))
+                    if (!float.TryParse(arguments.At(3), out float z))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;

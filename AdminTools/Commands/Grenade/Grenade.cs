@@ -1,13 +1,12 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Grenade
+﻿namespace AdminTools.Commands.Grenade
 {
+    using System;
+    using CommandSystem;
     using Exiled.API.Enums;
-    using Exiled.API.Features.Items;
     using Exiled.API.Extensions;
+    using Exiled.API.Features;
+    using Exiled.API.Features.Items;
+    using Exiled.Permissions.Extensions;
     using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -19,7 +18,7 @@ namespace AdminTools.Commands.Grenade
         public string[] Aliases { get; } = { "gn" };
 
         public string Description => "Spawns a frag/flash/scp018 grenade on a user or users";
-        
+
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.grenade"))
@@ -40,7 +39,7 @@ namespace AdminTools.Commands.Grenade
                 return false;
             }
 
-            if (!float.TryParse(arguments.At(2), out var fuseTime))
+            if (!float.TryParse(arguments.At(2), out float fuseTime))
             {
                 response = $"Invalid fuse time for grenade: {arguments.At(2)}";
                 return false;
@@ -52,16 +51,16 @@ namespace AdminTools.Commands.Grenade
                 case "all":
                     if (type == ProjectileType.Scp018)
                         Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
-                    
-                    foreach (var player in Player.List)
+
+                    foreach (Player player in Player.List)
                     {
-                        if (player.Role != RoleTypeId.Spectator) 
+                        if (player.Role != RoleTypeId.Spectator)
                             SpawnGrenade(player, type, fuseTime);
                     }
 
                     break;
                 default:
-                    var ply = Player.Get(arguments.At(0));
+                    Player ply = Player.Get(arguments.At(0));
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -81,19 +80,19 @@ namespace AdminTools.Commands.Grenade
             switch (type)
             {
                 case ProjectileType.Flashbang:
-                    var flash = (FlashGrenade) Item.Create(ItemType.GrenadeFlash);
+                    FlashGrenade flash = (FlashGrenade)Item.Create(ItemType.GrenadeFlash);
                     flash.FuseTime = fuseTime;
                     flash.SpawnActive(player.Position);
 
                     break;
                 case ProjectileType.Scp2176:
-                    var scp2176 = (Scp2176)Item.Create(ItemType.SCP2176);
+                    Scp2176 scp2176 = (Scp2176)Item.Create(ItemType.SCP2176);
                     scp2176.FuseTime = fuseTime;
                     scp2176.SpawnActive(player.Position);
 
                     break;
                 default:
-                    var grenade = (ExplosiveGrenade) Item.Create(type.GetItemType());
+                    ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(type.GetItemType());
                     grenade.FuseTime = fuseTime;
                     grenade.SpawnActive(player.Position);
                     break;

@@ -1,11 +1,11 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using AdminTools.Extensions;
-
-namespace AdminTools.Commands.Scale
+﻿namespace AdminTools.Commands.Scale
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Scale : ICommand
@@ -39,10 +39,13 @@ namespace AdminTools.Commands.Scale
                         response = "Usage: scale reset";
                         return false;
                     }
-                    foreach (var plyr in Player.List)
-                        plyr.SetPlayerScale(1);
 
-                    response = $"Everyone's scale has been reset";
+                    foreach (Player plyr in Player.List)
+                    {
+                        plyr.SetPlayerScale(1);
+                    }
+
+                    response = "Everyone's scale has been reset";
                     return true;
                 case "*":
                 case "all":
@@ -52,14 +55,16 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out var value))
+                    if (!float.TryParse(arguments.At(1), out float value))
                     {
                         response = $"Invalid value for scale: {arguments.At(1)}";
                         return false;
                     }
 
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
+                    {
                         ply.SetPlayerScale(value);
+                    }
 
                     response = $"Everyone's scale has been set to {value}";
                     return true;
@@ -70,14 +75,14 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
 
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return true;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out var val))
+                    if (!float.TryParse(arguments.At(1), out float val))
                     {
                         response = $"Invalid value for scale: {arguments.At(1)}";
                         return false;

@@ -1,13 +1,13 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
-using System;
-using AdminTools.Components;
-
-namespace AdminTools.Commands.Regeneration
+﻿namespace AdminTools.Commands.Regeneration
 {
+    using System;
     using System.Text;
+    using CommandSystem;
+    using Components;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using NorthwoodLib.Pools;
+    using Object = UnityEngine.Object;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -18,7 +18,7 @@ namespace AdminTools.Commands.Regeneration
         public string[] Aliases => null;
 
         public string Description => "Manages regeneration properties for users";
-        
+
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.reg"))
@@ -49,7 +49,7 @@ namespace AdminTools.Commands.Regeneration
                     foreach (Player ply in RegenerationComponent.RegeneratingHubs.Keys)
                     {
                         if (ply.ReferenceHub.TryGetComponent(out RegenerationComponent rgCom))
-                            UnityEngine.Object.Destroy(rgCom);
+                            Object.Destroy(rgCom);
                     }
 
                     response = "Regeneration has been removed from everyone";
@@ -61,7 +61,10 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(RegenerationComponent.RegeneratingHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(
+                        RegenerationComponent.RegeneratingHubs.Count != 0
+                            ? "Players with regeneration on:\n"
+                            : "No players currently online have regeneration on");
                     if (RegenerationComponent.RegeneratingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
@@ -147,9 +150,10 @@ namespace AdminTools.Commands.Regeneration
                     }
                     else
                     {
-                        UnityEngine.Object.Destroy(rgnComponent);
+                        Object.Destroy(rgnComponent);
                         response = $"Regeneration is off for {pl.Nickname}";
                     }
+
                     return true;
             }
         }

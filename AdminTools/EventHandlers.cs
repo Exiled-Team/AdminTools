@@ -1,18 +1,19 @@
-using System;
-using System.IO;
-using System.Linq;
-using AdminTools.API;
-using AdminTools.Commands.BreakDoors;
-using AdminTools.Extensions;
-using Exiled.API.Features;
-using MEC;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Server;
-using PlayerRoles;
-using Log = Exiled.API.Features.Log;
-
 namespace AdminTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using API;
+    using API.Entities;
+    using Commands.BreakDoors;
+    using Exiled.API.Features;
+    using Exiled.Events.EventArgs.Player;
+    using Exiled.Events.EventArgs.Server;
+    using Extensions;
+    using MEC;
+    using PlayerRoles;
+
     public class EventHandlers
     {
         private readonly Config _pluginConfig;
@@ -37,13 +38,15 @@ namespace AdminTools
                 if (Jail.JailedPlayers.Any(j => j.UserId == ev.Player.UserId))
                     Timing.RunCoroutine(Jail.JailPlayer(ev.Player, true));
 
-                if (_pluginConfig.SaveOverwatchs && File.ReadAllText(Plugin.OverwatchFilePath).Contains(ev.Player.UserId))
+                if (_pluginConfig.SaveOverwatchs &&
+                    File.ReadAllText(Plugin.OverwatchFilePath).Contains(ev.Player.UserId))
                 {
                     Log.Debug($"Putting {ev.Player.UserId} into overwatch.");
                     Timing.CallDelayed(1, () => ev.Player.IsOverwatchEnabled = true);
                 }
 
-                if (_pluginConfig.SaveHiddenTags && File.ReadAllText(Plugin.HiddenTagsFilePath).Contains(ev.Player.UserId))
+                if (_pluginConfig.SaveHiddenTags &&
+                    File.ReadAllText(Plugin.HiddenTagsFilePath).Contains(ev.Player.UserId))
                 {
                     Log.Debug($"Hiding {ev.Player.UserId}'s tag.");
                     Timing.CallDelayed(1, () => ev.Player.BadgeHidden = true);
@@ -65,9 +68,11 @@ namespace AdminTools
 
         internal void OnRoundStart()
         {
-            foreach (var ply in Plugin.RoundStartMutes)
+            foreach (Player ply in Plugin.RoundStartMutes)
+            {
                 if (ply != null)
                     ply.IsMuted = false;
+            }
 
             Plugin.RoundStartMutes.Clear();
         }
@@ -76,20 +81,22 @@ namespace AdminTools
         {
             try
             {
-                foreach (var jailedPlayer in Jail.JailedPlayers)
+                foreach (Jailed jailedPlayer in Jail.JailedPlayers)
+                {
                     if (jailedPlayer.CurrentRound)
                         jailedPlayer.CurrentRound = false;
+                }
 
                 if (!_pluginConfig.SaveOverwatchs && !_pluginConfig.SaveHiddenTags)
                     return;
 
-                var overwatchCache = File.ReadAllLines(Plugin.OverwatchFilePath).ToList();
+                List<string> overwatchCache = File.ReadAllLines(Plugin.OverwatchFilePath).ToList();
 
-                var tagsCache = File.ReadAllLines(Plugin.OverwatchFilePath).ToList();
+                List<string> tagsCache = File.ReadAllLines(Plugin.OverwatchFilePath).ToList();
 
-                foreach (var player in Player.List)
+                foreach (Player player in Player.List)
                 {
-                    var userId = player.UserId;
+                    string userId = player.UserId;
 
                     if (_pluginConfig.SaveOverwatchs)
                     {

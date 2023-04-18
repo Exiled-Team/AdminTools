@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using RemoteAdmin;
-using System;
-
-namespace AdminTools.Commands.Strip
+﻿namespace AdminTools.Commands.Strip
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using RemoteAdmin;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Strip : ICommand
@@ -17,7 +17,8 @@ namespace AdminTools.Commands.Strip
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "strip", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!CommandProcessor.CheckPermissions((CommandSender)sender, "strip", PlayerPermissions.PlayersManagement,
+                    "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -34,7 +35,9 @@ namespace AdminTools.Commands.Strip
                 case "*":
                 case "all":
                     foreach (Player ply in Player.List)
+                    {
                         ply.ClearInventory();
+                    }
 
                     response = "Everyone's inventories have been cleared now";
                     return true;

@@ -1,14 +1,13 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using Exiled.API.Features;
-using MEC;
-using System;
-using System.Collections.Generic;
-using RemoteAdmin;
-
-namespace AdminTools.Commands.Tutorial
+﻿namespace AdminTools.Commands.Tutorial
 {
+    using System;
+    using System.Collections.Generic;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using MEC;
     using PlayerRoles;
+    using RemoteAdmin;
     using UnityEngine;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -16,7 +15,7 @@ namespace AdminTools.Commands.Tutorial
     public class Tutorial : ICommand
     {
         private static Player _ply;
-        
+
         public string Command => "tutorial";
 
         public string[] Aliases { get; } = { "tut" };
@@ -69,13 +68,13 @@ namespace AdminTools.Commands.Tutorial
             }
         }
 
-        private static IEnumerator<float> SetClassAsTutorial(Player ply) 
+        private static IEnumerator<float> SetClassAsTutorial(Player ply)
         {
             Vector3 oldPos = ply.Position;
             ply.Role.Set(RoleTypeId.Tutorial);
-            
+
             yield return Timing.WaitForSeconds(0.5f);
-            
+
             ply.Position = oldPos;
         }
 

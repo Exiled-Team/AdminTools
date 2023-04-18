@@ -1,19 +1,25 @@
-using System.Collections.Generic;
-using Exiled.API.Enums;
-using Exiled.API.Features.Items;
-using PlayerRoles;
-using UnityEngine;
-
 namespace AdminTools.API.Entities
 {
+    using System.Collections.Generic;
+    using Exiled.API.Enums;
+    using Exiled.API.Features.Items;
+    using PlayerRoles;
+    using UnityEngine;
+
     public class Jailed
-	{
-		public string UserId;
+    {
+        public Dictionary<AmmoType, ushort> Ammo;
+
+        public bool CurrentRound;
+
+        public float Health;
+
         public List<Item> Items;
-		public RoleTypeId Role;
-		public Vector3 Position;
-		public float Health;
-		public Dictionary<AmmoType, ushort> Ammo;
-		public bool CurrentRound;
-	}
+
+        public Vector3 Position;
+
+        public RoleTypeId Role;
+
+        public string UserId;
+    }
 }

@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <TargetFramework>net48</TargetFramework>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="EXILED" Version="6.1.0-rc.0-4" />
-    <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-    <PackageReference Include="YamlDotNet" Version="12.0.1" />
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
 
-    <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_References)\Assembly-CSharp-firstpass.dll" Private="false" />
-    <Reference Include="CommandSystem.Core" HintPath="$(EXILED_References)\CommandSystem.Core.dll" Private="false" />
-    <Reference Include="Mirror" HintPath="$(EXILED_References)\Mirror.dll" Private="false" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_References)\UnityEngine.CoreModule.dll" Private="false" />
-    <Reference Include="UnityEngine.PhysicsModule" HintPath="$(EXILED_References)\UnityEngine.PhysicsModule.dll" Private="false" />
-    <Reference Include="NorthwoodLib" HintPath="$(EXILED_References)\NorthwoodLib.dll" Private="false" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="EXILED" Version="6.1.0-rc.0-4"/>
+        <PackageReference Include="Lib.Harmony" Version="2.2.2"/>
+        <PackageReference Include="YamlDotNet" Version="12.0.1"/>
+
+        <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_References)\Assembly-CSharp-firstpass.dll" Private="false"/>
+        <Reference Include="CommandSystem.Core" HintPath="$(EXILED_References)\CommandSystem.Core.dll" Private="false"/>
+        <Reference Include="Mirror" HintPath="$(EXILED_References)\Mirror.dll" Private="false"/>
+        <Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_References)\UnityEngine.CoreModule.dll" Private="false"/>
+        <Reference Include="UnityEngine.PhysicsModule" HintPath="$(EXILED_References)\UnityEngine.PhysicsModule.dll" Private="false"/>
+        <Reference Include="NorthwoodLib" HintPath="$(EXILED_References)\NorthwoodLib.dll" Private="false"/>
+        <Reference Include="System.Net.Http"/>
+    </ItemGroup>
 
 </Project>

@@ -1,14 +1,17 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Unmute
+﻿namespace AdminTools.Commands.Unmute
 {
+    using System;
+    using CommandSystem;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Unmute : ParentCommand
     {
-        public Unmute() => LoadGeneratedCommands();
+        public Unmute()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "punmute";
 
@@ -23,7 +26,8 @@ namespace AdminTools.Commands.Unmute
             RegisterCommand(new RoundStart());
         }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.mute"))
             {

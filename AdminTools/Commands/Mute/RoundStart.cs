@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Mute
+﻿namespace AdminTools.Commands.Mute
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class RoundStart : ICommand
     {
         public string Command => "roundstart";
@@ -33,9 +33,9 @@ namespace AdminTools.Commands.Mute
                 return false;
             }
 
-            foreach (var player in Player.List)
+            foreach (Player player in Player.List)
             {
-                if(!player.IsMuted && !player.ReferenceHub.serverRoles.RemoteAdmin)
+                if (!player.IsMuted && !player.ReferenceHub.serverRoles.RemoteAdmin)
                 {
                     player.IsMuted = true;
                     Plugin.RoundStartMutes.Add(player);

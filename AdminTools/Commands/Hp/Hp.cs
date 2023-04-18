@@ -1,15 +1,18 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using RemoteAdmin;
-using System;
-
-namespace AdminTools.Commands.Hp
+﻿namespace AdminTools.Commands.Hp
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using RemoteAdmin;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Hp : ParentCommand
     {
-        public Hp() => LoadGeneratedCommands();
+        public Hp()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "athp";
 
@@ -19,9 +22,11 @@ namespace AdminTools.Commands.Hp
 
         public override void LoadGeneratedCommands() { }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "hp", PlayerPermissions.PlayersManagement, "AdminTools", false))
+            if (!CommandProcessor.CheckPermissions((CommandSender)sender, "hp", PlayerPermissions.PlayersManagement,
+                    "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -37,13 +42,13 @@ namespace AdminTools.Commands.Hp
             {
                 case "*":
                 case "all":
-                    if (!int.TryParse(arguments.At(1), out var value))
+                    if (!int.TryParse(arguments.At(1), out int value))
                     {
                         response = $"Invalid value for HP: {value}";
                         return false;
                     }
 
-                    foreach (var pl in Player.List)
+                    foreach (Player pl in Player.List)
                     {
                         if (value <= 0)
                             pl.Kill("Killed by admin.");
@@ -54,14 +59,14 @@ namespace AdminTools.Commands.Hp
                     response = $"Everyone's HP was set to {value}";
                     return true;
                 default:
-                    var ply = Player.Get(arguments.At(0));
+                    Player ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    if (!int.TryParse(arguments.At(1), out var val))
+                    if (!int.TryParse(arguments.At(1), out int val))
                     {
                         response = $"Invalid value for HP: {val}";
                         return false;

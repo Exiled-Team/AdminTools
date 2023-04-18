@@ -1,25 +1,27 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Features;
-using MEC;
-using UnityEngine;
-
-namespace AdminTools.Components
+﻿namespace AdminTools.Components
 {
+    using System.Collections.Generic;
+    using Exiled.API.Features;
+    using MEC;
+    using UnityEngine;
+
     public class RegenerationComponent : MonoBehaviour
     {
-        private Player _player;
-        private CoroutineHandle _handle;
-        
         public static readonly Dictionary<Player, RegenerationComponent> RegeneratingHubs = new();
-        
+
         public static float HealthGain = 5;
+
         public static float HealthInterval = 1;
+
+        private CoroutineHandle _handle;
+
+        private Player _player;
 
         public void Awake()
         {
             _player = Player.Get(gameObject);
             _handle = Timing.RunCoroutine(HealHealth(_player));
-            
+
             RegeneratingHubs.Add(_player, this);
         }
 

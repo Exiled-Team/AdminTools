@@ -1,11 +1,11 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using RemoteAdmin;
-using System;
-using System.Collections.Generic;
-
-namespace AdminTools.Commands.Ahp
+﻿namespace AdminTools.Commands.Ahp
 {
+    using System;
+    using System.Collections.Generic;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using RemoteAdmin;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Ahp : ICommand
@@ -18,7 +18,7 @@ namespace AdminTools.Commands.Ahp
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "ahp", 
+            if (!CommandProcessor.CheckPermissions((CommandSender)sender, "ahp",
                     PlayerPermissions.PlayersManagement, "AdminTools", false))
             {
                 response = "You do not have permission to use this command";
@@ -32,21 +32,24 @@ namespace AdminTools.Commands.Ahp
             }
 
             List<Player> players = new();
-            if (!float.TryParse(arguments.At(1), out var value))
+            if (!float.TryParse(arguments.At(1), out float value))
             {
                 response = $"Invalid value for AHP: {value}";
                 return false;
             }
+
             switch (arguments.At(0))
             {
                 case "*":
                 case "all":
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
+                    {
                         players.Add(ply);
-                    
+                    }
+
                     break;
                 default:
-                    var player = Player.Get(arguments.At(0));
+                    Player player = Player.Get(arguments.At(0));
                     if (player == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -58,7 +61,7 @@ namespace AdminTools.Commands.Ahp
             }
 
             response = string.Empty;
-            foreach (var p in players)
+            foreach (Player p in players)
             {
                 p.ArtificialHealth = value;
                 response += $"\n{p.Nickname}'s AHP has been set to {value}";

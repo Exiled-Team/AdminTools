@@ -1,15 +1,13 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using MEC;
-using System;
-using Exiled.API.Interfaces;
-
-namespace AdminTools.Commands.SpawnRagdoll
+﻿namespace AdminTools.Commands.SpawnRagdoll
 {
+    using System;
     using System.Collections.Generic;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.API.Interfaces;
+    using Exiled.Permissions.Extensions;
+    using MEC;
     using PlayerRoles;
-    using Ragdoll = Exiled.API.Features.Ragdoll;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -53,7 +51,7 @@ namespace AdminTools.Commands.SpawnRagdoll
                 case "all":
                     foreach (Player player in Player.List)
                     {
-                        if (player.Role != RoleTypeId.Spectator) 
+                        if (player.Role != RoleTypeId.Spectator)
                             Timing.RunCoroutine(SpawnDolls(player, type, amount));
                     }
 

@@ -1,15 +1,18 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace AdminTools.Commands.Inventory
+﻿namespace AdminTools.Commands.Inventory
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class Drop : ParentCommand
     {
-        public Drop() => LoadGeneratedCommands();
+        public Drop()
+        {
+            LoadGeneratedCommands();
+        }
 
         public override string Command => "drop";
 
@@ -19,7 +22,8 @@ namespace AdminTools.Commands.Inventory
 
         public override void LoadGeneratedCommands() { }
 
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender,
+            out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.inv"))
             {
@@ -37,13 +41,15 @@ namespace AdminTools.Commands.Inventory
             {
                 case "*":
                 case "all":
-                    foreach (var ply in Player.List)
+                    foreach (Player ply in Player.List)
+                    {
                         ply.DropItems();
+                    }
 
                     response = "All items from everyones inventories has been dropped";
                     return true;
                 default:
-                    var pl = Player.Get(arguments.At(0));
+                    Player pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";

@@ -1,11 +1,11 @@
-﻿using CommandSystem;
-using NorthwoodLib.Pools;
-using System;
-using AdminTools.API.Enums;
-
-namespace AdminTools.Commands.Enums
+﻿namespace AdminTools.Commands.Enums
 {
+    using System;
+    using System.Text;
+    using API.Enums;
+    using CommandSystem;
     using Exiled.API.Enums;
+    using NorthwoodLib.Pools;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -19,7 +19,7 @@ namespace AdminTools.Commands.Enums
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            var listBuilder = StringBuilderPool.Shared.Rent();
+            StringBuilder listBuilder = StringBuilderPool.Shared.Rent();
             listBuilder.Append("Here are the following enums you can use in commands:");
             listBuilder.AppendLine();
             listBuilder.Append("ItemType: ");
@@ -28,6 +28,7 @@ namespace AdminTools.Commands.Enums
                 listBuilder.Append(type.ToString());
                 listBuilder.Append(" ");
             }
+
             listBuilder.AppendLine();
             listBuilder.Append("ProjectileType: ");
             foreach (ProjectileType gt in Enum.GetValues(typeof(ProjectileType)))
@@ -35,6 +36,7 @@ namespace AdminTools.Commands.Enums
                 listBuilder.Append(gt.ToString());
                 listBuilder.Append(" ");
             }
+
             listBuilder.AppendLine();
             listBuilder.Append("VectorAxis: ");
             foreach (VectorAxis va in Enum.GetValues(typeof(VectorAxis)))
@@ -42,6 +44,7 @@ namespace AdminTools.Commands.Enums
                 listBuilder.Append(va.ToString());
                 listBuilder.Append(" ");
             }
+
             listBuilder.AppendLine();
             listBuilder.Append("PositionModifier: ");
             foreach (PositionModifier pm in Enum.GetValues(typeof(PositionModifier)))
@@ -49,7 +52,8 @@ namespace AdminTools.Commands.Enums
                 listBuilder.Append(pm.ToString());
                 listBuilder.Append(" ");
             }
-            var message = listBuilder.ToString();
+
+            string message = listBuilder.ToString();
             StringBuilderPool.Shared.Return(listBuilder);
             response = message;
             return true;

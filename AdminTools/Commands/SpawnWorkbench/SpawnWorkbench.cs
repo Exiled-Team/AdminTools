@@ -1,16 +1,16 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using RemoteAdmin;
-using System;
-using System.Linq;
-using UnityEngine;
-
-namespace AdminTools.Commands.SpawnWorkbench
+﻿namespace AdminTools.Commands.SpawnWorkbench
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using API;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
     using PlayerRoles;
+    using RemoteAdmin;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class SpawnWorkbench : ICommand
@@ -20,7 +20,7 @@ namespace AdminTools.Commands.SpawnWorkbench
         public string[] Aliases { get; } = { "sw", "wb", "workbench" };
 
         public string Description => "Spawns a workbench on all users or a user";
-        
+
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!((CommandSender)sender).CheckPermission("at.benches"))
@@ -51,7 +51,8 @@ namespace AdminTools.Commands.SpawnWorkbench
                 case "clear":
                     if (arguments.Count != 4)
                     {
-                        response = "Usage:\nbench clear (player id / name) (minimum index) (maximum index)\n\nNOTE: Minimum index < Maximum index, You can remove from a range of all the benches you spawned (From 1 to (how many you spawned))";
+                        response =
+                            "Usage:\nbench clear (player id / name) (minimum index) (maximum index)\n\nNOTE: Minimum index < Maximum index, You can remove from a range of all the benches you spawned (From 1 to (how many you spawned))";
                         return false;
                     }
 
@@ -88,13 +89,15 @@ namespace AdminTools.Commands.SpawnWorkbench
 
                     if (min > objs.Count)
                     {
-                        response = $"{min} (minimum) is higher than the number of workbenches {ply.Nickname} spawned! (Which is {objs.Count})";
+                        response =
+                            $"{min} (minimum) is higher than the number of workbenches {ply.Nickname} spawned! (Which is {objs.Count})";
                         return false;
                     }
 
                     if (max > objs.Count)
                     {
-                        response = $"{max} (maximum) is higher than the number of workbenches {ply.Nickname} spawned! (Which is {objs.Count})";
+                        response =
+                            $"{max} (maximum) is higher than the number of workbenches {ply.Nickname} spawned! (Which is {objs.Count})";
                         return false;
                     }
 
@@ -103,12 +106,14 @@ namespace AdminTools.Commands.SpawnWorkbench
 
                     for (int i = min; i <= max; i++)
                     {
-                        UnityEngine.Object.Destroy(objs.ElementAt(i));
+                        Object.Destroy(objs.ElementAt(i));
                         objs[i] = null;
                     }
+
                     objs.RemoveAll(r => r == null);
 
-                    response = $"All workbenches from {min + 1} to {max + 1} have been cleared from Player {ply.Nickname}";
+                    response =
+                        $"All workbenches from {min + 1} to {max + 1} have been cleared from Player {ply.Nickname}";
                     return true;
                 case "clearall":
                     if (arguments.Count != 1)
@@ -120,12 +125,15 @@ namespace AdminTools.Commands.SpawnWorkbench
                     foreach (KeyValuePair<Player, List<GameObject>> bch in Plugin.SpawnedBenchHubs)
                     {
                         foreach (GameObject bench in bch.Value)
-                            UnityEngine.Object.Destroy(bench);
+                        {
+                            Object.Destroy(bench);
+                        }
+
                         bch.Value.Clear();
                     }
 
                     Plugin.SpawnedBenchHubs.Clear();
-                    response = $"All spawned workbenches have now been removed";
+                    response = "All spawned workbenches have now been removed";
                     return true;
                 case "count":
                     if (arguments.Count != 2)
@@ -147,7 +155,8 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    response = $"{plyr.Nickname} has spawned in {(obj.Count != 1 ? $"{obj.Count} workbenches" : $"{obj.Count} workbench")}";
+                    response =
+                        $"{plyr.Nickname} has spawned in {(obj.Count != 1 ? $"{obj.Count} workbenches" : $"{obj.Count} workbench")}";
                     return true;
                 case "*":
                 case "all":
@@ -181,13 +190,15 @@ namespace AdminTools.Commands.SpawnWorkbench
                         if (p.Role == RoleTypeId.Spectator || p.Role == RoleTypeId.None)
                             continue;
 
-                        Workbench.SpawnWorkbench(player, p.Position + p.ReferenceHub.PlayerCameraReference.forward * 2, 
-                            p.GameObject.transform.rotation.eulerAngles, new Vector3(xval, yval, zval), out int benchIndex);
-                        
+                        Workbench.SpawnWorkbench(player, p.Position + p.ReferenceHub.PlayerCameraReference.forward * 2,
+                            p.GameObject.transform.rotation.eulerAngles, new Vector3(xval, yval, zval),
+                            out int benchIndex);
+
                         index = benchIndex;
                     }
 
-                    response = $"A workbench has spawned on everyone, you now spawned in a total of {(index != 1 ? $"{index} workbenches" : $"{index} workbench")}";
+                    response =
+                        $"A workbench has spawned on everyone, you now spawned in a total of {(index != 1 ? $"{index} workbenches" : $"{index} workbench")}";
                     return true;
                 default:
                     if (arguments.Count != 4)
@@ -202,9 +213,10 @@ namespace AdminTools.Commands.SpawnWorkbench
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
-                    else if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
+
+                    if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
                     {
-                        response = $"This player is not a valid class to spawn a workbench on";
+                        response = "This player is not a valid class to spawn a workbench on";
                         return false;
                     }
 
@@ -226,10 +238,11 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    Workbench.SpawnWorkbench(player, pl.Position + pl.ReferenceHub.PlayerCameraReference.forward * 2, 
+                    Workbench.SpawnWorkbench(player, pl.Position + pl.ReferenceHub.PlayerCameraReference.forward * 2,
                         pl.GameObject.transform.rotation.eulerAngles, new Vector3(x, y, z), out int benchI);
-                    
-                    response = $"A workbench has spawned on Player {pl.Nickname}, you now spawned in a total of {(benchI != 1 ? $"{benchI} workbenches" : $"{benchI} workbench")}";
+
+                    response =
+                        $"A workbench has spawned on Player {pl.Nickname}, you now spawned in a total of {(benchI != 1 ? $"{benchI} workbenches" : $"{benchI} workbench")}";
                     return true;
             }
         }

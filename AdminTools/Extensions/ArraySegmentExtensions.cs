@@ -1,21 +1,21 @@
-﻿using System;
-using System.Text;
-
-namespace AdminTools.Extensions
+﻿namespace AdminTools.Extensions
 {
+    using System;
+    using System.Text;
+
     public static class ArraySegmentExtensions
     {
         public static string FormatArguments(this ArraySegment<string> sentence, int index)
         {
             StringBuilder sb = new();
-        
-            foreach (var word in sentence.Segment(index))
+
+            foreach (string word in sentence.Segment(index))
             {
                 sb.Append(word);
                 sb.Append(" ");
             }
 
-            var msg = sb.ToString();
+            string msg = sb.ToString();
             return msg;
         }
     }

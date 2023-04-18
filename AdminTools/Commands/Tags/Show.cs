@@ -1,10 +1,10 @@
-﻿using System;
-using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-
-namespace AdminTools.Commands.Tags
+﻿namespace AdminTools.Commands.Tags
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     public class Show : ICommand
     {
         public string Command => "show";
@@ -27,7 +27,7 @@ namespace AdminTools.Commands.Tags
                 return false;
             }
 
-            foreach (Player player in Player.List) 
+            foreach (Player player in Player.List)
             {
                 if (player.ReferenceHub.serverRoles.RemoteAdmin && !player.ReferenceHub.serverRoles.RaEverywhere)
                     player.BadgeHidden = false;
