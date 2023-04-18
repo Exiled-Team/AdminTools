@@ -1,9 +1,7 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
 using System;
-using System.Text;
 
 namespace AdminTools.Commands.BreakDoors
 {
@@ -36,12 +34,12 @@ namespace AdminTools.Commands.BreakDoors
             {
                 case "*":
                 case "all":
-                    foreach (Player player in Player.List) 
+                    foreach (var player in Player.List) 
                         players.Add(player);
 
                     break;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -53,7 +51,7 @@ namespace AdminTools.Commands.BreakDoors
                     break;
             }
 
-            foreach (Player player in players)
+            foreach (var player in players)
                 if (EventHandlers.BreakDoorsList.Contains(player))
                     EventHandlers.BreakDoorsList.Remove(player);
                 else

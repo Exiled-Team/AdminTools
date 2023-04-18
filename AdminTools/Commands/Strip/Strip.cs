@@ -37,13 +37,13 @@ namespace AdminTools.Commands.Strip
             {
                 case "*":
                 case "all":
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         ply.ClearInventory();
 
                     response = "Everyone's inventories have been cleared now";
                     return true;
                 default:
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";

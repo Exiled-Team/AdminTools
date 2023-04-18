@@ -27,7 +27,7 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (Player ply in Player.List)
+            foreach (var ply in Player.List)
                 if (!ply.ReferenceHub.serverRoles.RemoteAdmin)
                 {
                     ply.IsIntercomMuted = false;

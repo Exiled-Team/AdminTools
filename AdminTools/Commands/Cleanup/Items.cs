@@ -4,8 +4,6 @@ using System;
 
 namespace AdminTools.Commands.Cleanup
 {
-    using Exiled.API.Features;
-    using Exiled.API.Features.Items;
     using Exiled.API.Features.Pickups;
 
     class Items : ICommand
@@ -30,7 +28,7 @@ namespace AdminTools.Commands.Cleanup
                 return false;
             }
 
-            foreach (Pickup item in Pickup.List)
+            foreach (var item in Pickup.List)
                 item.Destroy();
 
             response = "Items have been cleaned up now";

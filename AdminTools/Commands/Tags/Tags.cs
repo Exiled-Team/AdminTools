@@ -1,7 +1,6 @@
 ﻿using System;
 using CommandSystem;
 using Exiled.Permissions.Extensions;
-using Exiled.API.Features;
 
 namespace AdminTools.Commands.Tags
 {

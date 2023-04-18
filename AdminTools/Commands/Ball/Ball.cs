@@ -42,7 +42,7 @@ namespace AdminTools.Commands.Ball
             {
                 case "*":
                 case "all":
-                    foreach (Player pl in Player.List)
+                    foreach (var pl in Player.List)
                     {
                         if (pl.Role == RoleTypeId.Spectator || pl.Role == RoleTypeId.None)
                             continue;
@@ -52,7 +52,7 @@ namespace AdminTools.Commands.Ball
 
                     break;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -75,7 +75,7 @@ namespace AdminTools.Commands.Ball
             if (players.Count > 1)
                 Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
 
-            foreach (Player p in players)
+            foreach (var p in players)
                 ((ExplosiveGrenade)Item.Create(ItemType.SCP018)).SpawnActive(p.Position, p);
             return true;
         }

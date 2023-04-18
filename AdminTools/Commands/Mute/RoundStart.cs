@@ -33,7 +33,7 @@ namespace AdminTools.Commands.Mute
                 return false;
             }
 
-            foreach (Player player in Player.List)
+            foreach (var player in Player.List)
             {
                 if(!player.IsMuted && !player.ReferenceHub.serverRoles.RemoteAdmin)
                 {

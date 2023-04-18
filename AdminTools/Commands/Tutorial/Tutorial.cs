@@ -4,7 +4,6 @@ using Exiled.API.Features;
 using MEC;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using RemoteAdmin;
 
 namespace AdminTools.Commands.Tutorial
@@ -75,7 +74,7 @@ namespace AdminTools.Commands.Tutorial
 
         private IEnumerator<float> SetClassAsTutorial(Player ply) 
         {
-            Vector3 oldPos = ply.Position;
+            var oldPos = ply.Position;
             ply.Role.Set(RoleTypeId.Tutorial);
             yield return Timing.WaitForSeconds(0.5f);
             ply.Position = oldPos;

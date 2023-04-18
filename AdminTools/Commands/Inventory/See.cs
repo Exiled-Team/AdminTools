@@ -3,12 +3,9 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
-using System.Text;
 
 namespace AdminTools.Commands.Inventory
 {
-    using Exiled.API.Features.Items;
-
     public class See : ICommand
     {
         public string Command { get; } = "see";
@@ -31,20 +28,20 @@ namespace AdminTools.Commands.Inventory
                 return false;
             }
 
-            Player ply = Player.Get(arguments.At(0));
+            var ply = Player.Get(arguments.At(0));
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
             }
 
-            StringBuilder invBuilder = StringBuilderPool.Shared.Rent();
+            var invBuilder = StringBuilderPool.Shared.Rent();
             if (ply.Items.Count != 0)
             {
                 invBuilder.Append("Player ");
                 invBuilder.Append(ply.Nickname);
                 invBuilder.AppendLine(" has the following items in their inventory:");
-                foreach (Item item in ply.Items)
+                foreach (var item in ply.Items)
                 {
                     invBuilder.Append("- ");
                     invBuilder.AppendLine(item.Type.ToString());
@@ -56,7 +53,7 @@ namespace AdminTools.Commands.Inventory
                 invBuilder.Append(ply.Nickname);
                 invBuilder.Append(" does not have any items in their inventory");
             }
-            string msg = invBuilder.ToString();
+            var msg = invBuilder.ToString();
             StringBuilderPool.Shared.Return(invBuilder);
             response = msg;
             return true;

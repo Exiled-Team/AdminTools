@@ -39,7 +39,7 @@ namespace AdminTools.Commands.TeleportX
             {
                 case "*":
                 case "all":
-                    Player ply = Player.Get(arguments.At(1));
+                    var ply = Player.Get(arguments.At(1));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -47,7 +47,7 @@ namespace AdminTools.Commands.TeleportX
                     }
 
 
-                    foreach (Player plyr in Player.List)
+                    foreach (var plyr in Player.List)
                     {
                         if (plyr.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -58,14 +58,14 @@ namespace AdminTools.Commands.TeleportX
                     response = $"Everyone has been teleported to Player {ply.Nickname}";
                     return true;
                 default:
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    Player plr = Player.Get(arguments.At(1));
+                    var plr = Player.Get(arguments.At(1));
                     if (plr == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";

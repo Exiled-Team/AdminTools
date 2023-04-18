@@ -39,20 +39,20 @@ namespace AdminTools.Commands.Ghost
             switch (arguments.At(0))
             {
                 case "clear":
-                    foreach (Player pl in Player.List)
+                    foreach (var pl in Player.List)
                         pl.DisableEffect<Invisible>();
 
                     response = "Everyone is no longer invisible";
                     return true;
                 case "*":
                 case "all":
-                    foreach (Player pl in Player.List)
+                    foreach (var pl in Player.List)
                         pl.EnableEffect<Invisible>();
 
                     response = "Everyone is now invisible";
                     return true;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";

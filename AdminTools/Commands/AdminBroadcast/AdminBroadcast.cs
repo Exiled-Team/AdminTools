@@ -33,13 +33,13 @@ namespace AdminTools.Commands.AdminBroadcast
                 return false;
             }
 
-            if (!ushort.TryParse(arguments.At(0), out ushort t))
+            if (!ushort.TryParse(arguments.At(0), out var t))
             {
                 response = $"Invalid value for broadcast time: {arguments.At(0)}";
                 return false;
             }
 
-            foreach (Player pl in Player.List)
+            foreach (var pl in Player.List)
             {
                 if (pl.ReferenceHub.serverRoles.RemoteAdmin)
                     pl.Broadcast(t, EventHandlers.FormatArguments(arguments, 1) + $" ~{((CommandSender)sender).Nickname}", Broadcast.BroadcastFlags.AdminChat);

@@ -5,7 +5,6 @@ using RemoteAdmin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AdminTools.Commands.HintBroadcast
 {
@@ -57,14 +56,14 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    Player ply = Player.Get(arguments.At(1));
+                    var ply = Player.Get(arguments.At(1));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort time) && time <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var time) && time <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
@@ -80,35 +79,35 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    string[] users = arguments.At(1).Split(',');
+                    var users = arguments.At(1).Split(',');
                     List<Player> plyList = new();
-                    foreach (string s in users)
+                    foreach (var s in users)
                     {
-                        if (int.TryParse(s, out int id) && Player.Get(id) != null)
+                        if (int.TryParse(s, out var id) && Player.Get(id) != null)
                             plyList.Add(Player.Get(id));
                         else if (Player.Get(s) != null)
                             plyList.Add(Player.Get(s));
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort tme) && tme <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var tme) && tme <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    foreach (Player p in plyList)
+                    foreach (var p in plyList)
                         p.ShowHint(EventHandlers.FormatArguments(arguments, 3), tme);
 
 
-                    StringBuilder builder = StringBuilderPool.Shared.Rent("Hint sent to players: ");
-                    foreach (Player p in plyList)
+                    var builder = StringBuilderPool.Shared.Rent("Hint sent to players: ");
+                    foreach (var p in plyList)
                     {
                         builder.Append("\"");
                         builder.Append(p.Nickname);
                         builder.Append("\"");
                         builder.Append(" ");
                     }
-                    string message = builder.ToString();
+                    var message = builder.ToString();
                     StringBuilderPool.Shared.Return(builder);
                     response = message;
                     return true;
@@ -119,20 +118,20 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    UserGroup broadcastGroup = ServerStatic.PermissionsHandler.GetGroup(arguments.At(1));
+                    var broadcastGroup = ServerStatic.PermissionsHandler.GetGroup(arguments.At(1));
                     if (broadcastGroup == null)
                     {
                         response = $"Invalid group: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort tim) && tim <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var tim) && tim <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    foreach (Player player in Player.List)
+                    foreach (var player in Player.List)
                     {
                         if (player.Group.BadgeText.Equals(broadcastGroup.BadgeText))
                             player.ShowHint(EventHandlers.FormatArguments(arguments, 3), tim);
@@ -147,36 +146,36 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    string[] groups = arguments.At(1).Split(',');
+                    var groups = arguments.At(1).Split(',');
                     List<string> groupList = new();
-                    foreach (string s in groups)
+                    foreach (var s in groups)
                     {
-                        UserGroup broadGroup = ServerStatic.PermissionsHandler.GetGroup(s);
+                        var broadGroup = ServerStatic.PermissionsHandler.GetGroup(s);
                         if (broadGroup != null)
                             groupList.Add(broadGroup.BadgeText);
 
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort e) && e <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var e) && e <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    foreach (Player p in Player.List)
+                    foreach (var p in Player.List)
                         if (groupList.Contains(p.Group.BadgeText))
                             p.ShowHint(EventHandlers.FormatArguments(arguments, 3), e);
 
 
-                    StringBuilder bdr = StringBuilderPool.Shared.Rent("Hint sent to groups with badge text: ");
-                    foreach (string p in groupList)
+                    var bdr = StringBuilderPool.Shared.Rent("Hint sent to groups with badge text: ");
+                    foreach (var p in groupList)
                     {
                         bdr.Append("\"");
                         bdr.Append(p);
                         bdr.Append("\"");
                         bdr.Append(" ");
                     }
-                    string ms = bdr.ToString();
+                    var ms = bdr.ToString();
                     StringBuilderPool.Shared.Return(bdr);
                     response = ms;
                     return true;
@@ -193,13 +192,13 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort te) && te <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var te) && te <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    foreach (Player player in Player.List)
+                    foreach (var player in Player.List)
                     {
                         if (player.Role == role)
                             player.ShowHint(EventHandlers.FormatArguments(arguments, 3), te);
@@ -214,33 +213,33 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    string[] roles = arguments.At(1).Split(',');
+                    var roles = arguments.At(1).Split(',');
                     List<RoleTypeId> roleList = new();
-                    foreach (string s in roles)
+                    foreach (var s in roles)
                     {
                         if (Enum.TryParse(s, true, out RoleTypeId r))
                             roleList.Add(r);
                     }
 
-                    if (!ushort.TryParse(arguments.At(2), out ushort ti) && ti <= 0)
+                    if (!ushort.TryParse(arguments.At(2), out var ti) && ti <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(2)}";
                         return false;
                     }
 
-                    foreach (Player p in Player.List)
+                    foreach (var p in Player.List)
                         if (roleList.Contains(p.Role))
                             p.ShowHint(EventHandlers.FormatArguments(arguments, 3), ti);
 
-                    StringBuilder build = StringBuilderPool.Shared.Rent("Hint sent to roles: ");
-                    foreach (RoleTypeId ro in roleList)
+                    var build = StringBuilderPool.Shared.Rent("Hint sent to roles: ");
+                    foreach (var ro in roleList)
                     {
                         build.Append("\"");
                         build.Append(ro.ToString());
                         build.Append("\"");
                         build.Append(" ");
                     }
-                    string msg = build.ToString();
+                    var msg = build.ToString();
                     StringBuilderPool.Shared.Return(build);
                     response = msg;
                     return true;
@@ -252,13 +251,13 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(1), out ushort me) && me <= 0)
+                    if (!ushort.TryParse(arguments.At(1), out var me) && me <= 0)
                     {
                         response = $"Invalid value for duration: {arguments.At(1)}";
                         return false;
                     }
 
-                    Player plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
+                    var plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
                     plyr.ShowHint(EventHandlers.FormatArguments(arguments, 2), me);
                     response = $"Hint sent to {plyr.Nickname}";
                     return true;
@@ -270,13 +269,13 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(1), out ushort t))
+                    if (!ushort.TryParse(arguments.At(1), out var t))
                     {
                         response = $"Invalid value for hint broadcast time: {arguments.At(1)}";
                         return false;
                     }
 
-                    foreach (Player pl in Player.List)
+                    foreach (var pl in Player.List)
                     {
                         if (pl.ReferenceHub.serverRoles.RemoteAdmin)
                             pl.ShowHint($"<color=orange>[Admin Hint]</color> <color=green>{EventHandlers.FormatArguments(arguments, 2)} - {((CommandSender)sender).Nickname}</color>", t);
@@ -291,7 +290,7 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    foreach (Player py in Player.List)
+                    foreach (var py in Player.List)
                         py.ShowHint(" ");
                     response = "All hints have been cleared";
                     return true;
@@ -302,13 +301,13 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    if (!ushort.TryParse(arguments.At(1), out ushort tm))
+                    if (!ushort.TryParse(arguments.At(1), out var tm))
                     {
                         response = $"Invalid value for hint broadcast time: {arguments.At(0)}";
                         return false;
                     }
 
-                    foreach (Player py in Player.List)
+                    foreach (var py in Player.List)
                         if (py.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
                             py.ShowHint(EventHandlers.FormatArguments(arguments, 2), tm);
                     break;

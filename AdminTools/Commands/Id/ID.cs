@@ -4,7 +4,6 @@ using NorthwoodLib.Pools;
 using RemoteAdmin;
 using System;
 using System.Linq;
-using System.Text;
 
 namespace AdminTools.Commands.Id
 {
@@ -34,11 +33,11 @@ namespace AdminTools.Commands.Id
             {
                 case "*":
                 case "all":
-                    StringBuilder builder = StringBuilderPool.Shared.Rent();
+                    var builder = StringBuilderPool.Shared.Rent();
                     if (Player.List.Count() == 0)
                     {
                         builder.AppendLine("There are no players currently online in the server");
-                        string msg = builder.ToString();
+                        var msg = builder.ToString();
                         StringBuilderPool.Shared.Return(builder);
                         response = msg;
                         return true;
@@ -46,7 +45,7 @@ namespace AdminTools.Commands.Id
                     else
                     {
                         builder.AppendLine("List of ID's on the server:");
-                        foreach (Player ply in Player.List)
+                        foreach (var ply in Player.List)
                         {
                             builder.Append(ply.Nickname);
                             builder.Append(" - ");
@@ -54,7 +53,7 @@ namespace AdminTools.Commands.Id
                             builder.Append(" - ");
                             builder.AppendLine(ply.Id.ToString());
                         }
-                        string msg = builder.ToString();
+                        var msg = builder.ToString();
                         StringBuilderPool.Shared.Return(builder);
                         response = msg;
                         return true;

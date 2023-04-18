@@ -1,26 +1,32 @@
-﻿using System;
-using UnityEngine;
-using MEC;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Exiled.API.Features;
+using MEC;
+using UnityEngine;
 
-namespace AdminTools
+namespace AdminTools.Components
 {
     public class RegenerationComponent : MonoBehaviour
     {
         private Player _player;
-        CoroutineHandle _handle;
+        private CoroutineHandle _handle;
+        
+        public static readonly Dictionary<Player, RegenerationComponent> RegeneratingHubs = new();
+        
+        public static float HealthGain = 5;
+        public static float HealthInterval = 1;
+
         public void Awake()
         {
             _player = Player.Get(gameObject);
             _handle = Timing.RunCoroutine(HealHealth(_player));
-            Plugin.RegeneratingHubs.Add(_player, this);
+            
+            RegeneratingHubs.Add(_player, this);
         }
 
         public void OnDestroy()
         {
             Timing.KillCoroutines(_handle);
-            Plugin.RegeneratingHubs.Remove(_player);
+            RegeneratingHubs.Remove(_player);
         }
 
         public IEnumerator<float> HealHealth(Player ply)
@@ -28,11 +34,11 @@ namespace AdminTools
             while (true)
             {
                 if (ply.Health < ply.MaxHealth)
-                    ply.Health += Plugin.HealthGain;
+                    ply.Health += HealthGain;
                 else
                     ply.Health = ply.MaxHealth;
 
-                yield return Timing.WaitForSeconds(Plugin.HealthInterval);
+                yield return Timing.WaitForSeconds(HealthInterval);
             }
         }
     }

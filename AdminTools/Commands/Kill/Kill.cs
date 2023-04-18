@@ -39,7 +39,7 @@ namespace AdminTools.Commands.Kill
             {
                 case "*":
                 case "all":
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -50,7 +50,7 @@ namespace AdminTools.Commands.Kill
                     response = "Everyone has been game ended (killed) now";
                     return true;
                 default:
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";

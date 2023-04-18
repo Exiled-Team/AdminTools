@@ -1,13 +1,11 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using Mirror;
 using System;
 using UnityEngine;
 
 namespace AdminTools.Commands.DropSize
 {
-    using Exiled.API.Features.Items;
     using Exiled.API.Features.Pickups;
     using PlayerRoles;
 
@@ -58,33 +56,33 @@ namespace AdminTools.Commands.DropSize
                     switch (arguments.Count)
                     {
                         case 3:
-                            if (!float.TryParse(arguments.At(2), out float size))
+                            if (!float.TryParse(arguments.At(2), out var size))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(2)}";
                                 return false;
                             }
-                            SpawnItem(type, size, out string msg);
+                            SpawnItem(type, size, out var msg);
                             response = msg;
                             return true;
                         case 5:
-                            if (!float.TryParse(arguments.At(2), out float xval))
+                            if (!float.TryParse(arguments.At(2), out var xval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(2)}";
                                 return false;
                             }
 
-                            if (!float.TryParse(arguments.At(3), out float yval))
+                            if (!float.TryParse(arguments.At(3), out var yval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(3)}";
                                 return false;
                             }
 
-                            if (!float.TryParse(arguments.At(4), out float zval))
+                            if (!float.TryParse(arguments.At(4), out var zval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(4)}";
                                 return false;
                             }
-                            SpawnItem(type, xval, yval, zval, out string message);
+                            SpawnItem(type, xval, yval, zval, out var message);
                             response = message;
                             return true;
                         default:
@@ -98,7 +96,7 @@ namespace AdminTools.Commands.DropSize
                         return false;
                     }
 
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -114,33 +112,33 @@ namespace AdminTools.Commands.DropSize
                     switch (arguments.Count)
                     {
                         case 3:
-                            if (!float.TryParse(arguments.At(2), out float size))
+                            if (!float.TryParse(arguments.At(2), out var size))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(2)}";
                                 return false;
                             }
-                            SpawnItem(ply, T, size, out string msg);
+                            SpawnItem(ply, T, size, out var msg);
                             response = msg;
                             return true;
                         case 5:
-                            if (!float.TryParse(arguments.At(2), out float xval))
+                            if (!float.TryParse(arguments.At(2), out var xval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(2)}";
                                 return false;
                             }
 
-                            if (!float.TryParse(arguments.At(3), out float yval))
+                            if (!float.TryParse(arguments.At(3), out var yval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(3)}";
                                 return false;
                             }
 
-                            if (!float.TryParse(arguments.At(4), out float zval))
+                            if (!float.TryParse(arguments.At(4), out var zval))
                             {
                                 response = $"Invalid value for item scale: {arguments.At(4)}";
                                 return false;
                             }
-                            SpawnItem(ply, T, xval, yval, zval, out string message);
+                            SpawnItem(ply, T, xval, yval, zval, out var message);
                             response = message;
                             return true;
                         default:
@@ -152,7 +150,7 @@ namespace AdminTools.Commands.DropSize
 
         private void SpawnItem(ItemType type, float size, out string message)
         {
-            foreach (Player ply in Player.List)
+            foreach (var ply in Player.List)
             {
                 if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                     continue;
@@ -164,7 +162,7 @@ namespace AdminTools.Commands.DropSize
 
         private void SpawnItem(ItemType type, float x, float y, float z, out string message)
         {
-            foreach (Player ply in Player.List)
+            foreach (var ply in Player.List)
             {
                 if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                     continue;

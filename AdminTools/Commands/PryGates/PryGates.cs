@@ -3,7 +3,6 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
-using System.Text;
 
 namespace AdminTools.Commands.PryGates
 {
@@ -57,13 +56,13 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.PryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
+                    var playerLister = StringBuilderPool.Shared.Rent(Plugin.PryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
                     if (Plugin.PryGateHubs.Count > 0)
                     {
                         foreach (Player ply in Plugin.PryGateHubs)
                             playerLister.Append(ply.Nickname + ", ");
 
-                        int length = playerLister.ToString().Length;
+                        var length = playerLister.ToString().Length;
                         response = playerLister.ToString().Substring(0, length - 2);
                         StringBuilderPool.Shared.Return(playerLister);
                         return true;
@@ -81,7 +80,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    Player plyr = Player.Get(arguments.At(1));
+                    var plyr = Player.Get(arguments.At(1));
                     if (plyr == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -104,7 +103,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                     {
                         if (!Plugin.PryGateHubs.Contains(ply))
                             Plugin.PryGateHubs.Add(ply);
@@ -119,7 +118,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player \"{arguments.At(0)}\" not found";

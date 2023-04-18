@@ -1,6 +1,5 @@
 ﻿using CommandSystem;
 using Exiled.Permissions.Extensions;
-using Mirror;
 using System;
 
 namespace AdminTools.Commands.Cleanup
@@ -29,7 +28,7 @@ namespace AdminTools.Commands.Cleanup
                 return false;
             }
 
-            foreach (Ragdoll doll in Ragdoll.List)
+            foreach (var doll in Ragdoll.List)
                 doll.Destroy();
 
             response = "Ragdolls have been cleaned up now";

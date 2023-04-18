@@ -46,13 +46,13 @@ namespace AdminTools.Commands.Explode
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
 
                         ply.Kill("Exploded by admin.");
-                        ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
+                        var grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
                         grenade.FuseTime = 0.5f;
                         grenade.SpawnActive(ply.Position, ply);
                     }
@@ -65,7 +65,7 @@ namespace AdminTools.Commands.Explode
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Invalid target to explode: {arguments.At(0)}";
@@ -79,7 +79,7 @@ namespace AdminTools.Commands.Explode
                     }
 
                     pl.Kill("Exploded by admin.");
-                    ExplosiveGrenade gr = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
+                    var gr = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
                     gr.FuseTime = 0.5f;
                     gr.SpawnActive(pl.Position, pl);
                     response = $"Player \"{pl.Nickname}\" game ended (exploded)";

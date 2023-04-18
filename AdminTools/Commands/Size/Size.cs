@@ -39,7 +39,7 @@ namespace AdminTools.Commands.Size
             switch (arguments.At(0))
             {
                 case "reset":
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -57,25 +57,25 @@ namespace AdminTools.Commands.Size
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float xval))
+                    if (!float.TryParse(arguments.At(1), out var xval))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out float yval))
+                    if (!float.TryParse(arguments.At(2), out var yval))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out float zval))
+                    if (!float.TryParse(arguments.At(3), out var zval))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                     {
                         if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.None)
                             continue;
@@ -92,26 +92,26 @@ namespace AdminTools.Commands.Size
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float x))
+                    if (!float.TryParse(arguments.At(1), out var x))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out float y))
+                    if (!float.TryParse(arguments.At(2), out var y))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out float z))
+                    if (!float.TryParse(arguments.At(3), out var z))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;

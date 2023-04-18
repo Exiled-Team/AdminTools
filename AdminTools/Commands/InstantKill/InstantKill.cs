@@ -3,7 +3,6 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
-using System.Text;
 
 namespace AdminTools.Commands.InstantKill
 {
@@ -60,7 +59,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.InstantKillingHubs.Count != 0 ? "Players with instant killing on:\n" : "No players currently online have instant killing on");
+                    var playerLister = StringBuilderPool.Shared.Rent(Plugin.InstantKillingHubs.Count != 0 ? "Players with instant killing on:\n" : "No players currently online have instant killing on");
                     if (Plugin.InstantKillingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
@@ -73,7 +72,7 @@ namespace AdminTools.Commands.InstantKill
                         playerLister.Append(", ");
                     }
 
-                    string msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
+                    var msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
                     StringBuilderPool.Shared.Return(playerLister);
                     response = msg;
                     return true;
@@ -84,7 +83,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(1));
+                    var pl = Player.Get(arguments.At(1));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
@@ -108,7 +107,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         if (!ply.ReferenceHub.TryGetComponent(out InstantKillComponent _))
                             ply.ReferenceHub.gameObject.AddComponent<InstantKillComponent>();
 
@@ -121,7 +120,7 @@ namespace AdminTools.Commands.InstantKill
                         return false;
                     }
 
-                    Player plyr = Player.Get(arguments.At(0));
+                    var plyr = Player.Get(arguments.At(0));
                     if (plyr == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";

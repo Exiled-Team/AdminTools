@@ -1,5 +1,4 @@
 ﻿using CommandSystem;
-using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 
@@ -27,7 +26,7 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (Player player in Plugin.RoundStartMutes)
+            foreach (var player in Plugin.RoundStartMutes)
             {
                 player.IsMuted = false;
             }

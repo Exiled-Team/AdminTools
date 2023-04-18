@@ -2,11 +2,9 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using UnityEngine;
 
 namespace AdminTools.Commands.DropItem
 {
-    using Exiled.API.Features.Items;
     using Exiled.API.Features.Pickups;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -53,14 +51,14 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    if (!uint.TryParse(arguments.At(2), out uint amount) || amount > 15)
+                    if (!uint.TryParse(arguments.At(2), out var amount) || amount > 15)
                     {
                         response = $"Invalid amount of item to drop: {arguments.At(2)} {(amount > 15 ? "(\"Try a lower number that won't crash my servers, ty.\" - Galaxy119)" : "")}";
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
-                        for (int i = 0; i < amount; i++)
+                    foreach (var ply in Player.List)
+                        for (var i = 0; i < amount; i++)
                             Pickup.CreateAndSpawn(item, ply.Position, default, ply);
 
                     response = $"{amount} of {item.ToString()} was spawned on everyone (\"Hehexd\" - Galaxy119)";
@@ -72,7 +70,7 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -85,13 +83,13 @@ namespace AdminTools.Commands.DropItem
                         return false;
                     }
 
-                    if (!uint.TryParse(arguments.At(2), out uint am) || am > 200)
+                    if (!uint.TryParse(arguments.At(2), out var am) || am > 200)
                     {
                         response = $"Invalid amount of item to drop: {arguments.At(2)}";
                         return false;
                     }
 
-                    for (int i = 0; i < am; i++)
+                    for (var i = 0; i < am; i++)
                         Pickup.CreateAndSpawn(it, pl.Position, default, pl);
                     response = $"{am} of {it.ToString()} was spawned on {pl.Nickname} (\"Hehexd\" - Galaxy119)";
                     return true;

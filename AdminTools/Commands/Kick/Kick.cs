@@ -1,7 +1,6 @@
 ﻿using CommandSystem;
 using Exiled.Permissions.Extensions;
 using System;
-using UnityEngine;
 
 namespace AdminTools.Commands.Kick
 {
@@ -35,7 +34,7 @@ namespace AdminTools.Commands.Kick
                 return false;
             }
 
-            Player ply = Player.Get(arguments.At(0));
+            var ply = Player.Get(arguments.At(0));
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(0)}";

@@ -1,12 +1,11 @@
 ﻿using CommandSystem;
 using NorthwoodLib.Pools;
 using System;
-using System.Text;
+using AdminTools.API.Enums;
 
 namespace AdminTools.Commands.Enums
 {
     using Exiled.API.Enums;
-    using Exiled.API.Features.Pickups;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
@@ -24,7 +23,7 @@ namespace AdminTools.Commands.Enums
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            StringBuilder listBuilder = StringBuilderPool.Shared.Rent();
+            var listBuilder = StringBuilderPool.Shared.Rent();
             listBuilder.Append("Here are the following enums you can use in commands:");
             listBuilder.AppendLine();
             listBuilder.Append("ItemType: ");
@@ -54,7 +53,7 @@ namespace AdminTools.Commands.Enums
                 listBuilder.Append(pm.ToString());
                 listBuilder.Append(" ");
             }
-            string message = listBuilder.ToString();
+            var message = listBuilder.ToString();
             StringBuilderPool.Shared.Return(listBuilder);
             response = message;
             return true;

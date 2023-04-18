@@ -8,7 +8,6 @@ namespace AdminTools.Commands.Grenade
     using Exiled.API.Enums;
     using Exiled.API.Features.Items;
     using Exiled.API.Extensions;
-    using InventorySystem.Items.ThrowableProjectiles;
     using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -45,7 +44,7 @@ namespace AdminTools.Commands.Grenade
                 return false;
             }
 
-            if (!float.TryParse(arguments.At(2), out float fuseTime))
+            if (!float.TryParse(arguments.At(2), out var fuseTime))
             {
                 response = $"Invalid fuse time for grenade: {arguments.At(2)}";
                 return false;
@@ -58,7 +57,7 @@ namespace AdminTools.Commands.Grenade
                     if (type == ProjectileType.Scp018)
                         Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
                     
-                    foreach (Player player in Player.List)
+                    foreach (var player in Player.List)
                     {
                         if (player.Role != RoleTypeId.Spectator) 
                             SpawnGrenade(player, type, fuseTime);
@@ -66,7 +65,7 @@ namespace AdminTools.Commands.Grenade
 
                     break;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -86,19 +85,19 @@ namespace AdminTools.Commands.Grenade
             switch (type)
             {
                 case ProjectileType.Flashbang:
-                    FlashGrenade flash = (FlashGrenade) Item.Create(ItemType.GrenadeFlash);
+                    var flash = (FlashGrenade) Item.Create(ItemType.GrenadeFlash);
                     flash.FuseTime = fuseTime;
                     flash.SpawnActive(player.Position);
 
                     break;
                 case ProjectileType.Scp2176:
-                    Scp2176 scp2176 = (Scp2176)Item.Create(ItemType.SCP2176);
+                    var scp2176 = (Scp2176)Item.Create(ItemType.SCP2176);
                     scp2176.FuseTime = fuseTime;
                     scp2176.SpawnActive(player.Position);
 
                     break;
                 default:
-                    ExplosiveGrenade grenade = (ExplosiveGrenade) Item.Create(type.GetItemType());
+                    var grenade = (ExplosiveGrenade) Item.Create(type.GetItemType());
                     grenade.FuseTime = fuseTime;
                     grenade.SpawnActive(player.Position);
                     break;

@@ -7,10 +7,7 @@ using System;
 namespace AdminTools.Commands.SpawnRagdoll
 {
     using System.Collections.Generic;
-    using Mirror;
     using PlayerRoles;
-    using PlayerStatsSystem;
-    using UnityEngine;
     using Ragdoll = Exiled.API.Features.Ragdoll;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -47,7 +44,7 @@ namespace AdminTools.Commands.SpawnRagdoll
                 return false;
             }
 
-            if (!int.TryParse(arguments.At(2), out int amount))
+            if (!int.TryParse(arguments.At(2), out var amount))
             {
                 response = $"Invalid amount of ragdolls to spawn: {arguments.At(2)}";
                 return false;
@@ -57,7 +54,7 @@ namespace AdminTools.Commands.SpawnRagdoll
             {
                 case "*":
                 case "all":
-                    foreach (Player player in Player.List)
+                    foreach (var player in Player.List)
                     {
                         if (player.Role != RoleTypeId.Spectator) 
                             Timing.RunCoroutine(SpawnDolls(player, type, amount));
@@ -65,7 +62,7 @@ namespace AdminTools.Commands.SpawnRagdoll
 
                     break;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply is null)
                     {
                         response = $"Player {arguments.At(0)} not found.";
@@ -83,7 +80,7 @@ namespace AdminTools.Commands.SpawnRagdoll
 
         private IEnumerator<float> SpawnDolls(Player player, RoleTypeId type, int amount)
         {
-            for (int i = 0; i < amount; i++)
+            for (var i = 0; i < amount; i++)
             {
                 Ragdoll.CreateAndSpawn(type, "SCP-343", "End of the Universe", player.Position, default);
                 yield return Timing.WaitForSeconds(0.5f);

@@ -27,7 +27,7 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (Player ply in Player.List)
+            foreach (var ply in Player.List)
                 ply.IsIntercomMuted = false;
 
             response = "Everyone from the server who is not a staff can speak in the intercom now";

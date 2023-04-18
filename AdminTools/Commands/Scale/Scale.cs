@@ -42,7 +42,7 @@ namespace AdminTools.Commands.Scale
                         response = "Usage: scale reset";
                         return false;
                     }
-                    foreach (Player plyr in Player.List)
+                    foreach (var plyr in Player.List)
                         EventHandlers.SetPlayerScale(plyr, 1);
 
                     response = $"Everyone's scale has been reset";
@@ -55,13 +55,13 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float value))
+                    if (!float.TryParse(arguments.At(1), out var value))
                     {
                         response = $"Invalid value for scale: {arguments.At(1)}";
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         EventHandlers.SetPlayerScale(ply, value);
 
                     response = $"Everyone's scale has been set to {value}";
@@ -73,14 +73,14 @@ namespace AdminTools.Commands.Scale
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return true;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float val))
+                    if (!float.TryParse(arguments.At(1), out var val))
                     {
                         response = $"Invalid value for scale: {arguments.At(1)}";
                         return false;

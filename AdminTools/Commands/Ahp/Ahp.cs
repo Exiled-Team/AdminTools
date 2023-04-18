@@ -36,7 +36,7 @@ namespace AdminTools.Commands.Ahp
             }
 
             List<Player> players = new();
-            if (!float.TryParse(arguments.At(1), out float value))
+            if (!float.TryParse(arguments.At(1), out var value))
             {
                 response = $"Invalid value for AHP: {value}";
                 return false;
@@ -45,11 +45,11 @@ namespace AdminTools.Commands.Ahp
             {
                 case "*":
                 case "all":
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         players.Add(ply);
                     break;
                 default:
-                    Player player = Player.Get(arguments.At(0));
+                    var player = Player.Get(arguments.At(0));
                     if (player == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -61,7 +61,7 @@ namespace AdminTools.Commands.Ahp
             }
 
             response = string.Empty;
-            foreach (Player p in players)
+            foreach (var p in players)
             {
                 p.ArtificialHealth = value;
                 response += $"\n{p.Nickname}'s AHP has been set to {value}";

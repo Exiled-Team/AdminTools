@@ -1,10 +1,8 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
 using System;
 using System.Linq;
-using System.Text;
 
 namespace AdminTools.Commands.TargetGhost
 {
@@ -40,15 +38,15 @@ namespace AdminTools.Commands.TargetGhost
                 return false;
             }
 
-            if (!GetPlayer(arguments.At(0), out Player sourcePlayer))
+            if (!GetPlayer(arguments.At(0), out var sourcePlayer))
             {
                 response = $"Invalid source player: {arguments.At(0)}";
                 return false;
             }
 
-            foreach (string arg in arguments.Skip(1))
+            foreach (var arg in arguments.Skip(1))
             {
-                if (!GetPlayer(arg, out Player victim))
+                if (!GetPlayer(arg, out var victim))
                     continue;
 
                 if (sourcePlayer.Role.Is(out FpcRole role))

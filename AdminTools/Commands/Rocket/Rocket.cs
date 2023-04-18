@@ -40,19 +40,19 @@ namespace AdminTools.Commands.Rocket
             {
                 case "*":
                 case "all":
-                    if (!float.TryParse(arguments.At(1), out float speed) && speed <= 0)
+                    if (!float.TryParse(arguments.At(1), out var speed) && speed <= 0)
                     {
                         response = $"Speed argument invalid: {arguments.At(1)}";
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         Timing.RunCoroutine(EventHandlers.DoRocket(ply, speed));
 
                     response = "Everyone has been rocketed into the sky (We're going on a trip, in our favorite rocketship)";
                     return true;
                 default:
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -64,7 +64,7 @@ namespace AdminTools.Commands.Rocket
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float spd) && spd <= 0)
+                    if (!float.TryParse(arguments.At(1), out var spd) && spd <= 0)
                     {
                         response = $"Speed argument invalid: {arguments.At(1)}";
                         return false;

@@ -4,7 +4,7 @@ using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
 using System.Linq;
-using System.Text;
+using AdminTools.API.Enums;
 using UnityEngine;
 
 namespace AdminTools.Commands.Position
@@ -55,17 +55,17 @@ namespace AdminTools.Commands.Position
                                 response = "Usage: position (all / *) (set) (x position) (y position) (z position)";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(2), out float xval))
+                            if (!float.TryParse(arguments.At(2), out var xval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(2)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(3), out float yval))
+                            if (!float.TryParse(arguments.At(3), out var yval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(3)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(4), out float zval))
+                            if (!float.TryParse(arguments.At(4), out var zval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(4)}";
                                 return false;
@@ -75,7 +75,7 @@ namespace AdminTools.Commands.Position
                                 response = "There are no players currently online";
                                 return true;
                             }
-                            foreach (Player ply in Player.List)
+                            foreach (var ply in Player.List)
                             {
                                 ply.Position = new Vector3(xval, yval, zval);
                             }
@@ -87,14 +87,14 @@ namespace AdminTools.Commands.Position
                                 response = "Usage: position (all / *) (get)";
                                 return false;
                             }
-                            StringBuilder positionBuilder = StringBuilderPool.Shared.Rent();
+                            var positionBuilder = StringBuilderPool.Shared.Rent();
                             if (Player.List.Count() == 0)
                             {
                                 response = "There are no players currently online";
                                 return true;
                             }
                             positionBuilder.Append("\n");
-                            foreach (Player ply in Player.List)
+                            foreach (var ply in Player.List)
                             {
                                 positionBuilder.Append(ply.Nickname);
                                 positionBuilder.Append("'s (");
@@ -107,7 +107,7 @@ namespace AdminTools.Commands.Position
                                 positionBuilder.Append(" ");
                                 positionBuilder.AppendLine(ply.Position.z.ToString());
                             }
-                            string message = positionBuilder.ToString();
+                            var message = positionBuilder.ToString();
                             StringBuilderPool.Shared.Return(positionBuilder);
                             response = message;
                             return true;
@@ -122,7 +122,7 @@ namespace AdminTools.Commands.Position
                                 response = $"Invalid value for vector axis: {arguments.At(2)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(3), out float val))
+                            if (!float.TryParse(arguments.At(3), out var val))
                             {
                                 response = $"Invalid value for position: {arguments.At(3)}";
                                 return false;
@@ -130,19 +130,19 @@ namespace AdminTools.Commands.Position
                             switch (axis)
                             {
                                 case VectorAxis.X:
-                                    foreach (Player ply in Player.List)
+                                    foreach (var ply in Player.List)
                                         ply.Position = new Vector3(ply.Position.x + val, ply.Position.y, ply.Position.z);
 
                                     response = $"Every player's x position has been added by {val}";
                                     return true;
                                 case VectorAxis.Y:
-                                    foreach (Player ply in Player.List)
+                                    foreach (var ply in Player.List)
                                         ply.Position = new Vector3(ply.Position.x, ply.Position.y + val, ply.Position.z);
 
                                     response = $"Every player's y position has been added by {val}";
                                     return true;
                                 case VectorAxis.Z:
-                                    foreach (Player ply in Player.List)
+                                    foreach (var ply in Player.List)
                                         ply.Position = new Vector3(ply.Position.x, ply.Position.y, ply.Position.z + val);
 
                                     response = $"Every player's z position has been added by {val}";
@@ -155,7 +155,7 @@ namespace AdminTools.Commands.Position
                     }
                     break;
                 default:
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -176,17 +176,17 @@ namespace AdminTools.Commands.Position
                                 response = "Usage: position (player id / name) (set) (x position) (y position) (z position)";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(2), out float xval))
+                            if (!float.TryParse(arguments.At(2), out var xval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(2)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(3), out float yval))
+                            if (!float.TryParse(arguments.At(3), out var yval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(3)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(4), out float zval))
+                            if (!float.TryParse(arguments.At(4), out var zval))
                             {
                                 response = $"Invalid value for x position: {arguments.At(4)}";
                                 return false;
@@ -215,7 +215,7 @@ namespace AdminTools.Commands.Position
                                 response = $"Invalid value for vector axis: {arguments.At(2)}";
                                 return false;
                             }
-                            if (!float.TryParse(arguments.At(3), out float val))
+                            if (!float.TryParse(arguments.At(3), out var val))
                             {
                                 response = $"Invalid value for position: {arguments.At(2)}";
                                 return false;

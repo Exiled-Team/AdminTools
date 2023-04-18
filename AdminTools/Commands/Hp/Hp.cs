@@ -37,13 +37,13 @@ namespace AdminTools.Commands.Hp
             {
                 case "*":
                 case "all":
-                    if (!int.TryParse(arguments.At(1), out int value))
+                    if (!int.TryParse(arguments.At(1), out var value))
                     {
                         response = $"Invalid value for HP: {value}";
                         return false;
                     }
 
-                    foreach (Player pl in Player.List)
+                    foreach (var pl in Player.List)
                     {
                         if (value <= 0)
                             pl.Kill("Killed by admin.");
@@ -54,14 +54,14 @@ namespace AdminTools.Commands.Hp
                     response = $"Everyone's HP was set to {value}";
                     return true;
                 default:
-                    Player ply = Player.Get(arguments.At(0));
+                    var ply = Player.Get(arguments.At(0));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
 
-                    if (!int.TryParse(arguments.At(1), out int val))
+                    if (!int.TryParse(arguments.At(1), out var val))
                     {
                         response = $"Invalid value for HP: {val}";
                         return false;

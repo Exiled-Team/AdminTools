@@ -3,7 +3,6 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
 using System;
-using System.Linq;
 
 namespace AdminTools.Commands.Jail
 {
@@ -35,14 +34,14 @@ namespace AdminTools.Commands.Jail
                 return false;
             }
 
-            Player ply = Player.Get(arguments.At(0));
+            var ply = Player.Get(arguments.At(0));
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
             }
 
-            if (Plugin.JailedPlayers.Any(j => j.Userid == ply.UserId))
+            if (Plugin.JailedPlayers.Any(j => j.UserId == ply.UserId))
             {
                 try
                 {

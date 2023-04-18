@@ -3,7 +3,6 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using RemoteAdmin;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ namespace AdminTools.Commands.SpawnWorkbench
                 return false;
             }
 
-            Player player = Player.Get(plysend.ReferenceHub);
+            var player = Player.Get(plysend.ReferenceHub);
 
             if (arguments.Count < 1)
             {
@@ -58,20 +57,20 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    Player ply = Player.Get(arguments.At(1));
+                    var ply = Player.Get(arguments.At(1));
                     if (ply == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!int.TryParse(arguments.At(2), out int min) && min < 0)
+                    if (!int.TryParse(arguments.At(2), out var min) && min < 0)
                     {
                         response = $"Invalid value for minimum index: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!int.TryParse(arguments.At(3), out int max) && max < 0)
+                    if (!int.TryParse(arguments.At(3), out var max) && max < 0)
                     {
                         response = $"Invalid value for maximum index: {arguments.At(3)}";
                         return false;
@@ -83,7 +82,7 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    if (!Plugin.SpawnedBenchHubs.TryGetValue(ply, out List<GameObject> objs))
+                    if (!Plugin.SpawnedBenchHubs.TryGetValue(ply, out var objs))
                     {
                         response = $"{ply.Nickname} has not spawned in any workbenches";
                         return false;
@@ -104,7 +103,7 @@ namespace AdminTools.Commands.SpawnWorkbench
                     min = min == 0 ? 0 : min - 1;
                     max = max == 0 ? 0 : max - 1;
 
-                    for (int i = min; i <= max; i++)
+                    for (var i = min; i <= max; i++)
                     {
                         UnityEngine.Object.Destroy(objs.ElementAt(i));
                         objs[i] = null;
@@ -120,9 +119,9 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return true;
                     }
 
-                    foreach (KeyValuePair<Player, List<GameObject>> bch in Plugin.SpawnedBenchHubs)
+                    foreach (var bch in Plugin.SpawnedBenchHubs)
                     {
-                        foreach (GameObject bench in bch.Value)
+                        foreach (var bench in bch.Value)
                             UnityEngine.Object.Destroy(bench);
                         bch.Value.Clear();
                     }
@@ -137,14 +136,14 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    Player plyr = Player.Get(arguments.At(1));
+                    var plyr = Player.Get(arguments.At(1));
                     if (plyr == null)
                     {
                         response = $"Player not found: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!Plugin.SpawnedBenchHubs.TryGetValue(plyr, out List<GameObject> obj) || obj.Count == 0)
+                    if (!Plugin.SpawnedBenchHubs.TryGetValue(plyr, out var obj) || obj.Count == 0)
                     {
                         response = $"{plyr.Nickname} has not spawned in any workbenches";
                         return false;
@@ -160,31 +159,31 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float xval))
+                    if (!float.TryParse(arguments.At(1), out var xval))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out float yval))
+                    if (!float.TryParse(arguments.At(2), out var yval))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out float zval))
+                    if (!float.TryParse(arguments.At(3), out var zval))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;
                     }
 
-                    int index = 0;
-                    foreach (Player p in Player.List)
+                    var index = 0;
+                    foreach (var p in Player.List)
                     {
                         if (p.Role == RoleTypeId.Spectator || p.Role == RoleTypeId.None)
                             continue;
 
-                        EventHandlers.SpawnWorkbench(player, p.Position + p.ReferenceHub.PlayerCameraReference.forward * 2, p.GameObject.transform.rotation.eulerAngles, new Vector3(xval, yval, zval), out int benchIndex);
+                        EventHandlers.SpawnWorkbench(player, p.Position + p.ReferenceHub.PlayerCameraReference.forward * 2, p.GameObject.transform.rotation.eulerAngles, new Vector3(xval, yval, zval), out var benchIndex);
                         index = benchIndex;
                     }
 
@@ -197,7 +196,7 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
@@ -209,25 +208,25 @@ namespace AdminTools.Commands.SpawnWorkbench
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float x))
+                    if (!float.TryParse(arguments.At(1), out var x))
                     {
                         response = $"Invalid value for x size: {arguments.At(1)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(2), out float y))
+                    if (!float.TryParse(arguments.At(2), out var y))
                     {
                         response = $"Invalid value for y size: {arguments.At(2)}";
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(3), out float z))
+                    if (!float.TryParse(arguments.At(3), out var z))
                     {
                         response = $"Invalid value for z size: {arguments.At(3)}";
                         return false;
                     }
 
-                    EventHandlers.SpawnWorkbench(player, pl.Position + pl.ReferenceHub.PlayerCameraReference.forward * 2, pl.GameObject.transform.rotation.eulerAngles, new Vector3(x, y, z), out int benchI);
+                    EventHandlers.SpawnWorkbench(player, pl.Position + pl.ReferenceHub.PlayerCameraReference.forward * 2, pl.GameObject.transform.rotation.eulerAngles, new Vector3(x, y, z), out var benchI);
                     response = $"A workbench has spawned on Player {pl.Nickname}, you now spawned in a total of {(benchI != 1 ? $"{benchI} workbenches" : $"{benchI} workbench")}";
                     return true;
             }

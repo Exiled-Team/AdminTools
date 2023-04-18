@@ -3,7 +3,7 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
 using System;
-using System.Text;
+using AdminTools.Components;
 
 namespace AdminTools.Commands.Regeneration
 {
@@ -61,7 +61,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.RegeneratingHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
+                    var playerLister = StringBuilderPool.Shared.Rent(Plugin.RegeneratingHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
                     if (Plugin.RegeneratingHubs.Count == 0)
                     {
                         response = playerLister.ToString();
@@ -74,7 +74,7 @@ namespace AdminTools.Commands.Regeneration
                         playerLister.Append(", ");
                     }
 
-                    string msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
+                    var msg = playerLister.ToString().Substring(0, playerLister.ToString().Length - 2);
                     StringBuilderPool.Shared.Return(playerLister);
                     response = msg;
                     return true;
@@ -85,7 +85,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float healvalue) || healvalue < 0.05)
+                    if (!float.TryParse(arguments.At(1), out var healvalue) || healvalue < 0.05)
                     {
                         response = $"Invalid value for healing: {arguments.At(1)}";
                         return false;
@@ -101,7 +101,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    if (!float.TryParse(arguments.At(1), out float healtime) || healtime < 0.05)
+                    if (!float.TryParse(arguments.At(1), out var healtime) || healtime < 0.05)
                     {
                         response = $"Invalid value for healing time interval: {arguments.At(1)}";
                         return false;
@@ -118,7 +118,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    foreach (Player ply in Player.List)
+                    foreach (var ply in Player.List)
                         if (!ply.ReferenceHub.TryGetComponent(out RegenerationComponent _))
                             ply.ReferenceHub.gameObject.AddComponent<RegenerationComponent>();
 
@@ -131,7 +131,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    Player pl = Player.Get(arguments.At(0));
+                    var pl = Player.Get(arguments.At(0));
                     if (pl == null)
                     {
                         response = $"Player not found: {arguments.At(0)}";
