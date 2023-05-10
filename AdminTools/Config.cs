@@ -13,5 +13,8 @@ namespace AdminTools
 
         [Description("Should the tutorial class be in God Mode? Default: true")]
         public bool GodTuts { get; set; } = true;
+        
+        [Description("Can the vanished players see each other? Default: true")]
+        public bool VanishedSeeEachOther { get; set; } = true;
     }
 }

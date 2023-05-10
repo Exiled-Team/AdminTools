@@ -38,6 +38,7 @@ An SCP:SL EXILED plugin that gives server owners fun commands and logging functi
 - Teleport all users to a specific user, or a user to another user, with ease
 - Set yourself or other users as a tutorial with ease
 - Unmute all users from intercom or voice with ease
+- Vanish allow you to disappear completely (for the spectators and in game) in order to moderate more easily.
 ```
 
 ### Permissions
@@ -75,4 +76,5 @@ tags - at.tags
 targetghost - at.targetghost
 teleportx - at.tp
 tutorial - at.tut
+vanish - at.vanish
 ```

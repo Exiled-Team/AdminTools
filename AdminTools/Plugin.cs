@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Exiled.API.Features;
+using Exiled.API.Features.Roles;
 using Handlers = Exiled.Events.Handlers;
 using UnityEngine;
 
@@ -14,9 +15,12 @@ namespace AdminTools
 		public override string Prefix { get; } = "AT";
 		public override Version RequiredExiledVersion { get; } = new(6, 0, 0);
 
+		public static Plugin Instance;
+
 		public EventHandlers EventHandlers;
 		public static System.Random NumGen = new();
 		public static List<Jailed> JailedPlayers = new();
+		public static Dictionary<Player, Role> VanishedPlayers = new();
 		public static Dictionary<Player, InstantKillComponent> IkHubs = new();
 		public static Dictionary<Player, RegenerationComponent> RgnHubs = new();
 		public static HashSet<Player> PryGateHubs = new();
@@ -33,6 +37,8 @@ namespace AdminTools
 		{
 			try
 			{
+				Instance = this;
+				
 				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 				string pluginPath = Path.Combine(appData, "Plugins");
 				string path = Path.Combine(Paths.Plugins, "AdminTools");

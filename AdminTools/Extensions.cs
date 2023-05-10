@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Exiled.API.Features;
 
 namespace AdminTools
 {
@@ -12,5 +13,7 @@ namespace AdminTools
 			MethodInfo info = type.GetMethod(methodName, flags);
 			info?.Invoke(null, param);
 		}
+
+		public static bool IsVanished(this Player player) => Plugin.VanishedPlayers.ContainsKey(player);
 	}
 }

@@ -216,7 +216,7 @@ namespace AdminTools
 			}
 			Plugin.JailedPlayers.Remove(jail);
 		}
-
+		
 		public void OnPlayerVerified(VerifiedEventArgs ev)
 		{
 			try
@@ -248,7 +248,7 @@ namespace AdminTools
 				Log.Error($"Player Join: {e}");
 			}
 		}
-
+		
 		public void OnRoundStart()
 		{
 			foreach (Player ply in Plugin.RoundStartMutes)
