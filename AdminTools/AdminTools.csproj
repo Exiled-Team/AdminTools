@@ -107,11 +107,13 @@
     <Compile Include="Commands\Unmute\Unmute.cs" />
     <Compile Include="Commands\Unmute\RoundStart.cs" />
     <Compile Include="Commands\Kick\Kick.cs" />
+    <Compile Include="Commands\Vanish\Vanish.cs" />
     <Compile Include="Components\RegenerationComponent.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Components\InstantKillComponent.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Jailed.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

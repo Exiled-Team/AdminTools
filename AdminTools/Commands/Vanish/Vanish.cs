@@ -13,7 +13,7 @@ namespace AdminTools.Commands.Vanish
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
-    public class Vanish : ParentCommand
+    public class Vanish : ParentCommand, IUsageProvider
     {
         public Vanish() => LoadGeneratedCommands();
 
@@ -22,12 +22,14 @@ namespace AdminTools.Commands.Vanish
         public override string[] Aliases { get; } = new string[] { };
 
         public override string Description { get; } = "Sets a user to be vanished";
-        
+
+        public string[] Usage { get; } = new string[] { "%player%" };
+
         public override void LoadGeneratedCommands() { }
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!((CommandSender)sender).CheckPermission("at.vanish"))
+            if (!sender.CheckPermission("at.vanish"))
             {
                 response = "You do not have permission to use this command";
                 return false;
@@ -39,8 +41,7 @@ namespace AdminTools.Commands.Vanish
                 return false;
             }
             
-            Player ply = Player.Get(arguments.At(0));
-            if (ply == null)
+            if (Player.TryGet(arguments.At(0), out Player ply))
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
@@ -50,7 +51,7 @@ namespace AdminTools.Commands.Vanish
             {
                 var targets = Player.List.Where(pl => pl != ply);
                 
-                if (Plugin.Instance.Config.VanishedSeeEachOther)
+                if (Main.Instance.Config.VanishedSeeEachOther)
                     targets = targets.Where(pl => !pl.IsVanished());
                 
                 ply.ChangeAppearance(RoleTypeId.Spectator, targets);
@@ -58,9 +59,7 @@ namespace AdminTools.Commands.Vanish
             }
             else
             {
-                Plugin.VanishedPlayers.ForEachKey(vanished => vanished.ChangeAppearance(RoleTypeId.Spectator, Enumerable.Repeat(ply, 1),0));
-
-                ply.ChangeAppearance(Plugin.VanishedPlayers[ply], 0);
+                ply.ChangeAppearance(Main.VanishedPlayers[ply]);
                 response = $"Player {ply.Nickname} is no longer vanished";
             }
             return true;

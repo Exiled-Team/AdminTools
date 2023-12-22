@@ -14,6 +14,6 @@ namespace AdminTools
 			info?.Invoke(null, param);
 		}
 
-		public static bool IsVanished(this Player player) => Plugin.VanishedPlayers.ContainsKey(player);
+		public static bool IsVanished(this Player player) => Main.VanishedPlayers.ContainsKey(player);
 	}
 }
