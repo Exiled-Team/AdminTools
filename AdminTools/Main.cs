@@ -53,9 +53,9 @@ namespace AdminTools
 
 				EventHandlers = new EventHandlers(this);
 				Handlers.Player.Verified += EventHandlers.OnPlayerVerified;
-				Handlers.Server.RoundEnded += EventHandlers.OnRoundEnd;
+                Handlers.Server.RoundEnded += EventHandlers.OnRoundEnd;
 				Handlers.Player.TriggeringTesla += EventHandlers.OnTriggerTesla;
-				Handlers.Player.ChangingRole += EventHandlers.OnSetClass;
+				Handlers.Player.ChangingRole += EventHandlers.OnChangingRole;
 				Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
 				Handlers.Player.InteractingDoor += EventHandlers.OnDoorOpen;
 				Handlers.Server.RoundStarted += EventHandlers.OnRoundStart;
@@ -74,7 +74,7 @@ namespace AdminTools
 			Handlers.Player.Verified -= EventHandlers.OnPlayerVerified;
 			Handlers.Server.RoundEnded -= EventHandlers.OnRoundEnd;
 			Handlers.Player.TriggeringTesla -= EventHandlers.OnTriggerTesla;
-			Handlers.Player.ChangingRole -= EventHandlers.OnSetClass;
+			Handlers.Player.ChangingRole -= EventHandlers.OnChangingRole;
 			Handlers.Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
 			Handlers.Server.RoundStarted -= EventHandlers.OnRoundStart;
 			Handlers.Player.Destroying -= EventHandlers.OnPlayerDestroyed;

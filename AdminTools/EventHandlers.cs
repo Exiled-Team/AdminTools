@@ -287,11 +287,13 @@ namespace AdminTools
 				ev.IsAllowed = false;
 		}
 
-		public void OnSetClass(ChangingRoleEventArgs ev)
+		public void OnChangingRole(ChangingRoleEventArgs ev)
 		{
-			if (plugin.Config.GodTuts)
-				ev.Player.IsGodModeEnabled = ev.NewRole == RoleTypeId.Tutorial;
-		}
+			if (plugin.Config.GodTuts && (ev.NewRole is RoleTypeId.Tutorial || ev.Player.Role.Type is RoleTypeId.Tutorial))
+				ev.Player.IsGodModeEnabled = ev.NewRole is RoleTypeId.Tutorial;
+			if (ev.NewRole is not RoleTypeId.Tutorial && Main.JailedPlayers.Any(x => x.Userid == ev.Player.UserId))
+				ev.IsAllowed = false;
+        }
 
 		public void OnWaitingForPlayers()
 		{
