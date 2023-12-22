@@ -50,22 +50,22 @@ namespace AdminTools
 
 				OverwatchFilePath = overwatchFileName;
 				HiddenTagsFilePath = hiddenTagFileName;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Loading error: {e}");
+            }
 
-				EventHandlers = new EventHandlers(this);
-				Handlers.Player.Verified += EventHandlers.OnPlayerVerified;
-                Handlers.Server.RoundEnded += EventHandlers.OnRoundEnd;
-				Handlers.Player.TriggeringTesla += EventHandlers.OnTriggerTesla;
-				Handlers.Player.ChangingRole += EventHandlers.OnChangingRole;
-				Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-				Handlers.Player.InteractingDoor += EventHandlers.OnDoorOpen;
-				Handlers.Server.RoundStarted += EventHandlers.OnRoundStart;
-				Handlers.Player.Destroying += EventHandlers.OnPlayerDestroyed;
-				Handlers.Player.InteractingDoor += EventHandlers.OnPlayerInteractingDoor;
-			}
-			catch (Exception e)
-			{
-				Log.Error($"Loading error: {e}");
-			}
+			EventHandlers = new EventHandlers(this);
+			Handlers.Player.Verified += EventHandlers.OnPlayerVerified;
+            Handlers.Server.RoundEnded += EventHandlers.OnRoundEnd;
+			Handlers.Player.TriggeringTesla += EventHandlers.OnTriggerTesla;
+			Handlers.Player.ChangingRole += EventHandlers.OnChangingRole;
+			Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+			Handlers.Player.InteractingDoor += EventHandlers.OnDoorOpen;
+			Handlers.Server.RoundStarted += EventHandlers.OnRoundStart;
+			Handlers.Player.Destroying += EventHandlers.OnPlayerDestroyed;
+			Handlers.Player.InteractingDoor += EventHandlers.OnPlayerInteractingDoor;
 		}
 
 		public override void OnDisabled()
