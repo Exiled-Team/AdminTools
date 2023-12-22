@@ -19,6 +19,7 @@ namespace AdminTools
     using PlayerRoles;
     using Utils.NonAllocLINQ;
     using Exiled.API.Interfaces;
+
     using Log = Exiled.API.Features.Log;
     using Object = UnityEngine.Object;
 
@@ -190,9 +191,10 @@ namespace AdminTools
 		}
 		
 		public void OnPlayerVerified(VerifiedEventArgs ev)
-		{
-			try
-			{
+        {
+            try
+            {
+				Main.VanishedPlayers.ForEach(player => player.Key.ChangeAppearance(RoleTypeId.Spectator, new List<Player> { ev.Player }));
 				if (Main.JailedPlayers.Any(j => j.Userid == ev.Player.UserId))
 					DoJail(ev.Player, true);
 
