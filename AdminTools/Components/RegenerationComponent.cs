@@ -14,13 +14,13 @@ namespace AdminTools
         {
             _player = Player.Get(gameObject);
             _handle = Timing.RunCoroutine(HealHealth(_player));
-            Plugin.RgnHubs.Add(_player, this);
+            Main.RgnHubs.Add(_player, this);
         }
 
         public void OnDestroy()
         {
             Timing.KillCoroutines(_handle);
-            Plugin.RgnHubs.Remove(_player);
+            Main.RgnHubs.Remove(_player);
         }
 
         public IEnumerator<float> HealHealth(Player ply)
@@ -28,11 +28,11 @@ namespace AdminTools
             while (true)
             {
                 if (ply.Health < ply.MaxHealth)
-                    ply.Health += Plugin.HealthGain;
+                    ply.Health += Main.HealthGain;
                 else
                     ply.Health = ply.MaxHealth;
 
-                yield return Timing.WaitForSeconds(Plugin.HealthInterval);
+                yield return Timing.WaitForSeconds(Main.HealthInterval);
             }
         }
     }

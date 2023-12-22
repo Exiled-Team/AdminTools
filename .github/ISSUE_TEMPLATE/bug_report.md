@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: ''
 labels: requires testing
-assignees: joker-119
+assignees: 
 
 ---
 
@@ -21,12 +21,12 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Server logs**
-Please include a pastebin of your localadmin log file (or both MA_log and SCP_log files if you use MultiAdmin) from the time in which the bug occured
+Please include a pastebin of your LocalAdminLogs `SCP Secret Laboratory/LocalAdminLogs/YourFile` file from the time in which the bug occured
 
 **EXILED Version ("latest" is not a version):**
 
 
-**Results of `show plugins` command in console:**
+**Results of `pluginmanager show` command in console:**
 
 
 **Additional context**

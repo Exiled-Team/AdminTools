@@ -48,7 +48,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    foreach (Player ply in Plugin.RgnHubs.Keys)
+                    foreach (Player ply in Main.RgnHubs.Keys)
                         if (ply.ReferenceHub.TryGetComponent(out RegenerationComponent rgCom))
                             UnityEngine.Object.Destroy(rgCom);
 
@@ -61,14 +61,14 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.RgnHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
-                    if (Plugin.RgnHubs.Count == 0)
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Main.RgnHubs.Count != 0 ? "Players with regeneration on:\n" : "No players currently online have regeneration on");
+                    if (Main.RgnHubs.Count == 0)
                     {
                         response = playerLister.ToString();
                         return true;
                     }
 
-                    foreach (Player ply in Plugin.RgnHubs.Keys)
+                    foreach (Player ply in Main.RgnHubs.Keys)
                     {
                         playerLister.Append(ply.Nickname);
                         playerLister.Append(", ");
@@ -91,7 +91,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    Plugin.HealthGain = healvalue;
+                    Main.HealthGain = healvalue;
                     response = $"Players with regeneration will heal {healvalue} HP per interval";
                     return true;
                 case "time":
@@ -107,7 +107,7 @@ namespace AdminTools.Commands.Regeneration
                         return false;
                     }
 
-                    Plugin.HealthInterval = healtime;
+                    Main.HealthInterval = healtime;
                     response = $"Players with regeneration will heal every {healtime} seconds";
                     return true;
                 case "*":

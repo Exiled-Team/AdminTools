@@ -27,11 +27,11 @@ namespace AdminTools.Commands.Unmute
                 return false;
             }
 
-            foreach (Player player in Plugin.RoundStartMutes)
+            foreach (Player player in Main.RoundStartMutes)
             {
                 player.IsMuted = false;
             }
-            Plugin.RoundStartMutes.Clear();
+            Main.RoundStartMutes.Clear();
 
             response = "All non-staff players that were muted until round start have been unmuted.";
             return true;

@@ -47,7 +47,7 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    Plugin.PryGateHubs.Clear();
+                    Main.PryGateHubs.Clear();
                     response = "The ability to pry gates is cleared from all players now";
                     return true;
                 case "list":
@@ -57,10 +57,10 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Plugin.PryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
-                    if (Plugin.PryGateHubs.Count > 0)
+                    StringBuilder playerLister = StringBuilderPool.Shared.Rent(Main.PryGateHubs.Count != 0 ? "Players with the ability to pry gates:\n" : "No players currently online have the ability to pry gates");
+                    if (Main.PryGateHubs.Count > 0)
                     {
-                        foreach (Player ply in Plugin.PryGateHubs)
+                        foreach (Player ply in Main.PryGateHubs)
                             playerLister.Append(ply.Nickname + ", ");
 
                         int length = playerLister.ToString().Length;
@@ -88,9 +88,9 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    if (Plugin.PryGateHubs.Contains(plyr))
+                    if (Main.PryGateHubs.Contains(plyr))
                     {
-                        Plugin.PryGateHubs.Remove(plyr);
+                        Main.PryGateHubs.Remove(plyr);
                         response = $"Player \"{plyr.Nickname}\" cannot pry gates open now";
                     }
                     else
@@ -106,8 +106,8 @@ namespace AdminTools.Commands.PryGates
 
                     foreach (Player ply in Player.List)
                     {
-                        if (!Plugin.PryGateHubs.Contains(ply))
-                            Plugin.PryGateHubs.Add(ply);
+                        if (!Main.PryGateHubs.Contains(ply))
+                            Main.PryGateHubs.Add(ply);
                     }
 
                     response = "The ability to pry gates open is on for all players now";
@@ -126,15 +126,15 @@ namespace AdminTools.Commands.PryGates
                         return false;
                     }
 
-                    if (!Plugin.PryGateHubs.Contains(pl))
+                    if (!Main.PryGateHubs.Contains(pl))
                     {
-                        Plugin.PryGateHubs.Add(pl);
+                        Main.PryGateHubs.Add(pl);
                         response = $"Player \"{pl.Nickname}\" can now pry gates open";
                         return true;
                     }
                     else
                     {
-                        Plugin.PryGateHubs.Remove(pl);
+                        Main.PryGateHubs.Remove(pl);
                         response = $"Player \"{pl.Nickname}\" cannot pry gates open now";
                         return true;
                     }

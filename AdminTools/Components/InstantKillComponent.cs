@@ -6,6 +6,7 @@ using Handlers = Exiled.Events.Handlers;
 namespace AdminTools
 {
     using Exiled.Events.EventArgs.Player;
+    using PlayerStatsSystem;
 
     public class InstantKillComponent : MonoBehaviour
     {
@@ -15,7 +16,7 @@ namespace AdminTools
             Player = Player.Get(gameObject);
             Handlers.Player.Hurting += RunWhenPlayerIsHurt;
             Handlers.Player.Left += OnLeave;
-            Plugin.IkHubs.Add(Player, this);
+            Main.IkHubs.Add(Player, this);
         }
 
         private void OnLeave(LeftEventArgs ev)
@@ -28,13 +29,13 @@ namespace AdminTools
         {
             Handlers.Player.Hurting -= RunWhenPlayerIsHurt;
             Handlers.Player.Left -= OnLeave;
-            Plugin.IkHubs.Remove(Player);
+            Main.IkHubs.Remove(Player);
         }
 
         public void RunWhenPlayerIsHurt(HurtingEventArgs ev)
         {
             if (ev.Attacker != ev.Player && ev.Attacker == Player)
-                ev.Amount = int.MaxValue;
+                ev.Amount = StandardDamageHandler.KillValue;
         }
     }
 }

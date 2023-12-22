@@ -9,7 +9,7 @@ namespace AdminTools.Commands.Tags
     {
         public string Command { get; } = "show";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases { get; } = Array.Empty<string>();
 
         public string Description { get; } = "Shows staff tags on the server";
 
@@ -28,7 +28,7 @@ namespace AdminTools.Commands.Tags
             }
 
             foreach (Player player in Player.List)
-                if (player.ReferenceHub.serverRoles.RemoteAdmin && !player.ReferenceHub.serverRoles.RaEverywhere)
+                if (player.ReferenceHub.serverRoles.RemoteAdmin && !player.IsNorthwoodStaff)
                     player.BadgeHidden = false;
 
             response = "All staff tags are now visible";

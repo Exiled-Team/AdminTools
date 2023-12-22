@@ -258,7 +258,7 @@ namespace AdminTools.Commands.Message
                         return false;
                     }
 
-                    Player plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
+                    Player plyr = Player.List.ToList()[Main.NumGen.Next(0, Player.List.Count())];
                     if (plyr.ReferenceHub.queryProcessor._ipAddress != "127.0.0.1")
                         plyr.Broadcast(me, EventHandlers.FormatArguments(arguments, 2));
                     response = $"Message sent to {plyr.Nickname}";

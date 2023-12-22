@@ -38,7 +38,7 @@ namespace AdminTools.Commands.Mute
                 if(!player.IsMuted && !player.ReferenceHub.serverRoles.RemoteAdmin)
                 {
                     player.IsMuted = true;
-                    Plugin.RoundStartMutes.Add(player);
+                    Main.RoundStartMutes.Add(player);
                 }
             }
 

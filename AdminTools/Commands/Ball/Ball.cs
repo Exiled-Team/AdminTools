@@ -6,7 +6,10 @@ using System;
 namespace AdminTools.Commands.Ball
 {
     using System.Collections.Generic;
+    using Exiled.API.Enums;
     using Exiled.API.Features.Items;
+    using Exiled.API.Features.Pickups;
+    using Exiled.API.Features.Pickups.Projectiles;
     using PlayerRoles;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -72,11 +75,11 @@ namespace AdminTools.Commands.Ball
             response = players.Count == 1
                 ? $"{players[0].Nickname} has received a bouncing ball!"
                 : $"The balls are bouncing for {players.Count} players!";
-            if (players.Count > 1)
-                Cassie.Message("pitch_1.5 xmas_bouncyballs", true, false);
+
+            Cassie.Message("pitch_1.5 xmas_bouncyballs");
 
             foreach (Player p in players)
-                ((ExplosiveGrenade)Item.Create(ItemType.SCP018)).SpawnActive(p.Position, p);
+                Projectile.CreateAndSpawn(ProjectileType.Scp018, p.Position, p.Transform.rotation);
             return true;
         }
     }

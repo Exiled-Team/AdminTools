@@ -258,7 +258,7 @@ namespace AdminTools.Commands.HintBroadcast
                         return false;
                     }
 
-                    Player plyr = Player.List.ToList()[Plugin.NumGen.Next(0, Player.List.Count())];
+                    Player plyr = Player.List.ToList()[Main.NumGen.Next(0, Player.List.Count())];
                     plyr.ShowHint(EventHandlers.FormatArguments(arguments, 2), me);
                     response = $"Hint sent to {plyr.Nickname}";
                     return true;
