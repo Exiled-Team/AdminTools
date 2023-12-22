@@ -15,7 +15,7 @@ namespace AdminTools
 		public override string Prefix { get; } = "AT";
 		public override Version RequiredExiledVersion { get; } = new(8, 4, 3);
 
-		public static Plugin Instance;
+		public static Main Instance;
 
 		public EventHandlers EventHandlers;
 		public static System.Random NumGen = new();
