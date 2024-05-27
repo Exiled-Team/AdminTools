@@ -22,7 +22,7 @@ namespace AdminTools.Commands.HintBroadcast
         public override void LoadGeneratedCommands()
         {
             // RegisterCommand(new Add());
-            // RegisterCommand(new Clear());
+            RegisterCommand(new Clear());
             RegisterCommand(new Group());
             RegisterCommand(new Groups());
             RegisterCommand(new User());
