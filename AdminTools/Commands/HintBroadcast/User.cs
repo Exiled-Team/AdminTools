@@ -15,12 +15,12 @@ namespace AdminTools.Commands.HintBroadcast
         {
             if (arguments.Count < 3)
             {
-                response = "Usage: hbc user (player id / name) (time) (message)";
+                response = "Usage: hbc user (player ids / names (ie. 1,2,3 nameless,ced777ric)) (time) (message)";
                 return false;
             }
 
-            Player ply = Player.Get(arguments.At(0));
-            if (ply == null)
+            IEnumerable<Player> ply = Player.GetProcessedData(new ArraySegment<string>(arguments.At(0).Split(',')));
+            if (ply.IsEmpty())
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
@@ -32,13 +32,16 @@ namespace AdminTools.Commands.HintBroadcast
                 return false;
             }
 
-            ply.ShowHint(Extensions.FormatArguments(arguments, 2), time);
-            response = $"Hint sent to {ply.Nickname}";
+            foreach (Player player in ply)
+            {
+                player.ShowHint(Extensions.FormatArguments(arguments, 2), time);
+            }
+            response = $"Hint sent to players";
             return true;
         }
 
         public string Command { get; } = "user";
-        public string[] Aliases { get; }
+        public string[] Aliases { get; } = Array.Empty<string>();
         public string Description { get; } = "Sends a broadcast to a specific user";
     }
 }

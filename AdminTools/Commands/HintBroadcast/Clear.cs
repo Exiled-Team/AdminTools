@@ -20,7 +20,7 @@ namespace AdminTools.Commands.HintBroadcast
             }
 
             IEnumerable<Player> ply = Player.GetProcessedData(arguments);
-            if (ply == null)
+            if (ply.IsEmpty())
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
@@ -28,14 +28,14 @@ namespace AdminTools.Commands.HintBroadcast
 
             foreach (Player player in ply)
             {
-                player.ShowHint(" ");
+                player.ShowHint(String.Empty);
             }
             response = "Cleared hints of users";
             return true;
         }
 
         public string Command { get; } = "clear";
-        public string[] Aliases { get; }
+        public string[] Aliases { get; } = Array.Empty<string>();
         public string Description { get; } = "Clears a user's hints";
     }
 }
