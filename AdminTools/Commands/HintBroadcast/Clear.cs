@@ -11,7 +11,7 @@ namespace AdminTools.Commands.HintBroadcast
 {
     internal class Clear : ICommand
     {
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, [UnscopedRef] out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 1)
             {
