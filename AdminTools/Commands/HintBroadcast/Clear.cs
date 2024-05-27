@@ -11,22 +11,26 @@ namespace AdminTools.Commands.HintBroadcast
 {
     internal class Clear : ICommand
     {
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, [UnscopedRef] out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 1)
             {
-                response = "Usage: hbc clear (user id / username)";
+                response = "Usage: hbc clear (user ids / usernames)";
                 return false;
             }
 
-            Player ply = Player.Get(arguments.At(0));
+            IEnumerable<Player> ply = Player.GetProcessedData(arguments);
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(0)}";
                 return false;
             }
-            ply.ShowHint(" ");
-            response = $"Cleared hints of {ply.Nickname}";
+
+            foreach (Player player in ply)
+            {
+                player.ShowHint(" ");
+            }
+            response = "Cleared hints of users";
             return true;
         }
 

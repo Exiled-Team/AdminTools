@@ -23,33 +23,13 @@ namespace AdminTools.Commands.HintBroadcast
         {
             // RegisterCommand(new Add());
             RegisterCommand(new Clear());
-            RegisterCommand(new Group());
             RegisterCommand(new Groups());
             RegisterCommand(new User());
-            RegisterCommand(new Users());
-            RegisterCommand(new Random());
-            RegisterCommand(new Staff());
-            RegisterCommand(new Clearall());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response) // TODO: Make it ParentCommand
         {
-            if (arguments.Count < 2)
-            {
-                response = "Usage: hbc (time) (message) Available subcommands: hint, user, group, groups, random/someone, staff/admin, clearall";
-                return false;
-            }
-
-            if (!ushort.TryParse(arguments.At(0), out ushort tm))
-            {
-                response = $"Invalid value for hint broadcast time: {arguments.At(0)}";
-                return false;
-            }
-
-            foreach (Player py in Player.List)
-                py.ShowHint(Extensions.FormatArguments(arguments, 1), tm);
-
-            response = "Sent a broadcast to everyone. Available subcommands: hint, user, group, groups, random/someone, staff/admin, clearall";
+            response = "Not a valid subcommand. Available subcommands: user, groups, clear";
             return false;
         }
     }

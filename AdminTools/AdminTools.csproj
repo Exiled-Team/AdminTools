@@ -71,14 +71,9 @@
     <Compile Include="Commands\Grenade.cs" />
     <Compile Include="Commands\HintBroadcast\Add.cs" />
     <Compile Include="Commands\HintBroadcast\Clear.cs" />
-    <Compile Include="Commands\HintBroadcast\Clearall.cs" />
-    <Compile Include="Commands\HintBroadcast\Group.cs" />
     <Compile Include="Commands\HintBroadcast\Groups.cs" />
     <Compile Include="Commands\HintBroadcast\HintBroadcast.cs" />
-    <Compile Include="Commands\HintBroadcast\Random.cs" />
-    <Compile Include="Commands\HintBroadcast\Staff.cs" />
     <Compile Include="Commands\HintBroadcast\User.cs" />
-    <Compile Include="Commands\HintBroadcast\Users.cs" />
     <Compile Include="Commands\InstantKill\Add.cs" />
     <Compile Include="Commands\InstantKill\InstantKill.cs" />
     <Compile Include="Commands\InstantKill\List.cs" />
