@@ -15,7 +15,7 @@ namespace AdminTools.Commands.HintBroadcast
         {
             if (arguments.Count < 3)
             {
-                response = "Usage: hbc user (player ids / names (ie. 1,2,3 nameless,ced777ric)) (time) (message)";
+                response = "Usage: hbc user (player ids / usernames) (time) (message)";
                 return false;
             }
 
