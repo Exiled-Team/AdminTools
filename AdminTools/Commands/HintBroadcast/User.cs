@@ -19,7 +19,7 @@ namespace AdminTools.Commands.HintBroadcast
                 return false;
             }
 
-            IEnumerable<Player> ply = Player.GetProcessedData(new ArraySegment<string>(arguments.At(0).Split(',')));
+            IEnumerable<Player> ply = Player.GetProcessedData(arguments);
             if (ply.IsEmpty())
             {
                 response = $"Player not found: {arguments.At(0)}";
