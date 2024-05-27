@@ -47,8 +47,8 @@ abc - PlayerPermissions.Broadcasting (config_remoteadmin.txt)
 ahp - PlayerPermissions.PlayersManagement (config_remoteadmin.txt)
 ball - at.ball
 breakdoors - at.bd
-dropitem - at.items
-dropsize - at.items
+dropitem - PlayerPermissions.GivingItems (config_remoteadmin.txt)
+dropsize - PlayerPermissions.GivingItems (config_remoteadmin.txt)
 dummy - at.dummy
 expl - at.explode
 ghost - at.ghost

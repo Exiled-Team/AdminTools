@@ -21,11 +21,8 @@ namespace AdminTools.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!sender.CheckPermission("at.items"))
-            {
-                response = "You do not have permission to use this command";
+            if (!sender.CheckPermission(PlayerPermissions.GivingItems, out response))
                 return false;
-            }
 
             if (arguments.Count < 3)
             {

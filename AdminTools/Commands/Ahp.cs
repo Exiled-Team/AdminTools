@@ -21,11 +21,8 @@ namespace AdminTools.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CommandProcessor.CheckPermissions(((CommandSender)sender), "ahp", PlayerPermissions.PlayersManagement, "AdminTools", false))
-            {
-                response = "You do not have permission to use this command";
+            if (!sender.CheckPermission(PlayerPermissions.PlayersManagement, out response))
                 return false;
-            }
 
             if (arguments.Count < 2)
             {
