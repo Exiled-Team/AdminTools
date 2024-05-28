@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommandSystem;
 using Exiled.API.Features;
 
@@ -11,6 +8,10 @@ namespace AdminTools.Commands.HintBroadcast
 {
     internal class User : ICommand
     {
+        public string Command { get; } = "user";
+        public string[] Aliases { get; } = Array.Empty<string>();
+        public string Description { get; } = "Sends a broadcast to a specific user";
+        
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, [UnscopedRef] out string response)
         {
             if (arguments.Count < 3)
@@ -36,12 +37,9 @@ namespace AdminTools.Commands.HintBroadcast
             {
                 player.ShowHint(Extensions.FormatArguments(arguments, 2), time);
             }
+
             response = $"Hint sent to players";
             return true;
         }
-
-        public string Command { get; } = "user";
-        public string[] Aliases { get; } = Array.Empty<string>();
-        public string Description { get; } = "Sends a broadcast to a specific user";
     }
 }

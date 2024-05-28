@@ -69,9 +69,8 @@
     <Compile Include="Commands\FakeSpawnCommand.cs" />
     <Compile Include="Commands\Ghost.cs" />
     <Compile Include="Commands\Grenade.cs" />
-    <Compile Include="Commands\HintBroadcast\Add.cs" />
     <Compile Include="Commands\HintBroadcast\Clear.cs" />
-    <Compile Include="Commands\HintBroadcast\Groups.cs" />
+    <Compile Include="Commands\HintBroadcast\Group.cs" />
     <Compile Include="Commands\HintBroadcast\HintBroadcast.cs" />
     <Compile Include="Commands\HintBroadcast\User.cs" />
     <Compile Include="Commands\InstantKill\Add.cs" />

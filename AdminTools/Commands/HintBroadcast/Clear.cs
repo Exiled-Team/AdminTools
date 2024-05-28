@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommandSystem;
 using Exiled.API.Features;
 
@@ -11,6 +7,10 @@ namespace AdminTools.Commands.HintBroadcast
 {
     internal class Clear : ICommand
     {
+        public string Command { get; } = "clear";
+        public string[] Aliases { get; } = Array.Empty<string>();
+        public string Description { get; } = "Clears a user's hints";
+
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 1)
@@ -28,14 +28,10 @@ namespace AdminTools.Commands.HintBroadcast
 
             foreach (Player player in ply)
             {
-                player.ShowHint(String.Empty);
+                player.ShowHint(string.Empty);
             }
             response = "Cleared hints of users";
             return true;
         }
-
-        public string Command { get; } = "clear";
-        public string[] Aliases { get; } = Array.Empty<string>();
-        public string Description { get; } = "Clears a user's hints";
     }
 }
