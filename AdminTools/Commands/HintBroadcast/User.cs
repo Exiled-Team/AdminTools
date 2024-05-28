@@ -10,7 +10,7 @@ namespace AdminTools.Commands.HintBroadcast
     {
         public string Command { get; } = "user";
         public string[] Aliases { get; } = Array.Empty<string>();
-        public string Description { get; } = "Sends a broadcast to a specific user";
+        public string Description { get; } = "Sends a broadcast to multiple users";
         
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, [UnscopedRef] out string response)
         {
