@@ -56,7 +56,7 @@ namespace AdminTools
                 benchIndex = 0;
                 GameObject bench =
                     UnityEngine.Object.Instantiate(
-                        NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
+                        NetworkClient.prefabs.Values.First(x => x.name.Contains("Work Station")));
                 rotation.x += 180;
                 rotation.z += 180;
                 Offset offset = new()
