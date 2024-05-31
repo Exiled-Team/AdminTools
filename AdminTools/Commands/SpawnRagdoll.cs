@@ -36,7 +36,7 @@ namespace AdminTools.Commands
                 return false;
             }
 
-            if (quotedArgs.Count() != 5)
+            if (quotedArgs.Count() != 5 || quotedArgs.Count() != 3)
             {
                 response = "Usage: spawnragdoll ((player id / name) or (all / *)) (RoleTypeId) (amount) (nameRagdoll) (deathReason)";
                 return false;
@@ -61,8 +61,21 @@ namespace AdminTools.Commands
                 return false;
             }
 
-            string ragdollName = quotedArgs.ElementAt(3).Trim('\"');
-            string deathReason = quotedArgs.ElementAt(4).Trim('\"');
+            string ragdollName = "SCP-343";
+            string deathReason = "End of the Universe";
+
+            if (quotedArgs.Count() == 5)
+            {
+                ragdollName = quotedArgs.ElementAt(3).Trim('\"');
+                deathReason = quotedArgs.ElementAt(4).Trim('\"');
+            }    
+
+            if(string.IsNullOrEmpty(ragdollName) || string.IsNullOrEmpty(deathReason))
+            {
+                ragdollName = "SCP-343";
+                deathReason = "End of the universe";
+            }
+
             foreach (Player player in players)
             {
                 Timing.RunCoroutine(SpawnDolls(player, type, amount, ragdollName, deathReason));
