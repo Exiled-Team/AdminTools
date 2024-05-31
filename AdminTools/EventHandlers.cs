@@ -29,7 +29,8 @@ namespace AdminTools
 			Handlers.Server.RoundStarted += OnRoundStarted;
 			Handlers.Player.Destroying += OnPlayerDestroying;
 			Handlers.Player.InteractingDoor += OnPlayerInteractingDoor;
-			Handlers.Player.ChangingRole += OnChangingRole;
+			if (plugin.Config.GodTuts)
+				Handlers.Player.ChangingRole += OnChangingRole;
 		}
 
 		~EventHandlers()
@@ -43,7 +44,8 @@ namespace AdminTools
 			Handlers.Server.RoundStarted -= OnRoundStarted;
 			Handlers.Player.Destroying -= OnPlayerDestroying;
 			Handlers.Player.InteractingDoor -= OnPlayerInteractingDoor;
-			Handlers.Player.ChangingRole -= OnChangingRole;
+			if (plugin.Config.GodTuts)
+				Handlers.Player.ChangingRole -= OnChangingRole;
 		}
 
 		public void OnInteractingDoor(InteractingDoorEventArgs ev)
