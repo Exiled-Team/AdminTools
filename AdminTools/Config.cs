@@ -11,7 +11,7 @@ namespace AdminTools
         [Description("Whether or not to show logs used for debugging.")]
         public bool Debug { get; set; } = false;
 
-        [Description("Should Staff be in God Mode when they forceclass to Tutorial?? Default: false")]
+        [Description("Should Tutorials be in God Mode when Forceclassed? Default: false")]
         public bool GodTuts { get; set; } = false;
 
         [Description("Extending Command use for Getting a player (such as candy command and other parts of AdminTools). View the README on github for more info.")]
