@@ -8,6 +8,7 @@ namespace AdminTools.Commands.InstantKill
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class InstantKill : ParentCommand, IUsageProvider
     {
+        public InstantKill() => LoadGeneratedCommands();
         public override string Command { get; } = "instantkill";
 
         public override string[] Aliases { get; } = new string[] { "ik", "instakill" };
