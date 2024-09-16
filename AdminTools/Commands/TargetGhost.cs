@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Features.Roles;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.API.Features.Roles;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands
 {
@@ -15,11 +15,11 @@ namespace AdminTools.Commands
 
         public string Command { get; } = "targetghost";
 
-        public string[] Aliases { get; } = new string[] { "tg" };
+        public string[] Aliases { get; } = { "tg" };
 
         public string Description { get; } = "Sets a user to be invisible to another user";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%player%", };
+        public string[] Usage { get; } = { "%player%", "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -62,7 +62,7 @@ namespace AdminTools.Commands
                 }
             }
 
-            response = $"Finshed Ghostbusting.";
+            response = "Finshed Ghostbusting.";
             return true;
         }
     }

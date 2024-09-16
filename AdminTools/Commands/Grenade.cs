@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Enums;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Pickups.Projectiles;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands
 {
@@ -14,11 +14,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "grenade";
 
-        public string[] Aliases { get; } = new string[] { "gn" };
+        public string[] Aliases { get; } = { "gn" };
 
         public string Description { get; } = $"Spawns a {string.Join("/", Enum.GetNames(typeof(ProjectileType)))} grenade on a user or users";
 
-        public string[] Usage { get; } = new string[] { "%player%", string.Join(", ", Enum.GetNames(typeof(ProjectileType))), "FuseTime" };
+        public string[] Usage { get; } = { "%player%", string.Join(", ", Enum.GetNames(typeof(ProjectileType))), "FuseTime" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -59,7 +59,7 @@ namespace AdminTools.Commands
                     fusetime = timeGrenadeProjectile.FuseTime = fusetime.Value;
             }
 
-            response = $"A grenade ({type}) has been sent to the following player: {(fusetime.HasValue ? $". The grenade will explode in {fusetime} seconds." : string.Empty)}: \n{Extensions.LogPlayers(players)}";
+            response = $"A grenade ({type}) has been sent to the following player: {(fusetime.HasValue ? $". The grenade will explode in {fusetime} seconds." : string.Empty)}: \n{players.LogPlayers()}";
             return true;
         }
     }

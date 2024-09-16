@@ -1,6 +1,5 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
+using CommandSystem;
 
 namespace AdminTools.Commands.Inventory
 {
@@ -12,11 +11,11 @@ namespace AdminTools.Commands.Inventory
 
         public override string Command { get; } = "inventory";
 
-        public override string[] Aliases { get; } = new string[] { "inv" };
+        public override string[] Aliases { get; } = { "inv" };
 
         public override string Description { get; } = "Manages player inventories";
 
-        public string[] Usage { get; } = new string[] { "drop / see", };
+        public string[] Usage { get; } = { "drop / see", };
 
         public override void LoadGeneratedCommands()
         {

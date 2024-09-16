@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands
 {
@@ -13,11 +13,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "breakdoors";
 
-        public string[] Aliases { get; } = new string[] { "bd" };
+        public string[] Aliases { get; } = { "bd" };
 
         public string Description { get; } = "Manage breaking door/gate properties for players";
 
-        public string[] Usage { get; } = new string[] { "%player%", "IsEnable" };
+        public string[] Usage { get; } = { "%player%", "IsEnable" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -61,7 +61,7 @@ namespace AdminTools.Commands
                         Main.BreakDoors.Add(player);
                 }
 
-            response = $"BreakDoor has been enable for all the followed player:\n{Extensions.LogPlayers(players)}";
+            response = $"BreakDoor has been enable for all the followed player:\n{players.LogPlayers()}";
             return true;
         }
     }

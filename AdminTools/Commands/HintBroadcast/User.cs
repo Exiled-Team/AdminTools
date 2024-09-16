@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using CommandSystem;
 using Exiled.API.Features;
 
@@ -12,7 +11,7 @@ namespace AdminTools.Commands.HintBroadcast
         public string[] Aliases { get; } = Array.Empty<string>();
         public string Description { get; } = "Sends a broadcast to multiple users";
         
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, [UnscopedRef] out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (arguments.Count < 3)
             {
@@ -35,10 +34,10 @@ namespace AdminTools.Commands.HintBroadcast
 
             foreach (Player player in ply)
             {
-                player.ShowHint(Extensions.FormatArguments(arguments, 2), time);
+                player.ShowHint(arguments.FormatArguments(2), time);
             }
 
-            response = $"Hint sent to players";
+            response = "Hint sent to players";
             return true;
         }
     }

@@ -1,12 +1,12 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommandSystem;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using PlayerRoles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdminTools.Commands
 {
@@ -20,7 +20,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Jails or unjails a user";
 
-        public string[] Usage { get; } = new string[] { "%player%", "[IsJail]"};
+        public string[] Usage { get; } = { "%player%", "[IsJail]"};
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -62,7 +62,7 @@ namespace AdminTools.Commands
                         DoJail(ply);
                 }
             }
-            response = $"Jail command has run successfully.\n{Extensions.LogPlayers(players)}";
+            response = $"Jail command has run successfully.\n{players.LogPlayers()}";
             return true;
         }
         public static void DoJail(Player player, bool skipadd = false)

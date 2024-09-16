@@ -1,7 +1,7 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
+﻿using System;
+using CommandSystem;
 using Exiled.API.Features;
-using System;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.Unmute
 {

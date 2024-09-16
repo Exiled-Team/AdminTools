@@ -1,12 +1,12 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
-using System;
-using System.Collections.Generic;
 using PlayerRoles;
-using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace AdminTools.Commands
 {
@@ -16,11 +16,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "spawnragdoll";
 
-        public string[] Aliases { get; } = new string[] { "ragdoll", "rd", "rag", "doll" };
+        public string[] Aliases { get; } = { "ragdoll", "rd", "rag", "doll" };
 
         public string Description { get; } = "Spawns a specified number of ragdolls on a user";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%role%", "amount", "\"name\"", "\"death reason\"" };
+        public string[] Usage { get; } = { "%player%", "%role%", "amount", "\"name\"", "\"death reason\"" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

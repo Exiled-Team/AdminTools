@@ -1,7 +1,7 @@
-﻿using CommandSystem;
-using Exiled.Permissions.Extensions;
+﻿using System;
+using CommandSystem;
 using Exiled.API.Features;
-using System;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.Unmute
 {
@@ -9,7 +9,7 @@ namespace AdminTools.Commands.Unmute
     {
         public string Command { get; } = "all";
 
-        public string[] Aliases { get; } = new string[] { "*" };
+        public string[] Aliases { get; } = { "*" };
 
         public string Description { get; } = "Removes all mutes from everyone in the server";
 

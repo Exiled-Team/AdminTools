@@ -1,6 +1,6 @@
-﻿using CommandSystem;
+﻿using System;
+using CommandSystem;
 using Exiled.Permissions.Extensions;
-using System;
 
 namespace AdminTools.Commands.Unmute
 {
@@ -16,7 +16,7 @@ namespace AdminTools.Commands.Unmute
 
         public override string Description { get; } = "Unmutes everyone from speaking or by intercom in the server";
 
-        public string[] Usage { get; } = new string[] { "all/icom/roundstart" };
+        public string[] Usage { get; } = { "all/icom/roundstart" };
 
         public override void LoadGeneratedCommands()
         {

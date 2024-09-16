@@ -1,7 +1,7 @@
-﻿using CommandSystem;
+﻿using System;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
 
 namespace AdminTools.Commands.Mute
 {
@@ -9,7 +9,7 @@ namespace AdminTools.Commands.Mute
     {
         public string Command { get; } = "all";
 
-        public string[] Aliases { get; } = new string[] { "*" };
+        public string[] Aliases { get; } = { "*" };
 
         public string Description { get; } = "Mutes everyone from speaking at all in the server";
 

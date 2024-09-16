@@ -1,8 +1,8 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AdminTools.Commands
@@ -17,7 +17,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Scales a specific player or all players.";
 
-        public string[] Usage { get; } = new string[] { "%player%", "size" };
+        public string[] Usage { get; } = { "%player%", "size" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -51,7 +51,7 @@ namespace AdminTools.Commands
             foreach (Player ply in players)
                 ply.Scale = size;
 
-            response = $"The specified player's size has been set to {size}:\n{Extensions.LogPlayers(players)}";
+            response = $"The specified player's size has been set to {size}:\n{players.LogPlayers()}";
             return true;
         }
     }

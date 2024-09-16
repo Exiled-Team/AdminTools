@@ -1,7 +1,7 @@
-﻿using CommandSystem;
+﻿using System;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
 
 namespace AdminTools.Commands.Unmute
 {
@@ -9,7 +9,7 @@ namespace AdminTools.Commands.Unmute
     {
         public string Command { get; } = "roundstart";
 
-        public string[] Aliases { get; } = new string[] { "rs" };
+        public string[] Aliases { get; } = { "rs" };
 
         public string Description { get; } = "Unmutes everyone from speaking until the round starts.";
 

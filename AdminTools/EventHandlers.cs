@@ -1,19 +1,20 @@
+using System.IO;
+using AdminTools.Commands;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.API.Features.Doors;
+using Exiled.API.Interfaces;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using PlayerRoles;
+using PlayerStatsSystem;
+
 namespace AdminTools
 {
-    using System.IO;
-    using Exiled.API.Features;
-    using MEC;
-    using Exiled.API.Features.Doors;
-    using Exiled.Events.EventArgs.Player;
-    using Exiled.Events.EventArgs.Server;
-    using PlayerRoles;
-    using Exiled.API.Interfaces;
-    using Log = Exiled.API.Features.Log;
-    using PlayerStatsSystem;
-    using Handlers = Exiled.Events.Handlers;
-    using Exiled.API.Enums;
+	using Log = Log;
+	using Handlers = Exiled.Events.Handlers;
 
-    public class EventHandlers
+	public class EventHandlers
 	{
 		private readonly Main plugin;
 
@@ -65,13 +66,13 @@ namespace AdminTools
 				ev.Player.IsMuted = false;
             }
 			if (!Round.IsEnded)
-				Extensions.SavingPlayerData(ev.Player);
+				ev.Player.SavingPlayerData();
         }
 
 		public void OnPlayerVerified(VerifiedEventArgs ev)
 		{
             if (Main.JailedPlayers.ContainsKey(ev.Player.UserId))
-                Commands.Jail.DoJail(ev.Player, true);
+                Jail.DoJail(ev.Player, true);
 
             if (ev.Player.RemoteAdminPermissions.HasFlag(PlayerPermissions.Overwatch) && Main.Overwatch.Contains(ev.Player.UserId))
             {
@@ -109,7 +110,7 @@ namespace AdminTools
             }
 
             foreach (Player player in Player.List)
-                Extensions.SavingPlayerData(player);
+                player.SavingPlayerData();
 
             File.WriteAllLines(plugin.OverwatchFilePath, Main.Overwatch);
         }

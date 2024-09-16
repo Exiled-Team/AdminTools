@@ -1,10 +1,10 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AdminTools.Commands.PryGate
 {
@@ -18,7 +18,7 @@ namespace AdminTools.Commands.PryGate
 
         public string Description { get; } = "Gives the ability to pry gates to players, clear the ability from players, and shows who has the ability";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -69,12 +69,10 @@ namespace AdminTools.Commands.PryGate
                         StringBuilderPool.Shared.Return(playerLister);
                         return true;
                     }
-                    else
-                    {
-                        response = playerLister.ToString();
-                        StringBuilderPool.Shared.Return(playerLister);
-                        return true;
-                    }
+
+                    response = playerLister.ToString();
+                    StringBuilderPool.Shared.Return(playerLister);
+                    return true;
                 case "remove":
                     if (arguments.Count != 2)
                     {

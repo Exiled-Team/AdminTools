@@ -1,9 +1,9 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using InventorySystem.Items.Usables;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AdminTools.Commands
@@ -14,10 +14,10 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "regeneration";
 
-        public string[] Aliases { get; } = new string[] { "reg" };
+        public string[] Aliases { get; } = { "reg" };
 
         public string Description { get; } = "Manages regeneration properties for users";
-        public string[] Usage { get; } = new string[] { "%player%", "duration", "rate" };
+        public string[] Usage { get; } = { "%player%", "duration", "rate" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -56,7 +56,7 @@ namespace AdminTools.Commands
             RegenerationProcess reg = new(animationCurve, 1f, 1f);
             foreach (Player player in players)
                 UsableItemsController.GetHandler(player.ReferenceHub).ActiveRegenerations.Add(reg);
-            response = $"The specified player has been regenerated:\n{Extensions.LogPlayers(players)}";
+            response = $"The specified player has been regenerated:\n{players.LogPlayers()}";
             return true;
         }
     }

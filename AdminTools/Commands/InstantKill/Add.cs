@@ -1,8 +1,8 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
-using System.Collections.Generic;
 
 namespace AdminTools.Commands.InstantKill
 {
@@ -14,7 +14,7 @@ namespace AdminTools.Commands.InstantKill
 
         public string Description { get; } = "add instantkill to this player";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -39,7 +39,7 @@ namespace AdminTools.Commands.InstantKill
 
             Main.InstantKill.AddRange(players);
 
-            response = $"All the followed player have been added to InstantKill:\n{Extensions.LogPlayers(players)}";
+            response = $"All the followed player have been added to InstantKill:\n{players.LogPlayers()}";
             return true;
         }
     }

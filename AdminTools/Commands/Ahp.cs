@@ -1,9 +1,8 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using RemoteAdmin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
+using Exiled.API.Features;
 
 namespace AdminTools.Commands
 {
@@ -17,7 +16,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Sets a user or users Artificial HP to a specified value";
 
-        public string[] Usage { get; } = new string[] { "%player%", "Value", "[decay = 1.2]", "[efficacy = 0.7]", "[sustain = 0]", "[IsPersistant = false]" };
+        public string[] Usage { get; } = { "%player%", "Value", "[decay = 1.2]", "[efficacy = 0.7]", "[sustain = 0]", "[IsPersistant = false]" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -57,7 +56,7 @@ namespace AdminTools.Commands
             {
                 p.AddAhp(value, value, decay, efficacy, sustain, persistant);
             }
-            response = $"AHP has been set to {value} for all the followed players:\n{Extensions.LogPlayers(players)}";
+            response = $"AHP has been set to {value} for all the followed players:\n{players.LogPlayers()}";
             return true;
         }
     }

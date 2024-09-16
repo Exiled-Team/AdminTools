@@ -1,10 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Features.Pickups;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.API.Features.Pickups;
 
 namespace AdminTools.Commands
 {
@@ -14,11 +13,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "dropitem";
 
-        public string[] Aliases { get; } = new string[] { "drop", "dropi" };
+        public string[] Aliases { get; } = { "drop", "dropi" };
 
         public string Description { get; } = "Drops a specified amount of a specified item on either all users or a specific user";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%item%", "[amount = 1]" };
+        public string[] Usage { get; } = { "%player%", "%item%", "[amount = 1]" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -50,7 +49,7 @@ namespace AdminTools.Commands
                 for (int i = 0; i < amount; i++)
                     Pickup.CreateAndSpawn(item, ply.Position, ply.Rotation, ply);
 
-            response = $"{amount} of {item} was spawned on all the following player:\n{Extensions.LogPlayers(players)}";
+            response = $"{amount} of {item} was spawned on all the following player:\n{players.LogPlayers()}";
             return true;
         }
     }

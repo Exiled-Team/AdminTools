@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features.Pools;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
+using CommandSystem;
+using Exiled.API.Features.Pools;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.InstantKill
 {
@@ -26,7 +26,7 @@ namespace AdminTools.Commands.InstantKill
             StringBuilder playerLister = StringBuilderPool.Pool.Get();
 
             playerLister.Append(Main.InstantKill.Any() ? "Players with InstantKill enabled:\n" : "No players currently online have instant killing on");
-            playerLister.Append(Extensions.LogPlayers(Main.InstantKill));
+            playerLister.Append(Main.InstantKill.LogPlayers());
 
             response = StringBuilderPool.Pool.ToStringReturn(playerLister);
             return true;

@@ -1,8 +1,8 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using CommandSystem;
 using Exiled.API.Features;
 using RemoteAdmin;
-using System;
-using System.Collections.Generic;
 
 namespace AdminTools.Commands
 {
@@ -16,7 +16,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Randomly teleports a user or all users to a random room in the facility";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -44,7 +44,7 @@ namespace AdminTools.Commands
                 ply.RandomTeleport(typeof(Room));
             }
 
-            response = $"All specified players have been teleported to a random room in the facility:\n{Extensions.LogPlayers(players)}";
+            response = $"All specified players have been teleported to a random room in the facility:\n{players.LogPlayers()}";
             return true;
         }
     }

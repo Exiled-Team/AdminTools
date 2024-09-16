@@ -1,9 +1,8 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Extensions;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
 
 namespace AdminTools.Commands
 {
@@ -13,11 +12,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "teleportx";
 
-        public string[] Aliases { get; } = new string[] { "tpx", "tpto" };
+        public string[] Aliases { get; } = { "tpx", "tpto" };
 
         public string Description { get; } = "Teleports all users or a user to another user";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%player%", };
+        public string[] Usage { get; } = { "%player%", "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -49,7 +48,7 @@ namespace AdminTools.Commands
                 plyr.Position = ply.Position;
             }
 
-            response = $"The specified players has been teleported to {ply.Nickname}({ply.Id}):\n{Extensions.LogPlayers(players)}";
+            response = $"The specified players has been teleported to {ply.Nickname}({ply.Id}):\n{players.LogPlayers()}";
             return true;
         }
     }

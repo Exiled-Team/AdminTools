@@ -1,9 +1,9 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AdminTools.Commands
@@ -18,7 +18,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Turns the player into a firework.";
 
-        public string[] Usage { get; } = new string[] { "%player%", "speed" };
+        public string[] Usage { get; } = { "%player%", "speed" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -50,7 +50,7 @@ namespace AdminTools.Commands
             foreach (Player ply in players)
                 Timing.RunCoroutine(DoRocket(ply, speed));
 
-            response = $"The specified players have been turned into fireworks\n{Extensions.LogPlayers(players)}";
+            response = $"The specified players have been turned into fireworks\n{players.LogPlayers()}";
             return true;
         }
         public static IEnumerator<float> DoRocket(Player player, float speed)

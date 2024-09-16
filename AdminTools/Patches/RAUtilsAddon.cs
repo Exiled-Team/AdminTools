@@ -1,11 +1,11 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using NorthwoodLib.Pools;
-using PlayerRoles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using NorthwoodLib.Pools;
+using PlayerRoles;
 using Utils;
 
 namespace AdminTools.Patches
@@ -33,7 +33,7 @@ namespace AdminTools.Patches
                         list.Add(list2[0]);
                     }
                 }
-                newargs = text.Split(new char[]
+                newargs = text.Split(new[]
                 {
                         ' '
                 }, keepEmptyEntries ? StringSplitOptions.None : StringSplitOptions.RemoveEmptyEntries);
@@ -100,7 +100,7 @@ namespace AdminTools.Patches
                         }
                     }
                 }
-                newargs = args.Count > 1 ? RAUtils.FormatArguments(args, startindex + 1).Split(new char[]
+                newargs = args.Count > 1 ? RAUtils.FormatArguments(args, startindex + 1).Split(new[]
                 {
                         ' '
                 }, keepEmptyEntries ? StringSplitOptions.None : StringSplitOptions.RemoveEmptyEntries) : null;

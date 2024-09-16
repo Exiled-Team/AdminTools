@@ -1,5 +1,5 @@
-﻿using CommandSystem;
-using System;
+﻿using System;
+using CommandSystem;
 
 namespace AdminTools.Commands.HintBroadcast
 {
@@ -10,7 +10,7 @@ namespace AdminTools.Commands.HintBroadcast
         public HintBroadcast() => LoadGeneratedCommands();
 
         public override string Command { get; } = "hintbroadcast";
-        public override string[] Aliases { get; } = new string[] { "hint" , "hbc" };
+        public override string[] Aliases { get; } = { "hint" , "hbc" };
         public override string Description { get; } = "Broadcasts a message to either a user, a group, a role, all staff, or everyone";
 
         public override void LoadGeneratedCommands()

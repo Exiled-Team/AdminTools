@@ -1,13 +1,13 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommandSystem;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Extensions;
 using PlayerRoles;
 using Respawning;
 using Respawning.NamingRules;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdminTools.Commands
 {
@@ -17,11 +17,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "fakespawn";
 
-        public string[] Aliases { get; } = new[] { "fakesync", "fakerole" };
+        public string[] Aliases { get; } = { "fakesync", "fakerole" };
 
         public string Description { get; } = "Sets everyone or a specific user to be invisible";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%player%", "%role%" ,"[id]"};
+        public string[] Usage { get; } = { "%player%", "%player%", "%role%" ,"[id]"};
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -63,7 +63,7 @@ namespace AdminTools.Commands
             foreach (Player player in players)
                 player.ChangeAppearance(roletype, playersToAffect, false, id);
 
-            response = $"The following players have been changed to '{roletype}':\n{Extensions.LogPlayers(players)}";
+            response = $"The following players have been changed to '{roletype}':\n{players.LogPlayers()}";
             return true;
         }
     }

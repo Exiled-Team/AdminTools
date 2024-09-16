@@ -39,7 +39,7 @@ namespace AdminTools.Commands.HintBroadcast
             foreach (Player p in Player.List)
             {
                 if (groupList.Contains(p.Group.BadgeText))
-                    p.ShowHint(Extensions.FormatArguments(arguments, 2), e);
+                    p.ShowHint(arguments.FormatArguments(2), e);
             }
     
             StringBuilder bdr = StringBuilderPool.Shared.Rent("Hint sent to groups with badge text: ");

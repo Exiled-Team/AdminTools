@@ -1,11 +1,12 @@
-﻿using Exiled.API.Features;
-using InventorySystem.Items.Firearms.Attachments;
-using Mirror;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Exiled.API.Features;
+using InventorySystem.Items.Firearms.Attachments;
+using Mirror;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AdminTools
 {
@@ -43,10 +44,10 @@ namespace AdminTools
         {
             try
             {
-                Log.Debug($"Spawning workbench");
+                Log.Debug("Spawning workbench");
                 benchIndex = 0;
                 GameObject bench =
-                    UnityEngine.Object.Instantiate(
+                    Object.Instantiate(
                         NetworkClient.prefabs.Values.First(x => x.name.Contains("Work Station")));
                 rotation.x += 180;
                 rotation.z += 180;

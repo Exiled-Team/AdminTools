@@ -1,10 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Pickups.Projectiles;
 using PlayerRoles.FirstPersonControl;
 using Random = UnityEngine.Random;
@@ -21,7 +20,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Spawns a bouncy ball (SCP-018) on a user or all users";
 
-        public string[] Usage { get; } = new string[] { "%player%", "[Speed = 5]","[IsMute = false]"};
+        public string[] Usage { get; } = { "%player%", "[Speed = 5]","[IsMute = false]"};
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -53,7 +52,7 @@ namespace AdminTools.Commands
                 scp018.Rigidbody.velocity = p.ReferenceHub.GetVelocity() + Random.onUnitSphere * speed;
             }
 
-            response = $"Ball has been spawn for all the followed player:\n{Extensions.LogPlayers(players)}";
+            response = $"Ball has been spawn for all the followed player:\n{players.LogPlayers()}";
             return true;
         }
     }

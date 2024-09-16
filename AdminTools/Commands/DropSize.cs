@@ -1,9 +1,8 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Features.Pickups;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.API.Features.Pickups;
 
 namespace AdminTools.Commands
 {
@@ -13,11 +12,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "dropsize";
 
-        public string[] Aliases { get; } = new string[] { "drops" };
+        public string[] Aliases { get; } = { "drops" };
 
         public string Description { get; } = "Drops a selected amount of a selected item on a specific user or all users";
 
-        public string[] Usage { get; } = new string[] { "%player%", "%item%", "size", "[size]", "[size]" };
+        public string[] Usage { get; } = { "%player%", "%item%", "size", "[size]", "[size]" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

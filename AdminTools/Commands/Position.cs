@@ -1,10 +1,10 @@
-﻿using CommandSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using NorthwoodLib.Pools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace AdminTools.Commands
@@ -15,11 +15,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "position";
 
-        public string[] Aliases { get; } = new string[] { "pos" };
+        public string[] Aliases { get; } = { "pos" };
 
         public string Description { get; } = "Modifies or retrieves the position of a user or all users";
 
-        public string[] Usage { get; } = new string[] { "%player%", string.Join(", ", Enum.GetNames(typeof(PositionModifier))), };
+        public string[] Usage { get; } = { "%player%", string.Join(", ", Enum.GetNames(typeof(PositionModifier))), };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) // TODO: Make it ParentCommand
         {

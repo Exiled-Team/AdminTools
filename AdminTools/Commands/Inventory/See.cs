@@ -1,14 +1,12 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using NorthwoodLib.Pools;
-using System;
+﻿using System;
 using System.Text;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using NorthwoodLib.Pools;
 
 namespace AdminTools.Commands.Inventory
 {
-    using Exiled.API.Features.Items;
-
     public class See : ICommand
     {
         public string Command { get; } = "see";
@@ -17,7 +15,7 @@ namespace AdminTools.Commands.Inventory
 
         public string Description { get; } = "Sees the inventory items a user has";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

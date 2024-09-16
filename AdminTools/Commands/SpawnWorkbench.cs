@@ -1,12 +1,13 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using RemoteAdmin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 using PlayerRoles;
+using RemoteAdmin;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AdminTools.Commands
 {
@@ -15,11 +16,11 @@ namespace AdminTools.Commands
     {
         public string Command { get; } = "bench";
 
-        public string[] Aliases { get; } = new string[] { "sw", "wb", "workbench" };
+        public string[] Aliases { get; } = { "sw", "wb", "workbench" };
 
         public string Description { get; } = "Spawns a workbench on all users or a user";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -103,7 +104,7 @@ namespace AdminTools.Commands
 
                     for (int i = min; i <= max; i++)
                     {
-                        UnityEngine.Object.Destroy(objs.ElementAt(i));
+                        Object.Destroy(objs.ElementAt(i));
                         objs[i] = null;
                     }
                     objs.RemoveAll(r => r == null);
@@ -120,12 +121,12 @@ namespace AdminTools.Commands
                     foreach (KeyValuePair<Player, List<GameObject>> bch in Main.BchHubs)
                     {
                         foreach (GameObject bench in bch.Value)
-                            UnityEngine.Object.Destroy(bench);
+                            Object.Destroy(bench);
                         bch.Value.Clear();
                     }
 
                     Main.BchHubs.Clear();
-                    response = $"All spawned workbenches have now been removed";
+                    response = "All spawned workbenches have now been removed";
                     return true;
                 case "count":
                     if (arguments.Count != 2)
@@ -200,9 +201,10 @@ namespace AdminTools.Commands
                         response = $"Player not found: {arguments.At(0)}";
                         return false;
                     }
-                    else if (pl.Role.IsDead)
+
+                    if (pl.Role.IsDead)
                     {
-                        response = $"This player is not a valid class to spawn a workbench on";
+                        response = "This player is not a valid class to spawn a workbench on";
                         return false;
                     }
 

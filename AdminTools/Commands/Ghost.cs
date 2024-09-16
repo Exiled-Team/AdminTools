@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using Exiled.API.Features.Roles;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.API.Features.Roles;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands
 {
@@ -17,7 +17,7 @@ namespace AdminTools.Commands
 
         public string Description { get; } = "Sets everyone or a user to be invisible";
 
-        public string[] Usage { get; } = new string[] { "%player% / Clear", };
+        public string[] Usage { get; } = { "%player% / Clear", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -57,7 +57,7 @@ namespace AdminTools.Commands
                             if (pl.Role is FpcRole fpc)
                                 fpc.IsInvisible = !fpc.IsInvisible;
                         
-                        response = $"The following player has been ghosted:\n{Extensions.LogPlayers(players)}";
+                        response = $"The following player has been ghosted:\n{players.LogPlayers()}";
                         return true;
                     }
             }

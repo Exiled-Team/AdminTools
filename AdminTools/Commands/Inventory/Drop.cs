@@ -1,8 +1,7 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CommandSystem;
+using Exiled.API.Features;
 
 namespace AdminTools.Commands.Inventory
 {
@@ -16,7 +15,7 @@ namespace AdminTools.Commands.Inventory
 
         public string Description { get; } = "Drops the items in a players inventory";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -39,7 +38,7 @@ namespace AdminTools.Commands.Inventory
             foreach (Player p in players)
                 p.DropItems();
 
-            response = $"All items have been dropped from the following players: \n{Extensions.LogPlayers(players)}";
+            response = $"All items have been dropped from the following players: \n{players.LogPlayers()}";
             return true;
         }
     }

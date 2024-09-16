@@ -1,9 +1,9 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.InstantKill
 {
@@ -15,7 +15,7 @@ namespace AdminTools.Commands.InstantKill
 
         public string Description { get; } = "Disable InstantKill from this player.";
 
-        public string[] Usage { get; } = new string[] { "%player%", };
+        public string[] Usage { get; } = { "%player%", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -45,7 +45,7 @@ namespace AdminTools.Commands.InstantKill
                     players.Remove(ply);
             }
 
-            response = $"Every player has been removed from InstantKill:\n{Extensions.LogPlayers(players)}";
+            response = $"Every player has been removed from InstantKill:\n{players.LogPlayers()}";
             return true;
         }
     }

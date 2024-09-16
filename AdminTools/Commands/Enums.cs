@@ -1,7 +1,7 @@
-﻿using CommandSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandSystem;
 
 namespace AdminTools.Commands
 {
@@ -12,11 +12,11 @@ namespace AdminTools.Commands
         private IEnumerable<Type> types;
         public string Command { get; } = "enums";
 
-        public string[] Aliases { get; } = new string[] { "enum" };
+        public string[] Aliases { get; } = { "enum" };
 
         public string Description { get; } = "Lists all enums";
 
-        public string[] Usage { get; } = new string[] { "EnumName", };
+        public string[] Usage { get; } = { "EnumName", };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -26,8 +26,7 @@ namespace AdminTools.Commands
                 return false;
             }
 
-            if (types == null)
-                types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(y => y.IsEnum);
+            types ??= AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(y => y.IsEnum);
 
             Type enumType = types.FirstOrDefault(t => t.Name.Contains(arguments.At(0)));
             if (enumType == null)

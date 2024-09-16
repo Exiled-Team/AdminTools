@@ -1,13 +1,12 @@
-﻿using static HarmonyLib.AccessTools;
-using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Exiled.API.Features.Pools;
-using Interactables.Interobjects.DoorUtils;
-using Exiled.API.Features.Doors;
 using Exiled.API.Enums;
-using Exiled.API.Features;
+using Exiled.API.Features.Doors;
+using Exiled.API.Features.Pools;
+using HarmonyLib;
+using Interactables.Interobjects.DoorUtils;
+using static HarmonyLib.AccessTools;
 
 namespace AdminTools.Patches
 {
@@ -20,9 +19,9 @@ namespace AdminTools.Patches
             Label found = generator.DefineLabel();
 
             int offset = -1;
-            int index = newInstructions.FindLastIndex(x => x.opcode == OpCodes.Ldloc_S && ((System.Reflection.Emit.LocalBuilder)x.operand).LocalIndex is 10) + offset;
+            int index = newInstructions.FindLastIndex(x => x.opcode == OpCodes.Ldloc_S && ((LocalBuilder)x.operand).LocalIndex is 10) + offset;
 
-            newInstructions.InsertRange(index, new CodeInstruction[]
+            newInstructions.InsertRange(index, new[]
             {
                 // doorVariant
                 new CodeInstruction(OpCodes.Ldloc_S, 6).MoveLabelsFrom(newInstructions[index]),
@@ -56,7 +55,7 @@ namespace AdminTools.Patches
             {
                 if (string.IsNullOrEmpty(door) || !Enum.TryParse(door, true, out DoorType doorType) || doorType != searchdoortype)
                     continue;
-                text = ", " + doorType.ToString();
+                text = ", " + doorType;
                 return true;
             }
 

@@ -1,6 +1,6 @@
-﻿using CommandSystem;
+﻿using System;
+using CommandSystem;
 using Exiled.Permissions.Extensions;
-using System;
 
 namespace AdminTools.Commands.InstantKill
 {
@@ -10,11 +10,11 @@ namespace AdminTools.Commands.InstantKill
     {
         public override string Command { get; } = "instantkill";
 
-        public override string[] Aliases { get; } = new string[] { "ik", "instakill" };
+        public override string[] Aliases { get; } = { "ik", "instakill" };
 
         public override string Description { get; } = "Manage instant kill properties for users";
 
-        public string[] Usage { get; } = new string[] { "Add or Remove or List", };
+        public string[] Usage { get; } = { "Add or Remove or List", };
 
         public override void LoadGeneratedCommands()
         {
