@@ -10,8 +10,17 @@ using Object = UnityEngine.Object;
 
 namespace AdminTools
 {
+    /// <summary>
+    /// Provides extension methods for various game-related functionalities.
+    /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// Formats the arguments of a sentence starting from the specified index.
+        /// </summary>
+        /// <param name="sentence">The array segment containing the sentence.</param>
+        /// <param name="index">The starting index for formatting.</param>
+        /// <returns>A formatted string of the sentence from the specified index.</returns>
         public static string FormatArguments(this ArraySegment<string> sentence, int index)
         {
             StringBuilder sb = new();
@@ -24,8 +33,18 @@ namespace AdminTools
             return msg;
         }
 
-        public static string LogPlayers(this IEnumerable<Player> players) => string.Join("\n - ", players.Select(x => $"{x.Nickname}({x.Id})"));
+        /// <summary>
+        /// Logs the players with their nickname and ID.
+        /// </summary>
+        /// <param name="players">The collection of players to log.</param>
+        /// <returns>A string containing player nicknames and IDs.</returns>
+        public static string LogPlayers(this IEnumerable<Player> players) =>
+            string.Join("\n - ", players.Select(x => $"{x.Nickname}({x.Id})"));
 
+        /// <summary>
+        /// Saves the player's overwatch state to the configuration.
+        /// </summary>
+        /// <param name="player">The player whose data is being saved.</param>
         public static void SavingPlayerData(this Player player)
         {
             List<string> overwatchRead = Main.Overwatch;
@@ -38,8 +57,17 @@ namespace AdminTools
                 Log.Debug($"{player.Nickname}({player.UserId}) has added their overwatch.");
             }
             else if (!player.IsOverwatchEnabled && overwatchRead.Remove(userId))
-                Log.Debug($"{player.Nickname}({player.UserId}) has remove their overwatch.");
+                Log.Debug($"{player.Nickname}({player.UserId}) has removed their overwatch.");
         }
+
+        /// <summary>
+        /// Spawns a workbench at the specified position, rotation, and size.
+        /// </summary>
+        /// <param name="ply">The player who is spawning the workbench.</param>
+        /// <param name="position">The position to spawn the workbench at.</param>
+        /// <param name="rotation">The rotation of the workbench.</param>
+        /// <param name="size">The size of the workbench.</param>
+        /// <param name="benchIndex">The index of the spawned workbench in the player's workbench list.</param>
         public static void SpawnWorkbench(Player ply, Vector3 position, Vector3 rotation, Vector3 size, out int benchIndex)
         {
             try

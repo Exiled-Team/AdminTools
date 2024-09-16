@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using PlayerRoles;
 using RelativePositioning;
 
 namespace AdminTools

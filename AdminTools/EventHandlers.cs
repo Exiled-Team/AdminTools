@@ -4,6 +4,8 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.API.Interfaces;
+using Exiled.CustomModules;
+using Exiled.CustomModules.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using PlayerRoles;
@@ -18,7 +20,7 @@ namespace AdminTools
 	{
 		private readonly Main plugin;
 
-		public EventHandlers(Main main)
+		internal EventHandlers(Main main)
 		{
 			plugin = main;
 			
@@ -47,19 +49,19 @@ namespace AdminTools
 			Handlers.Player.ChangingRole -= OnChangingRole;
 		}
 
-		public void OnInteractingDoor(InteractingDoorEventArgs ev)
+		internal void OnInteractingDoor(InteractingDoorEventArgs ev)
 		{
 			if (Main.PryGate.Contains(ev.Player) && ev.Door is Gate gate)
                 gate.TryPry();
 		}
 
-        public static void OnHurting(HurtingEventArgs ev)
+		internal static void OnHurting(HurtingEventArgs ev)
         {
             if (ev.Attacker != ev.Player && Main.InstantKill.Contains(ev.Attacker))
                 ev.Amount = StandardDamageHandler.KillValue;
         }
 
-        public void OnPlayerDestroying(DestroyingEventArgs ev)
+		internal void OnPlayerDestroying(DestroyingEventArgs ev)
         {
 			if (Main.RoundStartMutes.Remove(ev.Player))
             {
@@ -69,7 +71,7 @@ namespace AdminTools
 				ev.Player.SavingPlayerData();
         }
 
-		public void OnPlayerVerified(VerifiedEventArgs ev)
+		internal void OnPlayerVerified(VerifiedEventArgs ev)
 		{
             if (Main.JailedPlayers.ContainsKey(ev.Player.UserId))
                 Jail.DoJail(ev.Player, true);
@@ -88,7 +90,7 @@ namespace AdminTools
             }
         }
 
-		public void OnRoundStarted()
+		internal void OnRoundStarted()
 		{
 			foreach (Player ply in Main.RoundStartMutes)
 			{
@@ -100,7 +102,7 @@ namespace AdminTools
 			Main.RoundStartMutes.Clear();
 		}
 
-		public void OnRoundEnded(RoundEndedEventArgs ev)
+		internal void OnRoundEnded(RoundEndedEventArgs ev)
         {
 			// Update all the jails that it is no longer the current round, so when they are unjailed they don't teleport into the void.
             foreach (Jailed jail in Main.JailedPlayers.Values)
@@ -115,19 +117,19 @@ namespace AdminTools
             File.WriteAllLines(plugin.OverwatchFilePath, Main.Overwatch);
         }
 
-        public void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
+		internal void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
 		{
 			if (ev.Player.IsGodModeEnabled)
 				ev.IsAllowed = false;
 		}
 
-		public void OnChangingRole(ChangingRoleEventArgs ev)
+		internal void OnChangingRole(ChangingRoleEventArgs ev)
 		{
 			if (plugin.Config.GodTuts && (ev.Reason == SpawnReason.ForceClass || ev.Reason == SpawnReason.None))
-				ev.Player.IsGodModeEnabled = ev.NewRole == RoleTypeId.Tutorial;
+				ev.Player.IsGodModeEnabled = ev.NewRole == RoleTypeId.Tutorial && !ev.Player.Is(out Pawn _);
 		}
 
-        public void OnWaitingForPlayers()
+		internal void OnWaitingForPlayers()
 		{
 			Main.InstantKill.Clear();
             Main.BreakDoors.Clear();
@@ -143,7 +145,7 @@ namespace AdminTools
             }
         }
 
-        public void OnPlayerInteractingDoor(InteractingDoorEventArgs ev)
+		internal void OnPlayerInteractingDoor(InteractingDoorEventArgs ev)
 		{
 			if (Main.BreakDoors.Contains(ev.Player) && ev.Door is IDamageableDoor damageableDoor)
                 damageableDoor.Break();
