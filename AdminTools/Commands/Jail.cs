@@ -5,6 +5,8 @@ using CommandSystem;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.CustomModules;
+using Exiled.CustomModules.API.Features;
 using Exiled.Permissions.Extensions;
 using PlayerRoles;
 
@@ -69,23 +71,28 @@ namespace AdminTools.Commands
         {
             if (Main.JailedPlayers.ContainsKey(player.UserId))
                 return;
+
             if (!skipadd)
             {
                 Main.JailedPlayers.Add(player.UserId, new Jailed
                 {
                     Health = player.Health,
                     RelativePosition = player.RelativePosition,
-                    Items = player.Items.ToList(),
+                    Items = CustomModules.IsLoaded ?
+                        player.Items.Cast<object>().Concat(player.Cast<Pawn>().CustomItems.Cast<object>()).ToList() :
+                        player.Items.Cast<object>().ToList(),
                     Effects = player.ActiveEffects.Select(x => new Effect(x)).ToList(),
                     Name = player.Nickname,
-                    Role = player.Role.Type,
+                    Role = CustomModules.IsLoaded && player.Cast<Pawn>().CustomRole is not null ? player.Cast<Pawn>().CustomRole.Id : player.Role.Type,
                     CurrentRound = true,
                     Ammo = player.Ammo.ToDictionary(x => x.Key.GetAmmoType(), x => x.Value),
+                    CustomAmmo = CustomModules.IsLoaded ? player.Cast<Pawn>().CustomAmmoBox.ToDictionary(x => x.Key, x => x.Value) : null,
                 });
             }
 
             if (player.IsOverwatchEnabled)
                 player.IsOverwatchEnabled = false;
+
             player.Ammo.Clear();
             player.Inventory.SendAmmoNextFrame = true;
 
@@ -99,14 +106,47 @@ namespace AdminTools.Commands
                 return;
             if (jail.CurrentRound)
             {
-                player.Role.Set(jail.Role, RoleSpawnFlags.None);
+                if (CustomModules.IsLoaded)
+                {
+                    player.Cast<Pawn>().SetRole(jail.Role, roleSpawnFlags: RoleSpawnFlags.None);
+                }
+                else
+                {
+                    if (jail.Role is RoleTypeId role)
+                        player.Role.Set(role, RoleSpawnFlags.None);
+                }
                 try
                 {
-                    player.ResetInventory(jail.Items);
+                    player.ClearInventory();
+
+                    if (CustomModules.IsLoaded)
+                    {
+                        foreach (object item in jail.Items)
+                            player.Cast<Pawn>().AddItem(item);
+                    }
+                    else
+                    {
+                        foreach (object item in jail.Items)
+                        {
+                            if (item is not ItemType itemType)
+                                continue;
+
+                            player.AddItem(itemType);
+                        }
+                    }
+
                     player.Health = jail.Health;
                     player.Position = jail.RelativePosition.Position;
+                    
                     foreach (KeyValuePair<AmmoType, ushort> kvp in jail.Ammo)
                         player.Ammo[kvp.Key.GetItemType()] = kvp.Value;
+
+                    if (jail.CustomAmmo is not null && CustomModules.IsLoaded)
+                    {
+                        foreach (KeyValuePair<uint, ushort> kvp in jail.CustomAmmo)
+                            player.Cast<Pawn>().AddAmmo(kvp.Key, kvp.Value);
+                    }
+
                     player.SyncEffects(jail.Effects);
 
                     player.Inventory.SendItemsNextFrame = true;
