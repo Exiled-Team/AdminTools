@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using Exiled.API.Enums;
+using Exiled.API.Features.Core.Generic.Pools;
 using Exiled.API.Features.Doors;
-using Exiled.API.Features.Pools;
 using HarmonyLib;
 using Interactables.Interobjects.DoorUtils;
 using static HarmonyLib.AccessTools;

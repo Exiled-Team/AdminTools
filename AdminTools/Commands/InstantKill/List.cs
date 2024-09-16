@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using CommandSystem;
-using Exiled.API.Features.Pools;
+using Exiled.API.Features.Core.Generic.Pools;
 using Exiled.Permissions.Extensions;
 
 namespace AdminTools.Commands.InstantKill

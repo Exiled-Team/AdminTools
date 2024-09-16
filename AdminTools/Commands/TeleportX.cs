@@ -29,7 +29,7 @@ namespace AdminTools.Commands
                 return false;
             }
 
-            Player ply = Player.GetProcessedData(arguments, 1).GetRandomValue();
+            Player ply = Player.GetProcessedData(arguments, 1).Random();
             if (ply == null)
             {
                 response = $"Player not found: {arguments.At(1)}";

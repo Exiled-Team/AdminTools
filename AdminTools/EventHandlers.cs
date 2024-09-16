@@ -123,7 +123,7 @@ namespace AdminTools
 
 		public void OnChangingRole(ChangingRoleEventArgs ev)
 		{
-			if (plugin.Config.GodTuts && (ev.Reason is SpawnReason.ForceClass or SpawnReason.None))
+			if (plugin.Config.GodTuts && (ev.Reason == SpawnReason.ForceClass || ev.Reason == SpawnReason.None))
 				ev.Player.IsGodModeEnabled = ev.NewRole == RoleTypeId.Tutorial;
 		}
 
@@ -132,8 +132,10 @@ namespace AdminTools
 			Main.InstantKill.Clear();
             Main.BreakDoors.Clear();
             Main.PryGate.Clear();
+
             if (plugin.Config.ClearJailsOnRestart)
                 Main.JailedPlayers.Clear();
+
             if (plugin.Config.DisableLockOnWaiting)
             {
 	            Round.IsLobbyLocked = false;

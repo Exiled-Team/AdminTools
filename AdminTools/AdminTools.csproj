@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EXILED">
-      <Version>8.8.1</Version>
+      <Version>9.0.0-beta.4</Version>
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
       <Version>2.2.2</Version>
@@ -131,4 +131,13 @@
     <Target Name="AfterBuild">
     </Target>
     -->
+  <!-- Disable warning about disabled generation of xml files on debug build -->
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);SA0001</NoWarn>
+    <NoWarn>$(NoWarn);SA1000</NoWarn>
+    <NoWarn>$(NoWarn);SA1520</NoWarn>
+    <NoWarn>$(NoWarn);SA1009</NoWarn>
+    <NoWarn>$(NoWarn);SA1002</NoWarn>
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
+  </PropertyGroup>
 </Project>
